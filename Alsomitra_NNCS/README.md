@@ -6,7 +6,7 @@ This folder contains scripts for training an NNCS for a small seed-inspired glid
 
 ### Requirements
 
-Python 3.9 (neural network training, and MATLAB r2024a (all other scripts)
+Python 3.9 (neural network training, MATLAB r2024a (everything else)
 
 ### Problem description
 
