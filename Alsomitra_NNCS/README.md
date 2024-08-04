@@ -33,7 +33,7 @@ Note that the dynamics only involves 6 states, but I added the error signal to t
 The [training script](https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Train_Alsomitra_Controller.py) is adapted from a regression example using Keras [5,6]. The network has an input layer (7 nodes) , 2x120 and 1x1 sigmoid layers, a lamda layer to normalise the output to the desired range, and a single output. The resulting network is saved as an ONNX.
 
 <p align="center"> 
- <img src="https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Figures/NN_Training_Loss.png" width="350" class="center" />
+ <img src="https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Figures/NN_Training_Loss.png" width="450" class="center" />
 </p>
 
 ### Step 3 - Test NN accuracy and control performance (MATLAB)
