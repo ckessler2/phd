@@ -6,4 +6,11 @@ This folder contains scripts for training an NNCS for small seed-inspired glider
 
 ### Requirements
 
-Most scripts are written in MATLAB r2024a, with the exception of the NN training script (python 3.9).
+The NN training script was written with python 3.9 based on 
+
+
+## Contributors
+Colin Kessler 
+
+## References
+[1] Bhattiprolu, S. (2020, July 14). _141 - Regression using Neural Networks and comparison to other models_. youtube.com/watch?v=2yhLEx2FKoY&t=2s
