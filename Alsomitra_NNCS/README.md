@@ -45,10 +45,6 @@ Once trained, the network can be imported back to MATLAB to test accuracy and co
 
 
 
-
-## Contributors
-Colin Kessler 
-
 ## References
 [1] S, Bhattiprolu.  [_141 - Regression using Neural Networks and comparison to other models_](https://www.youtube.com/watch?v=2yhLEx2FKoY&t=2s). YouTube, 2020. <br />
 [2] S, Bhattiprolu. [_141-regression_housing_example_](https://github.com/bnsreenu/python_for_microscopists/blob/master/141-regression_housing_example.py). GitHub, 2020. <br />
