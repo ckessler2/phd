@@ -28,7 +28,7 @@ Each of the 5 simulations runs for 60s, with a control frequency of 1Hz. For eac
 
 ### Step 2 - Train NNCS (Python)
 
-The training script is adapted from a regression example using Keras [1,2].
+The training script is adapted from a regression example using Keras [1,2]. The network has an input layer (7 nodes) , 2x120 and 1x1 sigmoid layers, and a lamda layer to normalise the output to the desired range
 
 <p align="center"> 
  <img src="https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Figures/NN_Training_Loss.png" width="350" class="center" />
