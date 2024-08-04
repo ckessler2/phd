@@ -1,5 +1,16 @@
 % close all; clc;
 
+% Plot preamble
+font=12;
+set(groot, 'defaultAxesTickLabelInterpreter', 'latex'); 
+set(groot, 'defaultLegendInterpreter', 'latex');
+set(0,'defaultTextInterpreter','latex');
+set(0, 'defaultAxesFontSize', font)
+set(0, 'defaultLegendFontSize', font)
+set(0, 'defaultAxesFontName', 'Times New Roman');
+set(0, 'defaultLegendFontName', 'Times New Roman');
+set(0, 'DefaultLineLineWidth', 1.0);
+
 % NN or PID controller
 nnc = false;
 
@@ -8,9 +19,8 @@ ObjectiveFunction = @Alsomitra_nondim;
 its = 64;
 epochs = 1;
 obj_f = [];
-load('F:\matlab_stuff\Straight_Flight_4722ALLPLOTS\RL2\savedAgents\Agent3.mat')
 
-nn = neuralNetwork.readONNXNetwork('C:\Users\Colin Kessler\AI_2\alsomitra_controller.onnx');
+% nn = neuralNetwork.readONNXNetwork('alsomitra_controller.onnx');
 
 parameters = [5.18218452125279	0.807506506794260	0.105977518471870	4.93681162104530	1.49958010664229	0.238565281050545	2.85289007725274	0.368933365279324	1.73001889433847];
 
@@ -34,12 +44,8 @@ hold on
 data = [data1;data2;data3;data4;data5];
 
 if nnc == false
-    writematrix(data,'C:\Users\Colin Kessler\AI_2\data_100.csv') 
+    writematrix(data,'data_100.csv') 
 end
-
-
-xlim([0 150])
-ylim([-150 50])
 
 
 
@@ -100,18 +106,17 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,age
             ex = nn.evaluate([v_xp0; v_yp0; omega0; theta0; x0; y0;error2]);
         else
             % % PID CONTROLLER
-            i  = sum(errors);
-            d = errors(end) - error;
+            integral  = sum(errors);
+            derivative = errors(end) - error;
             
             
-            ex = 0.1870 + ((error) * 0.1);
-            ex = ex -(0.5*d) - (-0.0003 * i);
-            if ex > 0.193
+            ex = 0.1870 + (error * 0.1);
+            ex = ex -(derivative * 0.5) + (integral * 0.0001);
+            if ex > 0.19
                 ex = 0.193;
             elseif ex < 0.181
                 ex = 0.181;
             end
-            ds = [ds;d];
         end
 
         
@@ -168,7 +173,7 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,age
     % nexttile
     % 
     % plot(x_all * 70 / 1000,y_all * 70 / 1000,'red')
-    plot(x_all,y_all,'red')
+    plot(x_all,y_all)
 
     hold on
     
@@ -177,19 +182,21 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,age
     
     
     
-    plot([x_c1] * 1000/70, [y_c1]* 1000/70, 'black')
+    plot([x_c1] * 1000/70, [y_c1]* 1000/70, '--')
     
     
     % scatter(x_scatter * 70 / 1000,y_scatter * 70 / 1000,4,'blue')
-    scatter(x_scatter,y_scatter,4,'blue')
+    % scatter(x_scatter,y_scatter,2,'filled','s')
     % 
     % xlim([-1 5])
     % ylim([-5 0])
     % xlim([-1 30])
     % ylim([-20 2])
     xlim([0 150])
-    ylim([-150 50])
-    
+    ylim([-150 25])
+
+    colororder(["#721f81"])
+
     xlabel('x (m)')
     ylabel('y (m)')
     legend("Simulation","Desired Trajectory","Timestep")
