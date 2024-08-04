@@ -2,85 +2,51 @@
 # Adapted from https://github.com/bnsreenu/python_for_microscopists/blob/master/141-regression_housing_example.py
 
 from pandas import read_csv
-# import keras
 import tensorflow as tf
 from keras.models import Sequential
 from keras.layers import Dense, Lambda
-# from keras.initializers import HeNormal
-# initializer = HeNormal()
-# from keras.regularizers import l2
-# from keras.wrappers.scikit_learn import KerasRegressor
-# from sklearn.model_selection import cross_val_score
-# from sklearn.model_selection import KFold
-# from sklearn.pipeline import Pipeline
 from sklearn.model_selection import train_test_split
 import onnx
-# from onnxconverter_common import convert_float_to_float16
 import tf2onnx
 import tensorflow.keras.backend as K
 
-# load data and arrange into Pandas dataframe
+# load data and arrange into dataframe
 df = read_csv("Training_Data.csv", delim_whitespace=False, header=None)
+df.columns = ['dv_xpdt', 'dv_ypdt', 'domegadt', 'dthetadt', 'dx_dt', 'dy_dt', 'error', 'e_x']
 
-
-feature_names = ['a','b','c','d','e','f','g','h']
-
-
-df.columns = feature_names
-print(df.head())
-
-df = df.rename(columns={'h': 'e_x'})
-print(df.describe())
-
-def rmse(y_true, y_pred):
-        return (100*K.sqrt(K.mean(K.square(y_pred - y_true)))) 
-
-#Split into features and target (Price)
+# Split by inputs and output (e_x), and into train/test datasets
 X = df.drop('e_x', axis = 1)
 y = df['e_x']
-
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 20)
 
-
-#Scale data, otherwise model will fail.
-#Standardize features by removing the mean and scaling to unit variance
-from sklearn.preprocessing import StandardScaler
-scaler=StandardScaler()
-scaler.fit(X_train)
-
-X_train_scaled = X_train
-X_test_scaled = X_test
-
-
-# define the model
+# Define network layers
 model = Sequential()
 model.add(Dense(120, input_dim=7, activation='sigmoid'))
-# model.add(Dropout(0.5))
 model.add(Dense(120, activation='sigmoid'))
-#Output layer
 model.add(Dense(1, activation='sigmoid'))
 model.add(Lambda(lambda x: (x * (0.193 - 0.181)) + 0.181))
 model.output_names=['output'] 
 
+# Define loss function (rmse)
+def rmse(y_true, y_pred):
+        return (K.sqrt(K.mean(K.square(y_pred - y_true)))) 
+
+# Train network
 opt = tf.keras.optimizers.Adamax(
     learning_rate=0.001)
-
-
 model.compile(loss=rmse, optimizer=opt, metrics=['mse'])
 model.summary()
+history = model.fit(X_train, y_train, validation_split=0.1, epochs=1000, batch_size=25)
 
-history = model.fit(X_train_scaled, y_train, validation_split=0.1, epochs=1000, batch_size=25)
-
+# Plot rmse against training epochs
 from matplotlib import pyplot as plt
 plt.rcParams['figure.dpi'] = 900
 plt.rc('font', family='sans-serif') 
 plt.rcParams["font.family"] = "Times New Roman"
-#plot the training and validation accuracy and loss at each epoch
 loss = history.history['loss']
 val_loss = history.history['val_loss']
 epochs = range(1, len(loss) + 1)
 plt.plot(epochs, loss, "#721f81")
-# plt.plot(epochs, val_loss, 'r', label='Validation loss')
 plt.title('Training Loss (RMSE)')
 plt.xlabel('Epoch')
 plt.ylabel('RMSE')
@@ -88,23 +54,11 @@ plt.yscale('log')
 plt.show()
 
 
-# acc = history.history['mse']
-# val_acc = history.history['val_mse']
-# plt.plot(epochs, acc, 'm', label='Training MSE')
-# plt.plot(epochs, val_acc, 'r', label='Validation MSE')
-# plt.title('Training and validation MSE')
-# plt.xlabel('Epochs')
-# plt.ylabel('Accuracy')
-# plt.yscale('log')
-# plt.legend()
-# plt.show()
-
-############################################
-#Predict on test data
-predictions = model.predict(X_test_scaled[:5])
+# Compare to test data
+predictions = model.predict(X_test[:5])
 print("Predicted values are: ", predictions)
 print("Real values are: ", y_test[:5])
-##############################################
 
+# Export network as onnx
 onnx_model, _ = tf2onnx.convert.from_keras(model)
 onnx.save(onnx_model, 'Alsomitra_Controller.onnx')

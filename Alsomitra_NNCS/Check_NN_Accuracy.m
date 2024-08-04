@@ -7,7 +7,7 @@ clear;clc
 load('Training_Data.mat')
 % nn = neuralNetwork.readONNXNetwork('model2.onnx');
 % nn = neuralNetwork.readONNXNetwork('C:\Users\Colin Kessler\AI_2\model.onnx');
-nn = neuralNetwork.readONNXNetwork('Alsomitra_Controller.onnx');
+nn = importONNXNetwork('alsomitra_controller.onnx',InputDataFormats='BC');
 
 ex_true = data(:,8);
 ex_nn1 = [];
@@ -19,8 +19,8 @@ err2 = [];
 for i = 1:length(data)
     % ex_nn1 = [ex_nn1; agent3.predictFcn(data(i,1:6))];
     % err1 = [err1;abs(agent3.predictFcn(data(i,1:6))-ex_true(i))];
-    ex_nn2 = [ex_nn2; nn.evaluate(transpose(data(i,1:7)))];
-    err2 = [err2;abs(nn.evaluate(transpose(data(i,1:7)))-ex_true(i))];
+    ex_nn2 = [ex_nn2; nn.predict(data(i,1:7))];
+    err2 = [err2;abs(nn.predict(data(i,1:7))-ex_true(i))];
 end
 % a = corrcoef(ex_nn1,ex_true);
 b = corrcoef(ex_nn2,ex_true);

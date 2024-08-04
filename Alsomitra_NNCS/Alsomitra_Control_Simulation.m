@@ -21,7 +21,7 @@ its = 64;
 epochs = 1;
 obj_f = [];
 
-nn = neuralNetwork.readONNXNetwork('alsomitra_controller.onnx');
+nn = importONNXNetwork('alsomitra_controller.onnx',InputDataFormats='BC');
 
 parameters = [5.18218452125279	0.807506506794260	0.105977518471870	4.93681162104530	1.49958010664229	0.238565281050545	2.85289007725274	0.368933365279324	1.73001889433847];
 
@@ -67,7 +67,7 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
 
     if nnc == true
         % NN CONTROLLER
-        ex = nn.evaluate([v_xp0; v_yp0; omega0; theta0; x0; y0; error2]);
+        ex = nn.predict([v_xp0 v_yp0 omega0 theta0 x0 y0 error2]);
     else
         i  = sum(errors);
         d = errors(end) - error;
@@ -105,7 +105,7 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
 
         if nnc == true
             % NN CONTROLLER
-            ex = nn.evaluate([v_xp0; v_yp0; omega0; theta0; x0; y0;error2]);
+            ex = nn.predict([v_xp0 v_yp0 omega0 theta0 x0 y0 error2]);
         else
             % % PID CONTROLLER
             integral  = sum(errors);
