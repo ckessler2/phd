@@ -20,7 +20,7 @@ its = 64;
 epochs = 1;
 obj_f = [];
 
-% nn = neuralNetwork.readONNXNetwork('alsomitra_controller.onnx');
+nn = neuralNetwork.readONNXNetwork('alsomitra_controller.onnx');
 
 parameters = [5.18218452125279	0.807506506794260	0.105977518471870	4.93681162104530	1.49958010664229	0.238565281050545	2.85289007725274	0.368933365279324	1.73001889433847];
 
@@ -34,23 +34,24 @@ figure
 
 set(0,'DefaultFigureWindowStyle','docked')
 
-[data1,errors,ex_all] = simulate(0,parameters,ObjectiveFunction,agent3,nn,nnc);
+[data1,errors,ex_all] = simulate(0,parameters,ObjectiveFunction,nn,nnc);
 hold on
-[data2,errors2,ex_all2] = simulate(0.5/0.07,parameters,ObjectiveFunction,agent3,nn,nnc);
-[data3,errors3,ex_all3] = simulate(-0.5/0.07,parameters,ObjectiveFunction,agent3,nn,nnc);
-[data4,errors4,ex_all4,ds4] = simulate(1/0.07,parameters,ObjectiveFunction,agent3,nn,nnc);
-[data5,errors5,ex_all5] = simulate(-1/0.07,parameters,ObjectiveFunction,agent3,nn,nnc);
+[data2,errors2,ex_all2] = simulate(0.5/0.07,parameters,ObjectiveFunction,nn,nnc);
+[data3,errors3,ex_all3] = simulate(-0.5/0.07,parameters,ObjectiveFunction,nn,nnc);
+[data4,errors4,ex_all4,ds4] = simulate(1/0.07,parameters,ObjectiveFunction,nn,nnc);
+[data5,errors5,ex_all5] = simulate(-1/0.07,parameters,ObjectiveFunction,nn,nnc);
 
 data = [data1;data2;data3;data4;data5];
 
 if nnc == false
     writematrix(data,'Training_Data.csv') 
+    save('Training_Data','data')
 end
 
 
 
 
-function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,agent3,nn, nnc)
+function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn, nnc)
 
     v_xp0 = 1;
     v_yp0 = 0;
