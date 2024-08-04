@@ -6,12 +6,12 @@ This folder contains scripts for training a NNCS for a small bio-inspired glidin
 
 ### Requirements
 
-Python 3.9 for neural network training, and MATLAB r2024a for everything else. The libraries I used are tensorflow 2.10.0, tf2onnx 1.16.1, scipy 1.11.4, onnx 1.15.0, pandas 2.1.1, and matplotlib.
+Python 3.9 for neural network training, and MATLAB r2024a for everything else. The libraries used are tensorflow 2.10.0, tf2onnx 1.16.1, scipy 1.11.4, onnx 1.15.0, pandas 2.1.1, and matplotlib.
 
 
 ### Problem description
 
-The control problem is based on a related NNCS reachability benchmark involving a quadcopter [4], with my eventual goal being to produce a similar reachability study. For this, I consider a drone starting at the origin, and control it in such a way that its trajectory ends up close to a desired trajectory (in this case, a straight line). For reachability I consider a range of starting positions along the y axis, which should all end up on the desired trajectory.
+The control problem is based on a related NNCS reachability benchmark involving a quadcopter [4], with my eventual goal being to produce a similar reachability study. For this, we consider a drone starting at the origin, and control it in such a way that its trajectory ends up close to a desired trajectory (in this case, a straight line). For reachability we consider a range of starting positions along the y axis, which should all end up on the desired trajectory.
 
 <p align="center"> 
  <img src="https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Figures/NNCS_problem3.png" width="450" class="center" />
