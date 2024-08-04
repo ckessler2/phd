@@ -13,7 +13,7 @@ Neural network training was written in Python 3.9, and all other scripts (runnin
 The control problem is based on a related NNCS reachability benchmark involving a quadcopter [4], with my evential goal being to produce a similar reachability analysis for this system. For this I consider a drone starting at the origin, and control it in such a way that its trajectory ends up close to a desired trajectory (in this case a straight line). For reachability, I consider a range of starting positions along the y axis which should all end up on the desired trajectory.
 
 <p align="center"> 
- <img src="https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Figures/NNCS_problem3.png" width="400" class="center" />
+ <img src="https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Figures/NNCS_problem3.png" width="350" class="center" />
 </p>
 
 ### Step 1 - Run simulations to generate training dataset (MATLAB)
@@ -21,7 +21,7 @@ The control problem is based on a related NNCS reachability benchmark involving 
 [Alsomitra_Control_Simulation](https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Alsomitra_Control_Simulation.m) runs a set of 5 control simulations based on previous work [3], with the dynamic equations defined in [nondimfreelyfallingplate3](https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/nondimfreelyfallingplate3.m). A manually tuned PID controller actuates the COM position based on an error signal - the y distance between the drone and the desired trajectory.
 
 <p align="center"> 
- <img src="https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Figures/PID_Result.png" width="200" class="center" />
+ <img src="https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Figures/PID_Result.png" width="250" class="center" />
 </p>
 
 Each of the 5 simulations runs for 60s, with a control frequency of 1Hz. For each control step, the script records all 6 system states, the y error, and the PID-controlled actuation (e_x). These results are saved to a [csv file](https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Training_Data.csv) with 8 columns and 306 rows.
