@@ -10,7 +10,7 @@ Python 3.9 (neural network training), MATLAB r2024a (everything else)
 
 ### Problem description
 
-The control problem is based on a related NNCS reachability benchmark involving a quadcopter [4], with my evential goal being to produce a similar reachability analysis for this system. For this I consider a drone starting at the origin, and control it in such a way that its trajectory ends up close to a desired trajectory (in this case a straight line). For reachability, I consider a range of starting positions along the y axis which should all end up on the desired trajectory.
+The control problem is based on a related NNCS reachability benchmark involving a quadcopter [4], with my eventual goal being to produce a similar reachability analysis for this system. For this I consider a drone starting at the origin, and control it in such a way that its trajectory ends up close to a desired trajectory (in this case a straight line). For reachability, I consider a range of starting positions along the y axis which should all end up on the desired trajectory.
 
 <p align="center"> 
  <img src="https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Figures/NNCS_problem3.png" width="450" class="center" />
