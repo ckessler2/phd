@@ -27,13 +27,14 @@ b = corrcoef(ex_nn2,ex_true);
 b = b(1,2);
 
 figure
-scatter(ex_true,ex_nn2);hold on;
+scatter(ex_true,ex_nn2,8,'filled');hold on;
 plot([-10,10],[-10,10]);
-title('model6, R = ' + string(b) + ', 100*MAE = ' + string(100*mean(err2)))
+colororder(["#721f81","black"])
+
+title('NN accuracy,  R = ' + string(round(b,3)) + ',  MAE = ' + string(round(100*mean(err2),4)) + "%")
 
 pbaspect([1 1 1])
 xlim([min(ex_true),max(ex_true)])
 ylim([min(ex_true),max(ex_true)])
 ylabel("NN output")
 xlabel("PID output")
-legend("Controller outputs","Ideal ")

@@ -52,14 +52,13 @@ X_test_scaled = X_test
 
 
 # define the model
-#Experiment with deeper and wider networks
 model = Sequential()
 model.add(Dense(120, input_dim=7, activation='sigmoid'))
 # model.add(Dropout(0.5))
 model.add(Dense(120, activation='sigmoid'))
 #Output layer
 model.add(Dense(1, activation='sigmoid'))
-model.add(Lambda(lambda x: x * (0.193 - 0.181) + 0.181))
+model.add(Lambda(lambda x: (x * (0.193 - 0.181)) + 0.181))
 model.output_names=['output'] 
 
 opt = tf.keras.optimizers.Adamax(
@@ -69,7 +68,7 @@ opt = tf.keras.optimizers.Adamax(
 model.compile(loss=rmse, optimizer=opt, metrics=['mse'])
 model.summary()
 
-history = model.fit(X_train_scaled, y_train, validation_split=0.1, epochs=1000, batch_size=20)
+history = model.fit(X_train_scaled, y_train, validation_split=0.1, epochs=1000, batch_size=25)
 
 from matplotlib import pyplot as plt
 plt.rcParams['figure.dpi'] = 900
