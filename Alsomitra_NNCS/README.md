@@ -53,8 +53,9 @@ Once trained, the network can be imported back to MATLAB to test accuracy and co
 
 The resulting performance is quite good, but the trajectories do not follow the line as well as with a PID controller. This can be attributed to imperfect network accuracy and robustness, and this could likely be improved with better training methods.
 
+<hr style="height: 1px;">
 
-## References
+### References
 [1] H. Li, T. Goodwill, J. Wang, L. Ristroph. [_Centre of mass location, flight modes, stability and dynamic modelling of gliders_](https://doi.org/10.1017/jfm.2022.89). JFM, 937, 2022.<br />
 [2] I. M. Viola. [_Dandidrone: A Dandelion-Inspired Drone for Swarm Sensing_](https://voilab.eng.ed.ac.uk/dandidrone). eng.ed.ac.uk. 2021.<br />
 [3] S. Bhattiprolu.  [_141 - Regression using Neural Networks and comparison to other models_](https://www.youtube.com/watch?v=2yhLEx2FKoY&t=2s). YouTube, 2020. <br />
