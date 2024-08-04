@@ -62,8 +62,8 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
     % y0 = 0;
     error = (y0 * 0.07) - (-1*0.07*x0 - 2);
     errors = (y0 * 0.07) - (- 2);
-    errors2 = 0;
-    error2 = 0;
+    errors2 = (y0 * 0.07) - (-1*0.07*x0 - 2);
+    error2 = (y0 * 0.07) - (- 2);
 
     if nnc == true
         % NN CONTROLLER
@@ -136,7 +136,7 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
         theta0 = theta(end);
         x0 = x(end);
         y0 = y(end);
-        error2 = error2(end);
+        error2 = error2(end) + errors2(end);
     
         x_scatter = [x_scatter;x0];
         y_scatter = [y_scatter;y0];
@@ -203,6 +203,11 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
     legend("Simulation","Desired Trajectory")
     daspect([1 1 1])
 
+    % nexttile
+    % plot(1:61, errors)
+    % 
+    % nexttile
+    % plot(1:61, errors2)
 end
 
 function [v_xp, v_yp, omega, theta, x_, y_, error] = Alsomitra_nondim(opt,v_xp0, v_yp0, omega0, theta0, x0, y0,num_sims)
