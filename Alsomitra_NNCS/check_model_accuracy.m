@@ -3,10 +3,10 @@ clear;clc
 % load('F:\matlab_stuff\Straight_Flight_4722ALLPLOTS\CORA2\Scripts\training_data4.mat')
 % load('F:\matlab_stuff\Straight_Flight_4722ALLPLOTS\CORA2\Scripts\Quad Testing\data_quad2.mat')
 
-load('F:\matlab_stuff\Straight_Flight_4722ALLPLOTS\RL2\data_alsomitra.mat')
+load('Training_Data.mat')
 % nn = neuralNetwork.readONNXNetwork('model2.onnx');
 % nn = neuralNetwork.readONNXNetwork('C:\Users\Colin Kessler\AI_2\model.onnx');
-nn = neuralNetwork.readONNXNetwork('C:\Users\Colin Kessler\AI_2\alsomitra_controller.onnx');
+nn = neuralNetwork.readONNXNetwork('Alsomitra_Controller.onnx');
 
 ex_true = data(:,8);
 ex_nn1 = [];

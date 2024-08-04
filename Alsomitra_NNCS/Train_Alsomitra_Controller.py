@@ -19,7 +19,7 @@ import tf2onnx
 import tensorflow.keras.backend as K
 
 # load data and arrange into Pandas dataframe
-df = read_csv("data_100.csv", delim_whitespace=False, header=None)
+df = read_csv("Training_Data.csv", delim_whitespace=False, header=None)
 
 
 feature_names = ['a','b','c','d','e','f','g','h']
@@ -72,30 +72,32 @@ model.summary()
 history = model.fit(X_train_scaled, y_train, validation_split=0.1, epochs=1000, batch_size=20)
 
 from matplotlib import pyplot as plt
+plt.rcParams['figure.dpi'] = 900
+plt.rc('font', family='sans-serif') 
+plt.rcParams["font.family"] = "Times New Roman"
 #plot the training and validation accuracy and loss at each epoch
 loss = history.history['loss']
 val_loss = history.history['val_loss']
 epochs = range(1, len(loss) + 1)
-plt.plot(epochs, loss, 'm', label='Training loss')
+plt.plot(epochs, loss, "#721f81")
 # plt.plot(epochs, val_loss, 'r', label='Validation loss')
-plt.title('Training and validation loss')
+plt.title('Training Loss (RMSE)')
 plt.xlabel('Epochs')
 plt.ylabel('Loss')
 plt.yscale('log')
-plt.legend()
 plt.show()
 
 
-acc = history.history['mse']
-val_acc = history.history['val_mse']
-plt.plot(epochs, acc, 'm', label='Training MSE')
-plt.plot(epochs, val_acc, 'r', label='Validation MSE')
-plt.title('Training and validation MSE')
-plt.xlabel('Epochs')
-plt.ylabel('Accuracy')
-plt.yscale('log')
-plt.legend()
-plt.show()
+# acc = history.history['mse']
+# val_acc = history.history['val_mse']
+# plt.plot(epochs, acc, 'm', label='Training MSE')
+# plt.plot(epochs, val_acc, 'r', label='Validation MSE')
+# plt.title('Training and validation MSE')
+# plt.xlabel('Epochs')
+# plt.ylabel('Accuracy')
+# plt.yscale('log')
+# plt.legend()
+# plt.show()
 
 ############################################
 #Predict on test data
@@ -105,4 +107,4 @@ print("Real values are: ", y_test[:5])
 ##############################################
 
 onnx_model, _ = tf2onnx.convert.from_keras(model)
-onnx.save(onnx_model, 'alsomitra_controller.onnx')
+onnx.save(onnx_model, 'Alsomitra_Controller.onnx')
