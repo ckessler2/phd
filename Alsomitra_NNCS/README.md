@@ -6,7 +6,7 @@ This folder contains scripts for training an NNCS for a small seed-inspired glid
 
 ### Requirements
 
-NN training requires Python 3.9. All other scripts (running simulations, generating datasets) are in MATLAB r2024a.
+Neural network training was written for Python 3.9, and all other scripts (running simulations, generating datasets) are in MATLAB r2024a.
 
 ### Problem description
 
