@@ -53,7 +53,6 @@ plt.ylabel('RMSE')
 plt.yscale('log')
 plt.show()
 
-
 # Compare to test data
 predictions = model.predict(X_test[:5])
 print("Predicted values are: ", predictions)
