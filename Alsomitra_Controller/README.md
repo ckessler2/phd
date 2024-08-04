@@ -14,7 +14,7 @@ The control problem is based on a related NNCS reachability benchmark involving 
 
 ### Step 1 - Run simulations to generate training dataset (MATLAB)
 
-asd
+Alsomitra_model.m runs a set of 5 closed-loop simulations, with the dynamic equations defined in nondimfreelyfallingplate3.m.
 
 ### Step 2 - Train NNCS (Python)
 
