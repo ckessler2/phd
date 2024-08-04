@@ -6,7 +6,7 @@ This folder contains scripts for training an NNCS for small seed-inspired glider
 
 ### Requirements
 
-The NN training script was written with python 3.9 based on a regression example using keras [1,2].
+The NN training script was written with Python 3.9 based on a regression example using Keras [1,2]. All other scripts (running simulations, generating datasets) were written in MATLAB r2024a based on previous work [3].
 
 
 ## Contributors
@@ -14,4 +14,5 @@ Colin Kessler
 
 ## References
 [1] Bhattiprolu, S. (2020, July 14). [_141 - Regression using Neural Networks and comparison to other models_](https://www.youtube.com/watch?v=2yhLEx2FKoY&t=2s). YouTube. <br />
-[2] Bhattiprolu, S. (2020, July 15). [141-regression_housing_example](https://github.com/bnsreenu/python_for_microscopists/blob/master/141-regression_housing_example.py). GitHub.
+[2] Bhattiprolu, S. (2020, July 15). [141-regression_housing_example](https://github.com/bnsreenu/python_for_microscopists/blob/master/141-regression_housing_example.py). GitHub. <br />
+[3] Certini, S., Kessler, C. (2024, August 4). [Alsomitra-straight-glide](https://github.com/danielecertini90/Alsomitra-straight-glide) Github
