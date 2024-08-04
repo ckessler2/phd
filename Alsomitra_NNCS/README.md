@@ -6,11 +6,11 @@ This folder contains scripts for training an NNCS for a small seed-inspired glid
 
 ### Requirements
 
-Neural network training was written in Python 3.9, and all other scripts (running simulations, generating datasets) are in MATLAB r2024a.
+Python 3.9 (neural network training), MATLAB r2024a (everything else)
 
 ### Problem description
 
-The control problem is based on a related NNCS reachability benchmark involving a quadcopter [4], with my evential goal being to produce a similar reachability analysis for this system. For this I consider a drone starting at the origin, and control it in such a way that its trajectory ends up close to a desired trajectory (in this case a straight line). For reachability, I consider a range of starting positions along the y axis which should all end up on the desired trajectory.
+The control problem is based on a related NNCS reachability benchmark involving a quadcopter [4], with my eventual goal being to produce a similar reachability analysis for this system. For this I consider a drone starting at the origin, and control it in such a way that its trajectory ends up close to a desired trajectory (in this case a straight line). For reachability, I consider a range of starting positions along the y axis which should all end up on the desired trajectory.
 
 <p align="center"> 
  <img src="https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Figures/NNCS_problem3.png" width="450" class="center" />
@@ -28,7 +28,7 @@ Each of the 5 simulations runs for 60s, with a control frequency of 1Hz. For eac
 
 ### Step 2 - Train NNCS (Python)
 
-The training script is adapted from a regression example using Keras [1,2].
+The [training script](https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Train_Alsomitra_Controller.py) is adapted from a regression example using Keras [1,2]. The network has an input layer (7 nodes) , 2x120 and 1x1 sigmoid layers, and a lamda layer to normalise the output to the desired range
 
 <p align="center"> 
  <img src="https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Figures/NN_Training_Loss.png" width="350" class="center" />
@@ -39,12 +39,10 @@ The training script is adapted from a regression example using Keras [1,2].
 asd
 
 <p align="center"> 
- <img src="https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Figures/NN_Accuracy.png" width="250" class="center" />
+ <img src="https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Figures/NN_Accuracy.png" width="340" class="center" />
+ <img src="https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Figures/NNCS_Result.png" width="260" class="center" />
 </p>
 
-<p align="center"> 
- <img src="https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Figures/NNCS_Result.png" width="250" class="center" />
-</p>
 
 
 
