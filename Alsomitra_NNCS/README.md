@@ -28,11 +28,23 @@ Each of the 5 simulations runs for 60s, with a control frequency of 1Hz. For eac
 
 ### Step 2 - Train NNCS (Python)
 
-based on a regression example using Keras [1,2]
+The training script is adapted from a regression example using Keras [1,2].
+
+<p align="center"> 
+ <img src="https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Figures/NN_Training_Loss.png" width="250" class="center" />
+</p>
 
 ### Step 3 - Test NN and NNCS accuracy (MATLAB)
 
 asd
+
+<p align="center"> 
+ <img src="https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Figures/NN_Accuracy.png" width="250" class="center" />
+</p>
+
+<p align="center"> 
+ <img src="https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Figures/NNCS_Result.png" width="250" class="center" />
+</p>
 
 
 
