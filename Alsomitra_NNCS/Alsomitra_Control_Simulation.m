@@ -71,7 +71,7 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,age
         d = errors(end) - error;
         % % PID CONTROLLER
         ex = 0.1870 + ((error) * 0.01);
-        ex = ex -(0.0315*d) - (-0.0003 * i);
+        ex = ex -(0.1*d) - (-0.0003 * i);
         if ex > 0.193
             ex = 0.193;
         elseif ex < 0.181
@@ -110,8 +110,7 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,age
             derivative = errors(end) - error;
             
             
-            ex = 0.1870 + (error * 0.1);
-            ex = ex -(derivative * 0.5) + (integral * 0.0001);
+            ex = 0.1870 + (error * 0.1) + (derivative * -0.6) + (integral * 0.0001);
             if ex > 0.19
                 ex = 0.193;
             elseif ex < 0.181
@@ -192,14 +191,14 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,age
     % ylim([-5 0])
     % xlim([-1 30])
     % ylim([-20 2])
-    xlim([0 150])
+    xlim([0 120])
     ylim([-150 25])
 
-    colororder(["#721f81"])
+    colororder(["#721f81","black"])
 
     xlabel('x (m)')
     ylabel('y (m)')
-    legend("Simulation","Desired Trajectory","Timestep")
+    legend("Simulation","Desired Trajectory")
     daspect([1 1 1])
 
 end
