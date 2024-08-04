@@ -1,6 +1,6 @@
 # Neural Network Control System (NNCS) for _Alsomitra Macrocarpa_
  
-This folder contains scripts for training an NNCS for a small seed-inspired gliding drone, actuated by changing the position of the center of mass (COM). The seed (diaspore) in question is _Alsomitra Macrocarpa_, modelled with [Li 2022](https://doi.org/10.1017/jfm.2022.89) - a quasi-steady 2d aerodynamic model for falling plates with displaced COM.The model has been optimised to fit experimental trajectories of real diaspores (as part of other ongoing work), and the long term goal is to design flying-seed inspired gliders to monitor the atmosphere as part of the [Dandidrone](https://voilab.eng.ed.ac.uk/dandidrone) project.
+This folder contains scripts for training a NNCS for a small bio-inspired gliding drone, actuated by changing the position of the center of mass (COM). The diaspore in question is _Alsomitra Macrocarpa_, modelled with [Li 2022](https://doi.org/10.1017/jfm.2022.89) - a quasi-steady 2d aerodynamic model for falling plates with displaced COM. The model has been optimised to fit experimental trajectories of real diaspores (as part of other ongoing work), and the long term goal is to design gliders to monitor the atmosphere as part of the [Dandidrone](https://voilab.eng.ed.ac.uk/dandidrone) project.
 
 <img src="https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Figures/Render5_3by1.png" /> 
 
@@ -10,7 +10,7 @@ Python 3.9 (neural network training), MATLAB r2024a (everything else)
 
 ### Problem description
 
-The control problem is based on a related NNCS reachability benchmark involving a quadcopter [4], with my eventual goal being to produce a similar reachability analysis for this system. For this I consider a drone starting at the origin, and control it in such a way that its trajectory ends up close to a desired trajectory (in this case a straight line). For reachability, I consider a range of starting positions along the y axis which should all end up on the desired trajectory.
+The control problem is based on a related NNCS reachability benchmark involving a quadcopter [4], with my eventual goal being to produce a similar reachability study. For this I consider a drone starting at the origin, and control it in such a way that its trajectory ends up close to a desired trajectory (in this case a straight line). For reachability, I consider a range of starting positions along the y axis which should all end up on the desired trajectory.
 
 <p align="center"> 
  <img src="https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Figures/NNCS_problem3.png" width="450" class="center" />
@@ -18,7 +18,7 @@ The control problem is based on a related NNCS reachability benchmark involving 
 
 ### Step 1 - Run simulations to generate training dataset (MATLAB)
 
-[Alsomitra_Control_Simulation](https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Alsomitra_Control_Simulation.m) runs a set of 5 control simulations based on previous work [3], with the dynamic equations defined in [nondimfreelyfallingplate3](https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/nondimfreelyfallingplate3.m). A manually tuned PID controller actuates the COM position based on an error signal - the y distance between the drone and the desired trajectory.
+[Alsomitra_Control_Simulation](https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Alsomitra_Control_Simulation.m) runs a set of 5 control simulations based on previous work [3], with the dynamic equations defined in [another script](https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/nondimfreelyfallingplate3.m). A manually tuned PID controller actuates the COM position based on an error signal - the y distance between the drone and the desired trajectory.
 
 <p align="center"> 
  <img src="https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Figures/PID_Result.png" width="250" class="center" />
