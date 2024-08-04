@@ -49,8 +49,8 @@ The resulting performance is quite good, but the trajectories do not follow the 
 
 
 ## References#
-[1] H. Li, T. Goodwill, J. Wang, L. Ristroph. [_Centre of mass location, flight modes, stability and dynamic modelling of gliders_](https://doi.org/10.1017/jfm.2022.89). JFM, 937, 2022.
-[2] I. M. Viola. [_Dandidrone: A Dandelion-Inspired Drone for Swarm Sensing_](https://voilab.eng.ed.ac.uk/dandidrone). eng.ed.ac.uk. 2021
+[1] H. Li, T. Goodwill, J. Wang, L. Ristroph. [_Centre of mass location, flight modes, stability and dynamic modelling of gliders_](https://doi.org/10.1017/jfm.2022.89). JFM, 937, 2022.<br />
+[2] I. M. Viola. [_Dandidrone: A Dandelion-Inspired Drone for Swarm Sensing_](https://voilab.eng.ed.ac.uk/dandidrone). eng.ed.ac.uk. 2021.<br />
 [3] S. Bhattiprolu.  [_141 - Regression using Neural Networks and comparison to other models_](https://www.youtube.com/watch?v=2yhLEx2FKoY&t=2s). YouTube, 2020. <br />
 [4] S. Bhattiprolu. [_141-regression_housing_example_](https://github.com/bnsreenu/python_for_microscopists/blob/master/141-regression_housing_example.py). GitHub, 2020. <br />
 [5] D. Certini, C. Kessler. [_Alsomitra-straight-glide_](https://github.com/danielecertini90/Alsomitra-straight-glide) Github, 2024. <br />
