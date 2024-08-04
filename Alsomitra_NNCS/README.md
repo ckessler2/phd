@@ -1,6 +1,6 @@
 # Neural Network Control System (NNCS) for _Alsomitra Macrocarpa_
  
-This folder contains scripts for training a NNCS for a small bio-inspired gliding drone, actuated by changing the position of the center of mass (COM). The diaspore in question is _Alsomitra Macrocarpa_, modelled with [Li 2022](https://doi.org/10.1017/jfm.2022.89) - a quasi-steady 2d aerodynamic model for falling plates with displaced COM. The model has been optimised to fit experimental trajectories of real diaspores (as part of other ongoing work), and the long term goal is to design gliders to monitor the atmosphere as part of the [Dandidrone](https://voilab.eng.ed.ac.uk/dandidrone) project.
+This folder contains scripts for training a NNCS for a small bio-inspired gliding drone, actuated by changing the position of the center of mass (COM), with behaviour cloning. The diaspore in question is _Alsomitra Macrocarpa_, modelled with [Li 2022](https://doi.org/10.1017/jfm.2022.89) - a quasi-steady 2d aerodynamic model for falling plates with displaced COM. The model has been optimised to fit experimental trajectories of real diaspores (as part of other ongoing work), and the long term goal is to design gliders to monitor the atmosphere as part of the [Dandidrone](https://voilab.eng.ed.ac.uk/dandidrone) project.
 
 <img src="https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Figures/Render5_3by1.png" /> 
 
@@ -24,7 +24,8 @@ The control problem is based on a related NNCS reachability benchmark involving 
  <img src="https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Figures/PID_Result.png" width="250" class="center" />
 </p>
 
-Each of the 5 simulations runs for 60s, with a control frequency of 1Hz. For each control step, the script records all 6 system states, the y error, and the PID-controlled actuation (e_x). These results are saved to a [csv file](https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Training_Data.csv) with 8 columns and 306 rows (and as a mat file).
+Each of the 5 simulations runs for 60s, with a control frequency of 1Hz. For each control step, the script records all 6 system states, the y error, and the PID-controlled actuation (e_x). These results are saved to a [csv file](https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Training_Data.csv) with 8 columns and 306 rows (and as a mat file). <br />
+Note that the dynamics only involves 6 states, but I added the error signal to the dynamics equation such that the network would have the same signal (if not the derivative and integral) as the PID controller - as well as the 6 system states.
 
 ### Step 2 - Train NNCS (Python)
 
@@ -43,6 +44,7 @@ Once trained, the network can be imported back to MATLAB to test accuracy and co
  <img src="https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Figures/NNCS_Result.png" width="250" class="center" />
 </p>
 
+The resulting performance is quite good, but the trajectories do not follow the line as well as with a PID controller. This can be attributed to imperfect network accuracy and robustness
 
 
 ## References
