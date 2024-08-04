@@ -8,6 +8,10 @@ This folder contains scripts for training an NNCS for small seed-inspired glider
 
 The NN training script was written with Python 3.9 based on a regression example using Keras [1,2]. All other scripts (running simulations, generating datasets) were written in MATLAB r2024a based on previous work [3].
 
+### Problem description
+
+The control problem is based on a related NNCS reachability benchmark involving a quadcopter [4], with my evential goal being to produce a similar reachability analysis for this system.
+
 ### Step 1 - Run simulations to generate training dataset (MATLAB)
 
 asd
@@ -26,6 +30,7 @@ asd
 Colin Kessler 
 
 ## References
-[1] Bhattiprolu, S. (2020, July 14). [_141 - Regression using Neural Networks and comparison to other models_](https://www.youtube.com/watch?v=2yhLEx2FKoY&t=2s). YouTube. <br />
-[2] Bhattiprolu, S. (2020, July 15). [141-regression_housing_example](https://github.com/bnsreenu/python_for_microscopists/blob/master/141-regression_housing_example.py). GitHub. <br />
-[3] Certini, D., Kessler, C. (2024, August 4). [Alsomitra-straight-glide](https://github.com/danielecertini90/Alsomitra-straight-glide) Github
+[1] S, Bhattiprolu.  [_141 - Regression using Neural Networks and comparison to other models_](https://www.youtube.com/watch?v=2yhLEx2FKoY&t=2s). YouTube, 2020. <br />
+[2] S, Bhattiprolu. [141-regression_housing_example](https://github.com/bnsreenu/python_for_microscopists/blob/master/141-regression_housing_example.py). GitHub, 2020. <br />
+[3] D. Certini, C. Kessler. [Alsomitra-straight-glide](https://github.com/danielecertini90/Alsomitra-straight-glide) Github, 2024. <br />
+[4] D. M. Lopez, M. Althoff, M. Forets, T. T. Johnson, T. Ladner, C. Schilling. _Arch-comp23 category report: Artificial intelligence and neural network control systems (ainncs) for continuous and hybrid systems plants_. EPiC Series in Computing, pages 89–125, 2023. <br />
