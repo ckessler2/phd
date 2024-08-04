@@ -13,4 +13,4 @@ The NN training script was written with python 3.9 based on
 Colin Kessler 
 
 ## References
-[1] Bhattiprolu, S. (2020, July 14). _141 - Regression using Neural Networks and comparison to other models_. youtube.com/watch?v=2yhLEx2FKoY&t=2s
+[1] Bhattiprolu, S. (2020, July 14). [_141 - Regression using Neural Networks and comparison to other models_](https://www.youtube.com/watch?v=2yhLEx2FKoY&t=2s).
