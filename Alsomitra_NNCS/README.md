@@ -6,7 +6,7 @@ This folder contains scripts for training an NNCS for a small seed-inspired glid
 
 ### Requirements
 
-The NN training script was written with Python 3.9 based on a regression example using Keras [1,2]. All other scripts (running simulations, generating datasets) were written in MATLAB r2024a based on previous work [3].
+NN training requires Python 3.9. All other scripts (running simulations, generating datasets) are in MATLAB r2024a.
 
 ### Problem description
 
@@ -14,11 +14,11 @@ The control problem is based on a related NNCS reachability benchmark involving 
 
 ### Step 1 - Run simulations to generate training dataset (MATLAB)
 
-[Alsomitra_Control_Simulation](https://github.com/ckessler2/phd/blob/main/Alsomitra_Controller/Alsomitra_Control_Simulation.m) runs a set of 5 control simulations, with the dynamic equations defined in [nondimfreelyfallingplate3](https://github.com/ckessler2/phd/blob/main/Alsomitra_Controller/nondimfreelyfallingplate3.m).
+[Alsomitra_Control_Simulation](https://github.com/ckessler2/phd/blob/main/Alsomitra_Controller/Alsomitra_Control_Simulation.m) runs a set of 5 control simulations based on previous work [3], with the dynamic equations defined in [nondimfreelyfallingplate3](https://github.com/ckessler2/phd/blob/main/Alsomitra_Controller/nondimfreelyfallingplate3.m).
 
 ### Step 2 - Train NNCS (Python)
 
-asd
+based on a regression example using Keras [1,2]
 
 ### Step 3 - Test NN and NNCS accuracy (MATLAB)
 
