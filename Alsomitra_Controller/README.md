@@ -31,6 +31,6 @@ Colin Kessler
 
 ## References
 [1] S, Bhattiprolu.  [_141 - Regression using Neural Networks and comparison to other models_](https://www.youtube.com/watch?v=2yhLEx2FKoY&t=2s). YouTube, 2020. <br />
-[2] S, Bhattiprolu. [141-regression_housing_example](https://github.com/bnsreenu/python_for_microscopists/blob/master/141-regression_housing_example.py). GitHub, 2020. <br />
-[3] D. Certini, C. Kessler. [Alsomitra-straight-glide](https://github.com/danielecertini90/Alsomitra-straight-glide) Github, 2024. <br />
-[4] D. M. Lopez, M. Althoff, M. Forets, T. T. Johnson, T. Ladner, C. Schilling. _ARCH-COMP23 Category Report: Artificial Intelligence and Neural Network Control Systems (AINNCS) for Continuous and Hybrid Systems Plants_. EPiC Series in Computing, pages 89–125, 2023. <br />
+[2] S, Bhattiprolu. [_141-regression_housing_example_](https://github.com/bnsreenu/python_for_microscopists/blob/master/141-regression_housing_example.py). GitHub, 2020. <br />
+[3] D. Certini, C. Kessler. [_Alsomitra-straight-glide_](https://github.com/danielecertini90/Alsomitra-straight-glide) Github, 2024. <br />
+[4] D. M. Lopez, M. Althoff, M. Forets, T. T. Johnson, T. Ladner, C. Schilling. [_ARCH-COMP23 Category Report: Artificial Intelligence and Neural Network Control Systems (AINNCS) for Continuous and Hybrid Systems Plants_](https://easychair.org/publications/open/Vfq4b). EPiC Series in Computing, pages 89–125, 2023. <br />
