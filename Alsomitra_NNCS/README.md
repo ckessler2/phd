@@ -10,13 +10,13 @@ Python 3.9 (neural network training), MATLAB r2024a (everything else)
 
 ### Problem description
 
-The control problem is based on a related NNCS reachability benchmark involving a quadcopter [4], with my eventual goal being to produce a similar reachability study. For this I consider a drone starting at the origin, and control it in such a way that its trajectory ends up close to a desired trajectory (in this case a straight line). For reachability, I consider a range of starting positions along the y axis which should all end up on the desired trajectory. This plot does not match up to the othe
+The control problem is based on a related NNCS reachability benchmark involving a quadcopter [4], with my eventual goal being to produce a similar reachability study. For this, I consider a drone starting at the origin, and control it in such a way that its trajectory ends up close to a desired trajectory (in this case, a straight line). For reachability I consider a range of starting positions along the y axis, which should all end up on the desired trajectory.
 
 <p align="center"> 
  <img src="https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Figures/NNCS_problem3.png" width="450" class="center" />
 </p>
 
-### Step 1 - Run simulations to generate training dataset (MATLAB)
+### Step 1 - Run simulations to generate a training dataset (MATLAB)
 
 [Alsomitra_Control_Simulation](https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Alsomitra_Control_Simulation.m) runs a set of 5 control simulations based on previous work [3], with the dynamic equations defined in [another script](https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/nondimfreelyfallingplate3.m). A manually tuned PID controller actuates the COM position based on an error signal - the y distance between the drone and the desired trajectory.
 
@@ -37,7 +37,7 @@ The [training script](https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/
 
 ### Step 3 - Test NN accuracy and control performance (MATLAB)
 
-Once trained, the network can be imported back to MATLAB to test accuracy and control performance. [Check NN accuracy](https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Check_NN_Accuracy.m) simply runs the network through the training dataset and plots the results against the real values, to visualise its accuracy. [Alsomitra_Control_Simulation](https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Alsomitra_Control_Simulation.m) can be run with the network as a controller, by changing the nnc boolean to true (line 15).
+Once trained, the network can be imported back to MATLAB to test accuracy and control performance. [Check NN accuracy](https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Check_NN_Accuracy.m) simply runs the network through the training dataset and plots the results against the real values to visualise its accuracy. [Alsomitra_Control_Simulation](https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Alsomitra_Control_Simulation.m) can be run with the network as a controller, by changing the nnc boolean to true (line 15).
 
 <p align="center"> 
  <img src="https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Figures/NN_Accuracy.png" width="325" class="center" />
