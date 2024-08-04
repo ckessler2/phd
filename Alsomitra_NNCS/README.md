@@ -6,7 +6,8 @@ This folder contains scripts for training a NNCS for a small bio-inspired glidin
 
 ### Requirements
 
-Python 3.9 (neural network training), MATLAB r2024a (everything else)
+Python 3.9 for neural network training), and  MATLAB r2024a for everything else. Python addons - Keras 2.10.0
+
 
 ### Problem description
 
