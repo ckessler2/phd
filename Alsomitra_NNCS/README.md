@@ -12,7 +12,7 @@ NN training requires Python 3.9. All other scripts (running simulations, generat
 
 The control problem is based on a related NNCS reachability benchmark involving a quadcopter [4], with my evential goal being to produce a similar reachability analysis for this system.
 
-<img src="https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Figures/RL_problem2.png" ="250" ="400">
+<img src="https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Figures/RL_problem2.png"width="200">
 
 ### Step 1 - Run simulations to generate training dataset (MATLAB)
 
