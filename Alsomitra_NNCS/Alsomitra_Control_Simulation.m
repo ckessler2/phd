@@ -44,7 +44,7 @@ hold on
 data = [data1;data2;data3;data4;data5];
 
 if nnc == false
-    writematrix(data,'data_100.csv') 
+    writematrix(data,'Training_Data.csv') 
 end
 
 
