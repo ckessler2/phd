@@ -8,6 +8,19 @@ This folder contains scripts for training an NNCS for small seed-inspired glider
 
 The NN training script was written with Python 3.9 based on a regression example using Keras [1,2]. All other scripts (running simulations, generating datasets) were written in MATLAB r2024a based on previous work [3].
 
+### Step 1 - Run simulations to generate training dataset (MATLAB)
+
+asd
+
+### Step 2 - Train NNCS (Python)
+
+asd
+
+### Step 3 - Test NN and NNCS accuracy (MATLAB)
+
+asd
+
+
 
 ## Contributors
 Colin Kessler 
