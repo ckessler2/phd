@@ -44,7 +44,7 @@ Once trained, the network can be imported back to MATLAB to test accuracy and co
  <img src="https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Figures/NNCS_Result.png" width="250" class="center" />
 </p>
 
-The resulting performance is quite good, but the trajectories do not follow the line as well as with a PID controller. This can be attributed to imperfect network accuracy and robustness
+The resulting performance is quite good, but the trajectories do not follow the line as well as with a PID controller. This can be attributed to imperfect network accuracy and robustness, and performance could likely be improved with better training methods.
 
 
 ## References
