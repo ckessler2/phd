@@ -31,7 +31,7 @@ Each of the 5 simulations runs for 60s, with a control frequency of 1Hz. For eac
 The training script is adapted from a regression example using Keras [1,2].
 
 <p align="center"> 
- <img src="https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Figures/NN_Training_Loss.png" width="250" class="center" />
+ <img src="https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Figures/NN_Training_Loss.png" width="350" class="center" />
 </p>
 
 ### Step 3 - Test NN and NNCS accuracy (MATLAB)
