@@ -2,9 +2,7 @@
  
 This folder contains scripts for training an NNCS for a small seed-inspired gliding drone, actuated by changing the position of the center of mass (COM). The seed (diaspore) in question is _Alsomitra Macrocarpa_, modelled with [Li 2022](https://doi.org/10.1017/jfm.2022.89) - a quasi-steady 2d aerodynamic model for falling plates with displaced COM.The model has been optimised to fit experimental trajectories of real diaspores (as part of other ongoing work), and the long term goal is to design flying-seed inspired gliders to monitor the atmosphere as part of the [Dandidrone](https://voilab.eng.ed.ac.uk/dandidrone) project.
 
-<p align="center"> 
-  <img src="https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Figures/Render5_3by1.png" /> 
-</p>
+<img src="https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Figures/Render5_3by1.png" /> 
 
 ### Requirements
 
@@ -14,8 +12,9 @@ NN training requires Python 3.9. All other scripts (running simulations, generat
 
 The control problem is based on a related NNCS reachability benchmark involving a quadcopter [4], with my evential goal being to produce a similar reachability analysis for this system.
 
-<img src="https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Figures/RL_problem2.png" width="400" class="center">
-
+<p align="center"> 
+ <img src="https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Figures/NNCS_problem.png" width="400" class="center" />
+</p>
 ### Step 1 - Run simulations to generate training dataset (MATLAB)
 
 [Alsomitra_Control_Simulation](https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Alsomitra_Control_Simulation.m) runs a set of 5 control simulations based on previous work [3], with the dynamic equations defined in [nondimfreelyfallingplate3](https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/nondimfreelyfallingplate3.m).
