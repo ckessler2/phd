@@ -6,7 +6,7 @@ This folder contains scripts for training a NNCS for a small bio-inspired glidin
 
 ### Requirements
 
-Python 3.9 for neural network training, and MATLAB r2024a for everything else. Python libraries include tensorflow/Keras 2.10.0, tf2onnx 1.16.1, scipy 1.11.4, onnx 1.15.0, pandas 2.1.1 and matplotlib.
+Python 3.9 for neural network training, and MATLAB r2024a for everything else. The libraries I used are tensorflow 2.10.0, tf2onnx 1.16.1, scipy 1.11.4, onnx 1.15.0, pandas 2.1.1, and matplotlib.
 
 
 ### Problem description
