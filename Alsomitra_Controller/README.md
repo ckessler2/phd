@@ -13,5 +13,5 @@ The NN training script was written with python 3.9 based on
 Colin Kessler 
 
 ## References
-[1] Bhattiprolu, S. (2020, July 14). [_141 - Regression using Neural Networks and comparison to other models_](https://www.youtube.com/watch?v=2yhLEx2FKoY&t=2s). YouTube.
+[1] Bhattiprolu, S. (2020, July 14). [_141 - Regression using Neural Networks and comparison to other models_](https://www.youtube.com/watch?v=2yhLEx2FKoY&t=2s). YouTube. <br />
 [2] Bhattiprolu, S. (2020). [141-regression_housing_example](https://github.com/bnsreenu/python_for_microscopists/blob/master/141-regression_housing_example.py). GitHub.
