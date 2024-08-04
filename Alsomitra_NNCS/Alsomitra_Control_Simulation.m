@@ -1,3 +1,4 @@
+% Colin Kessler 4.8.2024 - colinkessler00@gmail.com
 % close all; clc;
 
 % Plot preamble

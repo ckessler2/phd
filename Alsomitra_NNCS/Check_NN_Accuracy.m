@@ -1,3 +1,4 @@
+% Colin Kessler 4.8.2024 - colinkessler00@gmail.com
 clear;clc
 
 % load('F:\matlab_stuff\Straight_Flight_4722ALLPLOTS\CORA2\Scripts\training_data4.mat')

@@ -1,3 +1,4 @@
+# Colin Kessler 4.8.2024 - colinkessler00@gmail.com
 # Adapted from https://github.com/bnsreenu/python_for_microscopists/blob/master/141-regression_housing_example.py
 
 from pandas import read_csv
