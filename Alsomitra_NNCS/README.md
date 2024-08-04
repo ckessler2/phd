@@ -40,10 +40,11 @@ asd
 
 <p align="center"> 
  <img src="https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Figures/NN_Accuracy.png" width="350" class="center" />
+ <img src="https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Figures/NNCS_Result.png" width="250" class="center" />
 </p>
 
 <p align="center"> 
- <img src="https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Figures/NNCS_Result.png" width="250" class="center" />
+
 </p>
 
 
