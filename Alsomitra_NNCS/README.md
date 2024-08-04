@@ -28,7 +28,7 @@ Each of the 5 simulations runs for 60s, with a control frequency of 1Hz. For eac
 
 ### Step 2 - Train NNCS (Python)
 
-The [training script](https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Train_Alsomitra_Controller.py) is adapted from a regression example using Keras [1,2]. The network has an input layer (7 nodes) , 2x120 and 1x1 sigmoid layers, and a lamda layer to normalise the output to the desired range
+The [training script](https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Train_Alsomitra_Controller.py) is adapted from a regression example using Keras [1,2]. The network has an input layer (7 nodes) , 2x120 and 1x1 sigmoid layers, a lamda layer to normalise the output to the desired range, and a single output. The resulting network is saved as an ONNX.
 
 <p align="center"> 
  <img src="https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Figures/NN_Training_Loss.png" width="350" class="center" />
@@ -36,7 +36,7 @@ The [training script](https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/
 
 ### Step 3 - Test NN and NNCS accuracy (MATLAB)
 
-asd
+Once trained, the network can be imported back to MATLAB to test accuracy and control performance.
 
 <p align="center"> 
  <img src="https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Figures/NN_Accuracy.png" width="340" class="center" />
