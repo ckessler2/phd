@@ -13,7 +13,7 @@ set(0, 'defaultLegendFontName', 'Times New Roman');
 set(0, 'DefaultLineLineWidth', 1.0);
 
 % NN or PID controller
-nnc = false;
+nnc = true;
 
 ObjectiveFunction = @Alsomitra_nondim;
 
@@ -48,6 +48,24 @@ if nnc == false
     writematrix(data,'Training_Data.csv') 
     save('Training_Data','data')
 end
+
+hyper = [];
+hyper2 = [];
+
+for i = 1:6
+    hyper(i,:) = [max( data(:,i)),min( data(:,i))];
+end
+
+for i = 1:length(data)
+    for j = 1:6
+        hyper2(i,j,1) = (data(i,j)) + 0.1;
+        hyper2(i,j,2) = (data(i,j)) - 0.1;
+    end
+    hyper2(i,7,1) = -0.5;
+    hyper2(i,7,2) = 0.5;
+end
+
+hyper(7,:) = [0.5,-0.5];
 
 
 

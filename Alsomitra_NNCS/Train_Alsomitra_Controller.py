@@ -9,6 +9,7 @@ from sklearn.model_selection import train_test_split
 import onnx
 import tf2onnx
 import tensorflow.keras.backend as K
+import numpy as np
 
 # load data and arrange into dataframe
 df = read_csv("Training_Data.csv", delim_whitespace=False, header=None)
