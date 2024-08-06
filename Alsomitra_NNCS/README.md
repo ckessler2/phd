@@ -44,7 +44,7 @@ Note that the dynamics only involves 6 states, but I added the error signal to t
 
 ### Step 3 - Test NN accuracy and control performance (MATLAB)
 
-Once trained, the network can be imported back to MATLAB to test accuracy and control performance. [Check NN accuracy](https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Check_NN_Accuracy.m) simply runs the training dataset through the network and plots the results to visualise its accuracy. Finally, [Alsomitra_Control_Simulation](https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Alsomitra_Control_Simulation.m) can be run with the network as a controller, by changing the nnc boolean to true (line 15).
+Once trained, the network is imported back to MATLAB to test accuracy and control performance. [Check NN accuracy](https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Check_NN_Accuracy.m) runs the training dataset through the network and plots the results to visualise its accuracy. Finally, [Alsomitra_Control_Simulation](https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Alsomitra_Control_Simulation.m) can be run with the network as a controller, by changing the nnc boolean to true (line 15).
 
 <p align="center"> 
  <img src="https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Figures/NN_Accuracy.png" width="325" class="center" />
