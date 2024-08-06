@@ -1,3 +1,5 @@
+# Adapted from github.com/ChaoHuang2018/POLAR_Tool/blob/main/onnx/onnx_converter.py
+
 #!/usr/bin/python
 
 import onnx
