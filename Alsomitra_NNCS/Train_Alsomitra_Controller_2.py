@@ -22,9 +22,10 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, rando
 
 # Define network layers
 model = Sequential()
-model.add(Dense(120, input_dim=7, activation='sigmoid'))
-model.add(Dense(120, activation='sigmoid'))
-model.add(Dense(1, activation='sigmoid'))
+model.add(Dense(120, input_dim=7, activation='tanh'))
+model.add(Dense(120, activation='tanh'))
+model.add(Dense(10, activation='tanh'))
+model.add(Dense(1, activation='tanh'))
 # model.add(Lambda(lambda x: (x * (0.193 - 0.181)) + 0.181))
 model.output_names=['output'] 
 
@@ -33,11 +34,11 @@ def rmse(y_true, y_pred):
         return (K.sqrt(K.mean(K.square(y_pred - y_true)))) 
 
 # Train network
-opt = tf.keras.optimizers.Adamax(
-    learning_rate=0.000001)
+opt = tf.keras.optimizers.Adam(
+    learning_rate=0.000005)
 model.compile(loss=rmse, optimizer=opt, metrics=['mse'])
 model.summary()
-history = model.fit(X_train, y_train, validation_split=0.1, epochs=4000, batch_size=25)
+history = model.fit(X_train, y_train, validation_split=0.1, epochs=2000, batch_size=100)
 
 # Plot rmse against training epochs
 from matplotlib import pyplot as plt
@@ -60,5 +61,5 @@ print("Predicted values are: ", predictions)
 print("Real values are: ", y_test[:5])
 
 # Export network as onnx
-# onnx_model, _ = tf2onnx.convert.from_keras(model)
-# onnx.save(onnx_model, 'Alsomitra_Controller.onnx')
+onnx_model, _ = tf2onnx.convert.from_keras(model)
+onnx.save(onnx_model, 'Alsomitra_Controller2.onnx')
