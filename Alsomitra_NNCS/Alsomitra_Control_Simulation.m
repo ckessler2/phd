@@ -13,7 +13,7 @@ set(0, 'defaultLegendFontName', 'Times New Roman');
 set(0, 'DefaultLineLineWidth', 1.0);
 
 % NN or PID controller
-nnc = true;
+nnc = false;
 
 ObjectiveFunction = @Alsomitra_nondim;
 
@@ -21,7 +21,7 @@ its = 64;
 epochs = 1;
 obj_f = [];
 
-nn = importONNXNetwork('alsomitra_controller2.onnx',InputDataFormats='BC');
+nn = importONNXNetwork('alsomitra_controller.onnx',InputDataFormats='BC');
 
 parameters = [5.18218452125279	0.807506506794260	0.105977518471870	4.93681162104530	1.49958010664229	0.238565281050545	2.85289007725274	0.368933365279324	1.73001889433847];
 
@@ -45,7 +45,7 @@ hold on
 data = [data1;data2;data3;data4;data5];
 
 if nnc == false
-    writematrix(data,'Training_Data_Scaled.csv') 
+    writematrix(data,'Training_Data.csv') 
     save('Training_Data','data')
 end
 

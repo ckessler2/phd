@@ -12,7 +12,7 @@ import tensorflow.keras.backend as K
 import numpy as np
 
 # load data and arrange into dataframe
-df = read_csv("Training_Data_Scaled.csv", delim_whitespace=False, header=None)
+df = read_csv("Training_Data.csv", delim_whitespace=False, header=None)
 df.columns = ['dv_xpdt', 'dv_ypdt', 'domegadt', 'dthetadt', 'dx_dt', 'dy_dt', 'error', 'e_x']
 
 # Split by inputs and output (e_x), and into train/test datasets
