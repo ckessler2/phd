@@ -1,5 +1,3 @@
-# Adapted from github.com/ChaoHuang2018/POLAR_Tool/blob/main/onnx/onnx_converter.py
-
 #!/usr/bin/python
 
 import onnx
@@ -25,8 +23,6 @@ def main(onnx_model_path):
 
     wb_ks = list(wbs.keys())
     wb_vals = list(wbs.values())
-    wb_vals = list(reversed(wb_vals))
-    # wb_vals = [] 
     activs = []
     
     for node in onnx_model.graph.node:
@@ -51,11 +47,9 @@ def main(onnx_model_path):
  
      
     f = open(poloar_model_path, 'w')
-    # num_inputs = wb_vals[0][0].shape[1]
-    num_inputs = 7
+    num_inputs = wb_vals[0][0].shape[1]
     f.write("{}".format(num_inputs) + os.linesep)
-    # num_outputs = wb_vals[-1][0].shape[0]
-    num_outputs = 1
+    num_outputs = wb_vals[-1][0].shape[0]
     f.write(str(num_outputs) + os.linesep)
 
     num_of_hidden_layers = len(activs) - 1
@@ -72,14 +66,8 @@ def main(onnx_model_path):
     count = 0
     for (w, b) in wb_vals:
         #print(w.shape, b.shape)
-        if w.size > 1:
-            index1 = w.shape[0]
-            index2 = w.shape[1]
-        else:
-            index1 = 1
-            index2 = 0
-        for i in range(index1):
-            for j in range(index2):
+        for i in range(w.shape[0]):
+            for j in range(w.shape[1]):
                 f.write(str(w[i][j]) + os.linesep)
                 count += 1
             f.write(str(0) + os.linesep)
@@ -137,8 +125,7 @@ def test():
 
     return onnx_model_path
 
-if __name__ == "__main__":
-    # onnx_model_path = sys.argv[1] #test() #sys.argv[1]
-    onnx_model_path = "Alsomitra_Controller.onnx"
 
-    main(onnx_model_path)
+onnx_model_path = "Alsomitra_Controller.onnx"
+
+main(onnx_model_path)
