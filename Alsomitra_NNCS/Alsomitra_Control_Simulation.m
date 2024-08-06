@@ -21,7 +21,7 @@ its = 64;
 epochs = 1;
 obj_f = [];
 
-nn = importONNXNetwork('alsomitra_controller.onnx',InputDataFormats='BC');
+nn = importONNXNetwork('alsomitra_controller2.onnx',InputDataFormats='BC');
 
 parameters = [5.18218452125279	0.807506506794260	0.105977518471870	4.93681162104530	1.49958010664229	0.238565281050545	2.85289007725274	0.368933365279324	1.73001889433847];
 
@@ -45,7 +45,7 @@ hold on
 data = [data1;data2;data3;data4;data5];
 
 if nnc == false
-    writematrix(data,'Training_Data.csv') 
+    writematrix(data,'Training_Data_Scaled.csv') 
     save('Training_Data','data')
 end
 
@@ -86,6 +86,7 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
     if nnc == true
         % NN CONTROLLER
         ex = nn.predict([v_xp0 v_yp0 omega0 theta0 x0 y0 error2]);
+        ex = (ex * (0.012)) + 0.181;
     else
         i  = sum(errors);
         d = errors(end) - error;
@@ -124,6 +125,7 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
         if nnc == true
             % NN CONTROLLER
             ex = nn.predict([v_xp0 v_yp0 omega0 theta0 x0 y0 error2]);
+            ex = (ex * (0.012)) + 0.181;
         else
             % % PID CONTROLLER
             integral  = sum(errors);
@@ -185,7 +187,7 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
     
     end
     
-    data = [vx_all,vy_all,omega_all,theta_all,x_scatter,y_scatter,errors2,ex_all];
+    data = [vx_all,vy_all,omega_all,theta_all,x_scatter,y_scatter,errors2,(ex_all - 0.181)./0.012];
     
     % newplot
     % tiledlayout(3,1);

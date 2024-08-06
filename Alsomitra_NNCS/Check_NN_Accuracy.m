@@ -7,7 +7,7 @@ clear;clc
 load('Training_Data.mat')
 % nn = neuralNetwork.readONNXNetwork('model2.onnx');
 % nn = neuralNetwork.readONNXNetwork('C:\Users\Colin Kessler\AI_2\model.onnx');
-nn = importONNXNetwork('alsomitra_controller.onnx',InputDataFormats='BC');
+nn = importONNXNetwork('alsomitra_controller2.onnx',InputDataFormats='BC');
 
 ex_true = data(:,8);
 ex_nn1 = [];
@@ -32,7 +32,7 @@ scatter(ex_true,ex_nn2,8,'filled');hold on;
 plot([-10,10],[-10,10]);
 colororder(["#721f81","black"])
 
-title('NN accuracy,  R = ' + string(round(b,3)) + ',  MAE = ' + string(round(100*mean(err2),4)) + "%")
+title('NN accuracy,  R = ' + string(round(b,3)) + ',  MAE = ' + string(round(mean(err2),6)))
 
 pbaspect([1 1 1])
 xlim([min(ex_true),max(ex_true)])

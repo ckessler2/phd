@@ -12,20 +12,20 @@ import tensorflow.keras.backend as K
 import numpy as np
 
 # load data and arrange into dataframe
-df = read_csv("Training_Data.csv", delim_whitespace=False, header=None)
+df = read_csv("Training_Data_Scaled.csv", delim_whitespace=False, header=None)
 df.columns = ['dv_xpdt', 'dv_ypdt', 'domegadt', 'dthetadt', 'dx_dt', 'dy_dt', 'error', 'e_x']
 
 # Split by inputs and output (e_x), and into train/test datasets
 X = df.drop('e_x', axis = 1)
 y = df['e_x']
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 20)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.1, random_state = 20)
 
 # Define network layers
 model = Sequential()
 model.add(Dense(120, input_dim=7, activation='sigmoid'))
 model.add(Dense(120, activation='sigmoid'))
 model.add(Dense(1, activation='sigmoid'))
-model.add(Lambda(lambda x: (x * (0.193 - 0.181)) + 0.181))
+# model.add(Lambda(lambda x: (x * (0.193 - 0.181)) + 0.181))
 model.output_names=['output'] 
 
 # Define loss function (rmse)
@@ -49,7 +49,7 @@ val_loss = history.history['val_loss']
 epochs = range(1, len(loss) + 1)
 plt.plot(epochs, loss, "#721f81")
 plt.title('Training Loss (RMSE)')
-plt.xlabel('Epoch')
+plt.xlabel('Epoch') 
 plt.ylabel('RMSE')
 plt.yscale('log')
 plt.show()
