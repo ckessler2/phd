@@ -28,7 +28,7 @@ The control problem is based on a related NNCS reachability benchmark involving 
 </p>
 
 Each of the 5 simulations runs for 60s, with a control frequency of 1Hz. For each control step, the script records all 6 system states, the y error, and the PID-controlled actuation (e_x). These results are saved to a [csv file](https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Training_Data.csv) with 8 columns and 306 rows (and as a mat file). <br />
-Note that the dynamics only involves 6 states, but I added the error signal to the dynamics equation such that the network would have the same signal (if not the derivative and integral) as the PID controller.
+Note that the dynamics only involves 6 states, but I added the error signal to the dynamics equation such that the network would have the same signal (if not the derivative and integral) as the PID controller. The actuation values are normalised to be between 0 and 1, to make training easier.w
 
 <hr style="height: 1px;">
 
@@ -44,7 +44,7 @@ Note that the dynamics only involves 6 states, but I added the error signal to t
 
 ### Step 3 - Test NN accuracy and control performance (MATLAB)
 
-Once trained, the network is imported back to MATLAB to test accuracy and control performance. [Check NN accuracy](https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Check_NN_Accuracy.m) runs the training dataset through the network and plots the results to visualise its accuracy. Finally, [Alsomitra_Control_Simulation](https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Alsomitra_Control_Simulation.m) can be run with the network as a controller, by changing the nnc boolean to true (line 15).
+Once trained, the network is imported back to MATLAB to test accuracy and control performance. [Check NN accuracy](https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Check_NN_Accuracy.m) runs the training dataset through the network and plots the results to visualise its accuracy. Finally, [Alsomitra_Control_Simulation](https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Alsomitra_Control_Simulation.m) can be run with the network as a controller, by changing the nnc boolean to true (line 15). Note that at this point the actuation (between 0 and 1) is normalised back to the working range (0.181 to 0.193).
 
 <p align="center"> 
  <img src="https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Figures/NN_Accuracy.png" width="325" class="center" />
