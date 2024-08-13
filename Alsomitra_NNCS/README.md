@@ -27,7 +27,14 @@ The control problem is based on a related NNCS reachability benchmark involving 
  <img src="https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Figures/PID_Result.png" width="250" class="center" />
 </p>
 
-Each of the 5 simulations runs for 60s, with a control frequency of 1Hz. For each control step, the script records all 6 system states, the y error, and the PID-controlled actuation (e_x). These results are saved to a [csv file](https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Training_Data.csv) with 8 columns and 306 rows (and as a mat file). <br />
+Each of the 5 simulations runs for 60s, with a control frequency of 1Hz. 
+
+<hr style="height: 1px;">
+
+### Dataset [(Training_Data.csv)](https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Training_Data.csv)
+
+For each control step, the script records all 6 system states, the y error, and the PID-controlled actuation (e_x). These results are saved to a [csv file](https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Training_Data.csv) with 8 columns and 306 rows (and as a mat file). <br />
+
 Note that the dynamics only involves 6 states, but I added the error signal to the dynamics equation such that the network would have the same signal (if not the derivative and integral) as the PID controller. The actuation values are normalised to be between 0 and 1, to make training easier.
 
 <hr style="height: 1px;">
