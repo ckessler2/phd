@@ -34,7 +34,6 @@ Each of the 5 simulations runs for 60s, with a control frequency of 1Hz.
 ### Dataset ([Training_Data.csv](https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Training_Data.csv))
 
 For each control step, the script records the 6 system states, the y error, and the PID-controlled actuation (e_x). These results are saved to a [csv file](https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Training_Data.csv) with 8 columns and 305 rows (and as a mat file). The goal of the neural network is to replace the PID controller, and predict how the PID would respond based on 8 present-time inputs.
-
 <br />
 Note that the dynamics only involves 6 states, but I added the error signal to the dynamics equation such that the network would have the same signal (if not the derivative and integral) as the PID controller. The actuation values are normalised to be between 0 and 1, to make training easier.
 
