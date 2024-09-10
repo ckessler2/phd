@@ -12,9 +12,9 @@ Note - to get this code to work, I had to comment out the code that writes a sym
 
 nondimfreelyfallingplate6.m defines the equations and parameters.
 
-Alsomitra_model.m is my own script (not CORA) which implements a PID and neural network controller - my ultimate aim is to create reachability plots of these simulations with CORA.
+Alsomitra_model.m is my own script (not CORA) which implements a PID and neural network controller - my ultimate aim is to create reachability plots of these exact simulations with CORA.
 
-Alsomitra_Open_Loop_Reachability.m is my attempt to implement my simulations (with no control) with CORA. This seems to work well, although I had to implement a FDA method to calculate Hessian matrices (hessianTensorInt ..). For the equations I am using (simplified slightly), the symbolic jacobian can be used.
+Alsomitra_Open_Loop_Reachability.m is my attempt to implement my simulations (with no control) with CORA. This seems to work well, although I had to implement a FDA method to calculate Hessian matrices (hessianTensorInt ..). For the equations in this folder (simplified slightly), the symbolic jacobian can be used.
 
 Alsomitra_Closed_Loop_Reachability.m is my attempt to implement the neural network controller into the CORA script. It does run, but there are some issues:
 
