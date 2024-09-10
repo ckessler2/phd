@@ -16,6 +16,6 @@ Alsomitra_Open_Loop_Reachability.m is my attempt to implement my simulations (wi
 
 Alsomitra_Closed_Loop_Reachability.m is my attempt to implement the neural network controller into the CORA script. It does run, but there are some issues:
 
-The reachability plot (and the time taken to calculate) varies significantly with several parameters - notably the reachability timestep (0.25), Hessian delta (10), and total time (60s).
+* The reachability plot (and the time taken to calculate) varies significantly with several parameters - notably the reachability timestep (0.25), Hessian delta (10), and total time (60s).
 
-Additionally, the control simulations do not match up exactly between my script and my CORA implementation. 
+* Additionally, the control simulations do not match up exactly between my script and my CORA implementation. 
