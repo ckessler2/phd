@@ -1,6 +1,6 @@
 
 
-These scripts are based on a 2D aerodynamic model (Li 2022) fitted to experiments of flying seeds, with the aim of verifying neural network controllers for pitch control (by changing the position of the center of mass). 
+These scripts are based on a 2D aerodynamic model (Li 2022) fitted to experiments of flying seeds, with the aim of verifying neural network controllers for [pitch control](https://github.com/ckessler2/phd/tree/main/Alsomitra_NNCS). 
 
 Note - to get this code to work, I had to comment out the code that writes a symbolic Hessian script, since it has to be replaced with the FDA script. This is done by commenting out lines 178, 179, 188, 189 in derivatives.m (CORA-master\contDynamics\@contDynamics).
 
