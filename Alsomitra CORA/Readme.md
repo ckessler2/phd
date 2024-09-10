@@ -5,9 +5,7 @@ These scripts are based on a 2D aerodynamic model (Li 2022) fitted to experiment
 
 Note - to get this code to work, I had to comment out the code that writes a symbolic Hessian script, since it has to be replaced with the FDA script. This is done by commenting out lines 178, 179, 188, 189 in derivatives.m (CORA-master\contDynamics\@contDynamics).
 
-
-The scripts are as follows:
-
+### Files 
 
 nondimfreelyfallingplate6.m defines the equations and parameters.
 
