@@ -1,6 +1,4 @@
-Colin Kessler 9/9/24
 
-<hr style="height: 1px;">
 
 These scripts are based on a 2D aerodynamic model (Li 2022) fitted to experiments of flying seeds, with the aim of verifying neural network controllers for pitch control (by changing the position of the center of mass). 
 
