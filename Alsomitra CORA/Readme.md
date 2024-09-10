@@ -1,6 +1,6 @@
-This folder contains scripts for plotting simulation traces and reachability plots for my neural network control system.
+This folder contains scripts for plotting simulation traces and reachability plots for my neural network control system (more details [here](https://github.com/ckessler2/phd/tree/main/Alsomitra_NNCS))
 
-This system is based on a 2D aerodynamic model (Li 2022) fitted to experiments of flying seeds, with the aim of verifying neural network controllers for [pitch control](https://github.com/ckessler2/phd/tree/main/Alsomitra_NNCS). 
+This system is based on a 2D aerodynamic model (Li 2022) fitted to experiments of flying seeds, with the aim of verifying neural network controllers for pitch control. 
 
 Note - to get this code to work, I had to comment out the code that writes a symbolic Hessian script, since it has to be replaced with the FDA script. This is done by commenting out lines 178, 179, 188, 189 in derivatives.m (CORA-master\contDynamics\@contDynamics).
 
