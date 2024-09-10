@@ -1,3 +1,5 @@
+# CORA reachability analysis of _Alsomitra Macrocarpa_ NNCS
+
 This folder contains scripts for plotting simulation traces and reachability plots for my neural network control system (more details [here](https://github.com/ckessler2/phd/tree/main/Alsomitra_NNCS))
 
 This system is based on a 2D aerodynamic model (Li 2022) fitted to experiments of flying seeds, with the aim of verifying neural network controllers for pitch control. 
