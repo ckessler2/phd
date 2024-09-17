@@ -1,7 +1,22 @@
-% Colin Kessler 4.8.2024 - colinkessler00@gmail.com
-% close all; clc;
+close all; clc;
 
-% Plot preamble
+% NN or PID controller
+nnc = true;
+
+ObjectiveFunction = @Alsomitra_nondim;
+
+its = 64;
+epochs = 1;
+obj_f = [];
+% load('F:\matlab_stuff\Straight_Flight_4722ALLPLOTS\RL2\savedAgents\Agent3.mat')
+
+nn = neuralNetwork.readONNXNetwork('alsomitra_controller.onnx');
+
+parameters = [5.18218452125279	0.807506506794260	0.105977518471870	4.93681162104530	1.49958010664229	0.238565281050545	2.85289007725274	0.368933365279324	1.73001889433847];
+
+
+figure
+
 font=12;
 set(groot, 'defaultAxesTickLabelInterpreter', 'latex'); 
 set(groot, 'defaultLegendInterpreter', 'latex');
@@ -12,26 +27,12 @@ set(0, 'defaultAxesFontName', 'Times New Roman');
 set(0, 'defaultLegendFontName', 'Times New Roman');
 set(0, 'DefaultLineLineWidth', 1.0);
 
-% NN or PID controller
-nnc = true;
+% y_1 = mean(transpose(percents));
+% plot(x_pc,y_1);
+% xlabel('Optimisation iteration')
+% ylabel('Average Paramater Range Size (\%)','Interpreter','latex')
 
-ObjectiveFunction = @Alsomitra_nondim;
-
-its = 64;
-epochs = 1;
-obj_f = [];
-
-nn = importONNXNetwork('alsomitra_controller.onnx',InputDataFormats='BC');
-
-parameters = [5.18218452125279	0.807506506794260	0.105977518471870	4.93681162104530	1.49958010664229	0.238565281050545	2.85289007725274	0.368933365279324	1.73001889433847];
-
-p1 = [-0.3363	0.32178673	13.25541439];
-p2 = [-0.4547	1.117865818	9.362957704];
-p3 = [-0.3311	0.37305935	18.62325016];
-p4 = [-0.4493	0.685756098	7.797849674];
-
-figure
-
+% close all
 
 set(0,'DefaultFigureWindowStyle','docked')
 
@@ -41,31 +42,16 @@ hold on
 [data3,errors3,ex_all3] = simulate(-0.5/0.07,parameters,ObjectiveFunction,nn,nnc);
 [data4,errors4,ex_all4,ds4] = simulate(1/0.07,parameters,ObjectiveFunction,nn,nnc);
 [data5,errors5,ex_all5] = simulate(-1/0.07,parameters,ObjectiveFunction,nn,nnc);
+% 
+% data = [data1;data2;data3;data4;data5];
+% 
+% if nnc == false
+%     writematrix(data,'C:\Users\Colin Kessler\AI_2\data_100.csv') 
+% end
 
-data = [data1;data2;data3;data4;data5];
 
-if nnc == false
-    writematrix(data,'Training_Data.csv') 
-    save('Training_Data','data')
-end
-
-hyper = [];
-hyper2 = [];
-
-for i = 1:6
-    hyper(i,:) = [max( data(:,i)),min( data(:,i))];
-end
-
-for i = 1:length(data)
-    for j = 1:6
-        hyper2(i,j,1) = (data(i,j)) + 0.1;
-        hyper2(i,j,2) = (data(i,j)) - 0.1;
-    end
-    hyper2(i,7,1) = -0.5;
-    hyper2(i,7,2) = 0.5;
-end
-
-hyper(7,:) = [0.5,-0.5];
+xlim([0 150])
+ylim([-150 50])
 
 
 
@@ -79,20 +65,20 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
     x0 = 0;
     % y0 = 0;
     error = (y0 * 0.07) - (-1*0.07*x0 - 2);
+    % error = 2;
     errors = (y0 * 0.07) - (- 2);
-    errors2 = (y0 * 0.07) - (-1*0.07*x0 - 2);
-    error2 = (y0 * 0.07) - (- 2);
+    errors2 = 0;
+    error2 = 0;
 
     if nnc == true
         % NN CONTROLLER
-        ex = nn.predict([v_xp0 v_yp0 omega0 theta0 x0 y0 error2]);
-        % ex = (ex * (0.012)) + 0.181;
+        ex = nn.evaluate([v_xp0; v_yp0; omega0; theta0; x0; y0; error2]);
     else
         i  = sum(errors);
         d = errors(end) - error;
         % % PID CONTROLLER
         ex = 0.1870 + ((error) * 0.01);
-        ex = ex -(0.1*d) - (-0.0003 * i);
+        ex = ex -(0.0315*d) - (-0.0003 * i);
         if ex > 0.193
             ex = 0.193;
         elseif ex < 0.181
@@ -124,20 +110,23 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
 
         if nnc == true
             % NN CONTROLLER
-            ex = nn.predict([v_xp0 v_yp0 omega0 theta0 x0 y0 error2]);
-            % ex = (ex * (0.012)) + 0.181;
+            ex = nn.evaluate([v_xp0; v_yp0; omega0; theta0; x0; y0;error2]);
         else
             % % PID CONTROLLER
-            integral  = sum(errors);
-            derivative = errors(end) - error;
+            i  = sum(errors);
+            d = errors(end) - error;
             
             
-            ex = 0.1870 + (error * 0.1) + (derivative * -0.6) + (integral * 0.0001);
-            if ex > 0.19
+            ex = 0.1870 + ((error) * 0.1);
+            ex = ex -(0.5*d) - (-0.0003 * i);
+            if ex > 0.193
                 ex = 0.193;
             elseif ex < 0.181
                 ex = 0.181;
             end
+            ds = [ds;d];
+            %  SET ex to 0.181
+            % ex = 0.181;
         end
 
         
@@ -145,7 +134,7 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
         
 
 
-        [v_xp, v_yp, omega, theta, x, y, error2] = ObjectiveFunction([parameters,ex],v_xp0, v_yp0, omega0, theta0, x0, y0,num_sims);
+        [v_xp, v_yp, omega, theta, x, y, error2] = ObjectiveFunction(ex,v_xp0, v_yp0, omega0, theta0, x0, y0,num_sims);
         
         x_all = [x_all;x];
         y_all = [y_all;y];
@@ -156,7 +145,7 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
         theta0 = theta(end);
         x0 = x(end);
         y0 = y(end);
-        error2 = error2(end) + errors2(end);
+        error2 = error2(end);
     
         x_scatter = [x_scatter;x0];
         y_scatter = [y_scatter;y0];
@@ -187,14 +176,14 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
     
     end
     
-    data = [vx_all,vy_all,omega_all,theta_all,x_scatter,y_scatter,errors2,(ex_all - 0.181)./0.012];
+    data = [vx_all,vy_all,omega_all,theta_all,x_scatter,y_scatter,errors2,ex_all];
     
     % newplot
     % tiledlayout(3,1);
     % nexttile
     % 
     % plot(x_all * 70 / 1000,y_all * 70 / 1000,'red')
-    plot(x_all,y_all)
+    plot(x_all,y_all,'red')
 
     hold on
     
@@ -203,34 +192,27 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
     
     
     
-    plot([x_c1] * 1000/70, [y_c1]* 1000/70, '--')
+    plot([x_c1] * 1000/70, [y_c1]* 1000/70, 'black')
     
     
     % scatter(x_scatter * 70 / 1000,y_scatter * 70 / 1000,4,'blue')
-    % scatter(x_scatter,y_scatter,2,'filled','s')
+    scatter(x_scatter,y_scatter,4,'blue')
     % 
     % xlim([-1 5])
     % ylim([-5 0])
     % xlim([-1 30])
     % ylim([-20 2])
-    xlim([0 120])
-    ylim([-150 25])
-
-    colororder(["#721f81","black"])
-
+    xlim([0 150])
+    ylim([-150 50])
+    
     xlabel('x (m)')
     ylabel('y (m)')
-    legend("Simulation","Desired Trajectory")
+    legend("Simulation","Desired Trajectory","Timestep")
     daspect([1 1 1])
 
-    % nexttile
-    % plot(1:61, errors)
-    % 
-    % nexttile
-    % plot(1:61, errors2)
 end
 
-function [v_xp, v_yp, omega, theta, x_, y_, error] = Alsomitra_nondim(opt,v_xp0, v_yp0, omega0, theta0, x0, y0,num_sims)
+function [v_xp, v_yp, omega, theta, x_, y_, error] = Alsomitra_nondim(ex,v_xp0, v_yp0, omega0, theta0, x0, y0,num_sims)
     
     % display(opt)
     
@@ -280,7 +262,9 @@ function [v_xp, v_yp, omega, theta, x_, y_, error] = Alsomitra_nondim(opt,v_xp0,
     % global p 
     p = [l m rho_f a b s]';
     
-    [tSol, ySol] = ode45(@(t, y) nondimfreelyfallingplate3(p, y, opt(1:10)), t, Y0);
+    % [tSol, ySol] = ode45(@(t, y) nondimfreelyfallingplate3(p, y, opt(1:10)), t, Y0);
+
+    [tSol, ySol] = ode45(@(t, y) nondimfreelyfallingplate6(y,ex), t, Y0);
     
     % extract the single variables from the vector with the solutions
     % x component of velocity in the reference system of the body

@@ -27,8 +27,15 @@ The control problem is based on a related NNCS reachability benchmark involving 
  <img src="https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Figures/PID_Result.png" width="250" class="center" />
 </p>
 
-Each of the 5 simulations runs for 60s, with a control frequency of 1Hz. For each control step, the script records all 6 system states, the y error, and the PID-controlled actuation (e_x). These results are saved to a [csv file](https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Training_Data.csv) with 8 columns and 306 rows (and as a mat file). <br />
-Note that the dynamics only involves 6 states, but I added the error signal to the dynamics equation such that the network would have the same signal (if not the derivative and integral) as the PID controller.
+Each of the 5 simulations runs for 60s, with a control frequency of 1Hz. 
+
+<hr style="height: 1px;">
+
+### Dataset ([Training_Data.csv](https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Training_Data.csv))
+
+For each control step, the script records the 6 system states, the y error, and the PID-controlled actuation (e_x). These results are saved to a [csv file](https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Training_Data.csv) with 8 columns and 305 rows (and as a mat file). The goal of the neural network is to replace the PID controller, and predict how the PID would respond based on 8 present-time inputs.
+
+Note that the dynamics only involves 6 states, but I added the error signal to the dynamics equation such that the network would have the same signal (if not the derivative and integral) as the PID controller. The actuation values are normalised to be between 0 and 1, to make training easier.
 
 <hr style="height: 1px;">
 
@@ -44,7 +51,7 @@ Note that the dynamics only involves 6 states, but I added the error signal to t
 
 ### Step 3 - Test NN accuracy and control performance (MATLAB)
 
-Once trained, the network is imported back to MATLAB to test accuracy and control performance. [Check NN accuracy](https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Check_NN_Accuracy.m) runs the training dataset through the network and plots the results to visualise its accuracy. Finally, [Alsomitra_Control_Simulation](https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Alsomitra_Control_Simulation.m) can be run with the network as a controller, by changing the nnc boolean to true (line 15).
+Once trained, the network is imported back to MATLAB to test accuracy and control performance. [Check NN accuracy](https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Check_NN_Accuracy.m) runs the training dataset through the network and plots the results to visualise its accuracy. Finally, [Alsomitra_Control_Simulation](https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Alsomitra_Control_Simulation.m) can be run with the network as a controller, by changing the nnc boolean to true (line 15). Note that at this point the actuation (between 0 and 1) is normalised back to the working range (0.181 to 0.193).
 
 <p align="center"> 
  <img src="https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Figures/NN_Accuracy.png" width="325" class="center" />
@@ -60,5 +67,5 @@ The resulting performance is quite good, but the trajectories do not follow the 
 [2] I. M. Viola. [_Dandidrone: A Dandelion-Inspired Drone for Swarm Sensing_](https://voilab.eng.ed.ac.uk/dandidrone). eng.ed.ac.uk. 2021<br />
 [3] S. Bhattiprolu.  [_141 - Regression using Neural Networks and comparison to other models_](https://www.youtube.com/watch?v=2yhLEx2FKoY&t=2s). YouTube, 2020 <br />
 [4] S. Bhattiprolu. [_141-regression_housing_example_](https://github.com/bnsreenu/python_for_microscopists/blob/master/141-regression_housing_example.py). GitHub, 2020 <br />
-[5] D. Certini, C. Kessler. [_Alsomitra-straight-glide_](https://github.com/danielecertini90/Alsomitra-straight-glide) Github, 2024 <br />
+[5] D. Certini, C. Kessler. Unpublished <br />
 [6] D. M. Lopez, M. Althoff, M. Forets, T. T. Johnson, T. Ladner, C. Schilling. [_ARCH-COMP23 Category Report: Artificial Intelligence and Neural Network Control Systems (AINNCS) for Continuous and Hybrid Systems Plants_](https://easychair.org/publications/open/Vfq4b). EPiC Series in Computing, pages 89–125, 2023 <br />
