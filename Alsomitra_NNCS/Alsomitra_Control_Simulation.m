@@ -13,7 +13,7 @@ set(0, 'defaultLegendFontName', 'Times New Roman');
 set(0, 'DefaultLineLineWidth', 1.0);
 
 % NN or PID controller
-nnc = false;
+nnc = true;
 
 ObjectiveFunction = @Alsomitra_nondim;
 
@@ -86,7 +86,7 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
     if nnc == true
         % NN CONTROLLER
         ex = nn.predict([v_xp0 v_yp0 omega0 theta0 x0 y0 error2]);
-        ex = (ex * (0.012)) + 0.181;
+        % ex = (ex * (0.012)) + 0.181;
     else
         i  = sum(errors);
         d = errors(end) - error;
@@ -125,7 +125,7 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
         if nnc == true
             % NN CONTROLLER
             ex = nn.predict([v_xp0 v_yp0 omega0 theta0 x0 y0 error2]);
-            ex = (ex * (0.012)) + 0.181;
+            % ex = (ex * (0.012)) + 0.181;
         else
             % % PID CONTROLLER
             integral  = sum(errors);
