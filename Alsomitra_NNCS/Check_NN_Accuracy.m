@@ -7,7 +7,7 @@ clear;clc
 load('Training_Data.mat')
 % nn = neuralNetwork.readONNXNetwork('model2.onnx');
 % nn = neuralNetwork.readONNXNetwork('C:\Users\Colin Kessler\AI_2\model.onnx');
-nn = importONNXNetwork('alsomitra_controller.onnx',InputDataFormats='BC');
+nn = importONNXNetwork('Alsomitra_Controller.onnx',InputDataFormats='BC');
 
 ex_true = data(:,8);
 ex_nn1 = [];
