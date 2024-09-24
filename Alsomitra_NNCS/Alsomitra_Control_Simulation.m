@@ -1,7 +1,9 @@
 % Colin Kessler 4.8.2024 - colinkessler00@gmail.com
 % close all; clc;
 
-% Plot preamble
+% Plot preamble.
+set(0, 'defaultFigureRenderer', 'painters')
+set(0,'DefaultFigureWindowStyle','docked')
 font=12;
 set(groot, 'defaultAxesTickLabelInterpreter', 'latex'); 
 set(groot, 'defaultLegendInterpreter', 'latex');
@@ -21,7 +23,7 @@ its = 64;
 epochs = 1;
 obj_f = [];
 
-nn = importONNXNetwork('alsomitra_controller.onnx',InputDataFormats='BC');
+nn = importONNXNetwork('Alsomitra_Controller.onnx',InputDataFormats='BC');
 
 parameters = [5.18218452125279	0.807506506794260	0.105977518471870	4.93681162104530	1.49958010664229	0.238565281050545	2.85289007725274	0.368933365279324	1.73001889433847];
 
@@ -33,7 +35,6 @@ p4 = [-0.4493	0.685756098	7.797849674];
 figure
 
 
-set(0,'DefaultFigureWindowStyle','docked')
 
 [data1,errors,ex_all] = simulate(0,parameters,ObjectiveFunction,nn,nnc);
 hold on
@@ -86,7 +87,7 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
     if nnc == true
         % NN CONTROLLER
         ex = nn.predict([v_xp0 v_yp0 omega0 theta0 x0 y0 error2]);
-        % ex = (ex * (0.012)) + 0.181;
+        ex = (ex * (0.012)) + 0.181;
     else
         i  = sum(errors);
         d = errors(end) - error;
@@ -125,7 +126,7 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
         if nnc == true
             % NN CONTROLLER
             ex = nn.predict([v_xp0 v_yp0 omega0 theta0 x0 y0 error2]);
-            % ex = (ex * (0.012)) + 0.181;
+            ex = (ex * (0.012)) + 0.181;
         else
             % % PID CONTROLLER
             integral  = sum(errors);
