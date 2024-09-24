@@ -65,9 +65,6 @@ function dydt = nondimfreelyfallingplate6(y,u)
 
     % f activation function, it specifies laminar and stall regimes
     Falpha2 = ((1 - tanh((abs(alpha) - alpha0)/delta))/2);
-    % Falpha2 = (-exp(sqrt(alpha^2)*19))/(103+exp(sqrt(alpha^2)*19)) + 1;
-
-    % Falpha = Falpha1.*(alpha>=-pi & alpha<=-pi/2) + Falpha2.*(alpha>=-pi/2 & alpha<=0) + Falpha3.*(alpha>=0 & alpha<=pi/2) + Falpha4.*(alpha>=pi/2 & alpha<=pi);
 
     C_Lalpha2 = Falpha2*C_L1.*sin(abs(alpha)) + (1-Falpha2)*C_L2.*sin(2*abs(alpha));
     C_Lalpha = - C_Lalpha2;
@@ -75,7 +72,6 @@ function dydt = nondimfreelyfallingplate6(y,u)
     C_Dalpha2 = Falpha2.*(C_D0 + C_D1.*sin((abs(alpha)).^2)) + (1 - Falpha2).*C_D_pi_2.*(sin(abs(alpha)).^2);
     C_Dalpha = C_Dalpha2;
 
-    % l_CP_alpha_l = Falpha.*(C_0_CP - C_1_CP.*alpha.^2) + (1-Falpha).*C_2_CP.*(1-alpha/(pi/2));
     l_CP_alpha_l2 = Falpha2.*(C_0_CP - C_1_CP.*abs(alpha).^2) + (1-Falpha2).*C_2_CP.*(1-abs(alpha)/(pi/2));
    
     epsilon_alpha = l_CP_alpha_l2;

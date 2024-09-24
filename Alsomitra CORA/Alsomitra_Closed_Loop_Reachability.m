@@ -13,7 +13,7 @@ params.points = 25;
 
 params.R0 = polyZonotope(interval( ...
     [1; 0; 0; 0; 0; -1/0.07; 0],...
-    [1; 0; 0; 0; 0; 1/0.07; 0]));
+    [1; 0; 0; 0; 0; -1/0.07; 0]));
 
 % params.R0 = zonotope([zeros(6,1),0.05*diag(ones(6,1))]);
 % params.U = zonotope(0.193);
@@ -43,7 +43,7 @@ evParams.poly_method = 'regression';
 
 % System Dynamics ---------------------------------------------------------
     
-alsomitra = nonlinearSys(@nondimfreelyfallingplate6);
+alsomitra = nonlinearSys(@nondimfreelyfallingplate6,7,1);
 tic
 
 nn = neuralNetwork.readONNXNetwork('alsomitra_controller.onnx');

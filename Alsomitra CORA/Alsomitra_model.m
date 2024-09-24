@@ -1,4 +1,4 @@
-close all; clc;
+% close all; clc;
 
 % NN or PID controller
 nnc = true;
@@ -15,7 +15,7 @@ nn = neuralNetwork.readONNXNetwork('alsomitra_controller.onnx');
 parameters = [5.18218452125279	0.807506506794260	0.105977518471870	4.93681162104530	1.49958010664229	0.238565281050545	2.85289007725274	0.368933365279324	1.73001889433847];
 
 
-figure
+% figure
 
 font=12;
 set(groot, 'defaultAxesTickLabelInterpreter', 'latex'); 
@@ -37,23 +37,31 @@ set(0, 'DefaultLineLineWidth', 1.0);
 set(0,'DefaultFigureWindowStyle','docked')
 
 [data1,errors,ex_all] = simulate(0,parameters,ObjectiveFunction,nn,nnc);
-hold on
-[data2,errors2,ex_all2] = simulate(0.5/0.07,parameters,ObjectiveFunction,nn,nnc);
-[data3,errors3,ex_all3] = simulate(-0.5/0.07,parameters,ObjectiveFunction,nn,nnc);
-[data4,errors4,ex_all4,ds4] = simulate(1/0.07,parameters,ObjectiveFunction,nn,nnc);
-[data5,errors5,ex_all5] = simulate(-1/0.07,parameters,ObjectiveFunction,nn,nnc);
-% 
+% hold on
+% [data2,errors2,ex_all2] = simulate(0.5/0.07,parameters,ObjectiveFunction,nn,nnc);
+% [data3,errors3,ex_all3] = simulate(-0.5/0.07,parameters,ObjectiveFunction,nn,nnc);
+% [data4,errors4,ex_all4,ds4] = simulate(1/0.07,parameters,ObjectiveFunction,nn,nnc);
+% [data5,errors5,ex_all5] = simulate(-1/0.07,parameters,ObjectiveFunction,nn,nnc);
+% % 
 % data = [data1;data2;data3;data4;data5];
 % 
 % if nnc == false
 %     writematrix(data,'C:\Users\Colin Kessler\AI_2\data_100.csv') 
 % end
 
+% 
+% ylim([-2 0.5])
+% xlim([0 300])
+% 
+% plot([0 3500],[-pi/2 -pi/2],'--black')
+% 
+% plot([0 3500],[0 0],'--black')
 
-xlim([0 150])
-ylim([-150 50])
+ylabel('${\alpha}$ (rad)')
+xlabel('Simulation time (dimensionless)')
+title('Simulation ${\alpha}$ vs Time')
 
-
+hold on
 
 
 function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn, nnc)
@@ -88,7 +96,7 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
     
     
     
-    num_sims = 60;
+    num_sims = 1;
     x_scatter = [x0];
     y_scatter = [y0];
     
@@ -134,7 +142,7 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
         
 
 
-        [v_xp, v_yp, omega, theta, x, y, error2] = ObjectiveFunction(ex,v_xp0, v_yp0, omega0, theta0, x0, y0,num_sims);
+        [v_xp, v_yp, omega, theta, x, y, error2] = ObjectiveFunction(0.161,v_xp0, v_yp0, omega0, theta0, x0, y0,num_sims);
         
         x_all = [x_all;x];
         y_all = [y_all;y];
@@ -161,7 +169,7 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
         % end
 
         ex_all = [ex_all;ex];
-        theta_all =[theta_all;theta0];
+        theta_all =[theta_all;theta];
         omega_all =[omega_all;omega0];
         vx_all =[vx_all;v_xp0];
         vy_all =[vy_all;v_yp0];
@@ -176,14 +184,15 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
     
     end
     
-    data = [vx_all,vy_all,omega_all,theta_all,x_scatter,y_scatter,errors2,ex_all];
-    
+    % data = [vx_all,vy_all,omega_all,theta_all,x_scatter,y_scatter,errors2,ex_all];
+    data = 1
     % newplot
-    % tiledlayout(3,1);
+    % tiledlayout(2,1);
     % nexttile
     % 
     % plot(x_all * 70 / 1000,y_all * 70 / 1000,'red')
-    plot(x_all,y_all,'red')
+    plot(x_all,y_all,'blue')
+    % plot(1:length(atan2((v_yp - omega*ex*0.07),v_xp)),atan2((v_yp - omega*ex*0.07),v_xp),'blue')
 
     hold on
     
@@ -192,23 +201,23 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
     
     
     
-    plot([x_c1] * 1000/70, [y_c1]* 1000/70, 'black')
+    % plot([x_c1] * 1000/70, [y_c1]* 1000/70, 'black')
     
     
     % scatter(x_scatter * 70 / 1000,y_scatter * 70 / 1000,4,'blue')
-    scatter(x_scatter,y_scatter,4,'blue')
+    % scatter(x_scatter,y_scatter,4,'blue')
     % 
     % xlim([-1 5])
     % ylim([-5 0])
     % xlim([-1 30])
     % ylim([-20 2])
-    xlim([0 150])
-    ylim([-150 50])
+    % xlim([0 150])
+    % ylim([-150 50])
     
-    xlabel('x (m)')
-    ylabel('y (m)')
-    legend("Simulation","Desired Trajectory","Timestep")
-    daspect([1 1 1])
+    % xlabel('x (m)')
+    % ylabel('y (m)')
+    % legend("Simulation","Desired Trajectory","Timestep")
+    % daspect([1 1 1])
 
 end
 
