@@ -1,15 +1,18 @@
-function dydt = nondimfreelyfallingplate3(p, y, p_aero)
+function dydt = nondimfreelyfallingplate3(y,u)
     
     % global p %p_aero 
+    p_aero = [5.18218452125279	0.807506506794260	0.105977518471870	4.93681162104530	1.49958010664229	0.238565281050545	2.85289007725274	0.368933365279324	1.73001889433847];
+
 
     % Extract v_xp, v_yp, omega, theta x_ and y_ from input vector y
     v_xp = y(1);
     v_yp = y(2);
     omega = y(3);
     theta = y(4);
-    x_ = y(5);
-    y_ = y(6);
+    % x_ = y(5);
+    % y_ = y(6);
 
+    p = [0.070000000000000;3.175000000000000e-04;1.225000000000000;0.033750000000000;5.000000000000000e-04;0.174500000000000];
     l = p(1);
     m = p(2);
     rho_f = p(3);
@@ -29,7 +32,7 @@ function dydt = nondimfreelyfallingplate3(p, y, p_aero)
     C_1_CP = p_aero(7);
     C_2_CP = p_aero(8);
     C_R = p_aero(9);
-    e_x= p_aero(10);
+    e_x= u(1);
 
     % l_CM = l_CE*(rho_s - rho_f)/rho_s; 
     l_CM = e_x * l;

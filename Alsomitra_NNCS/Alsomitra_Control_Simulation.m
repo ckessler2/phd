@@ -1,5 +1,5 @@
 % Colin Kessler 4.8.2024 - colinkessler00@gmail.com
-% close all; clc;
+clear; clc; close all;
 
 % Plot preamble.
 set(0, 'defaultFigureRenderer', 'painters')
@@ -34,40 +34,41 @@ p4 = [-0.4493	0.685756098	7.797849674];
 
 figure
 
+data = [];
 
+for n = -4:0.4:0
+    disp(n)
+    hold on
+    [data1,errors1,ex_all1] = simulate(n/0.07,parameters,ObjectiveFunction,nn,nnc);
+    data = [data;data1];
+end
 
-[data1,errors,ex_all] = simulate(0,parameters,ObjectiveFunction,nn,nnc);
-% hold on
-% [data2,errors2,ex_all2] = simulate(0.5/0.07,parameters,ObjectiveFunction,nn,nnc);
-% [data3,errors3,ex_all3] = simulate(-0.5/0.07,parameters,ObjectiveFunction,nn,nnc);
-% [data4,errors4,ex_all4,ds4] = simulate(1/0.07,parameters,ObjectiveFunction,nn,nnc);
-% [data5,errors5,ex_all5] = simulate(-1/0.07,parameters,ObjectiveFunction,nn,nnc);
+x_gau =  -5:0.001:5;
+y = gaussmf(x_gau,[0.5 0])/2;
 
-% data = [data1;data2;data3;data4;data5];
+data2 = sortrows(data,5);
+data3 = [];
 
-% if nnc == false
-%     writematrix(data,'Training_Data.csv') 
-%     save('Training_Data','data')
-% end
+x_plot=[];
+y_plot=[];
+figure
 
-% hyper = [];
-% hyper2 = [];
-% 
-% for i = 1:6
-%     hyper(i,:) = [max( data(:,i)),min( data(:,i))];
-% end
-% 
-% for i = 1:length(data)
-%     for j = 1:6
-%         hyper2(i,j,1) = (data(i,j)) + 0.1;
-%         hyper2(i,j,2) = (data(i,j)) - 0.1;
-%     end
-%     hyper2(i,7,1) = -0.5;
-%     hyper2(i,7,2) = 0.5;
-% end
-% 
-% hyper(7,:) = [0.5,-0.5];
+for i = 1:length(data2)
+    if rand(1) < gaussmf((data2(i,5)),[0.6 0])*0.5
+        disp(data2(i,5))
 
+    else
+        x_plot = [x_plot;length(x_plot)+1];
+        y_plot = [y_plot;data2(i,5)];
+        data3 = [data3;data2(i,:)];
+    end
+
+end
+
+plot(x_plot,y_plot)
+
+writematrix(data,'Training_Data.csv') 
+save('Training_Data','data')
 
 
 
@@ -192,7 +193,7 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
     
     end
     
-    data = [vx_all,vy_all,omega_all,theta_all,x_scatter,y_scatter,errors2,(ex_all - 0.181)./0.012];
+    data = [vx_all,vy_all,omega_all,theta_all,errors2,(ex_all - 0.181)./0.012];
     
     % newplot
     % tiledlayout(3,1);
@@ -285,7 +286,7 @@ function [v_xp, v_yp, omega, theta, x_, y_, error] = Alsomitra_nondim(opt,v_xp0,
     % global p 
     p = [l m rho_f a b s]';
     
-    [tSol, ySol] = ode45(@(t, y) nondimfreelyfallingplate3(p, y, opt(1:10)), t, Y0);
+    [tSol, ySol] = ode45(@(t, y) nondimfreelyfallingplate3(y,opt(10)), t, Y0);
     
     % extract the single variables from the vector with the solutions
     % x component of velocity in the reference system of the body
@@ -300,7 +301,7 @@ function [v_xp, v_yp, omega, theta, x_, y_, error] = Alsomitra_nondim(opt,v_xp0,
     % theta angle defined in Fig.2
     theta = ySol(:,4);
     
-    % x, horizontal coordinate in reference system linked to the lab
+    % % x, horizontal coordinate in reference system linked to the lab
     x_ = ySol(:,5);
 
     % y, horizontal coordinate in reference system linked to the lab
