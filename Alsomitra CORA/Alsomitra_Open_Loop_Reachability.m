@@ -3,7 +3,7 @@ function [completed, R,simRes, dims] = Alsomitra_Open_Loop_Reachability
 
 % Parameters --------------------------------------------------------------
 tic
-params.tFinal = 20;
+params.tFinal = 60;
 
 w = 2/0.07;
 k = zeros(6,6);
@@ -12,8 +12,8 @@ params.R0 = zonotope([zeros(6,1),k]);
 params.points = 20;
 
 params.R0 = polyZonotope(interval( ...
-    [1; 0; 0; 0; 0; -1; 0],...
-    [1; 0; 0; 0; 0; 1; 0]));
+    [1; 0; 0; 0; 0; -1/0.07; 0],...
+    [1; 0; 0; 0; 0; 1/0.07; 0]));
 
 % params.R0 = zonotope([zeros(6,1),0.05*diag(ones(6,1))]);
 params.U = zonotope(0.181);

@@ -15,7 +15,7 @@ set(0, 'defaultLegendFontName', 'Times New Roman');
 set(0, 'DefaultLineLineWidth', 1.0);
 
 % NN or PID controller
-nnc = true;
+nnc = false;
 
 ObjectiveFunction = @Alsomitra_nondim;
 
@@ -37,36 +37,36 @@ figure
 
 
 [data1,errors,ex_all] = simulate(0,parameters,ObjectiveFunction,nn,nnc);
-hold on
-[data2,errors2,ex_all2] = simulate(0.5/0.07,parameters,ObjectiveFunction,nn,nnc);
-[data3,errors3,ex_all3] = simulate(-0.5/0.07,parameters,ObjectiveFunction,nn,nnc);
-[data4,errors4,ex_all4,ds4] = simulate(1/0.07,parameters,ObjectiveFunction,nn,nnc);
-[data5,errors5,ex_all5] = simulate(-1/0.07,parameters,ObjectiveFunction,nn,nnc);
+% hold on
+% [data2,errors2,ex_all2] = simulate(0.5/0.07,parameters,ObjectiveFunction,nn,nnc);
+% [data3,errors3,ex_all3] = simulate(-0.5/0.07,parameters,ObjectiveFunction,nn,nnc);
+% [data4,errors4,ex_all4,ds4] = simulate(1/0.07,parameters,ObjectiveFunction,nn,nnc);
+% [data5,errors5,ex_all5] = simulate(-1/0.07,parameters,ObjectiveFunction,nn,nnc);
 
-data = [data1;data2;data3;data4;data5];
+% data = [data1;data2;data3;data4;data5];
 
-if nnc == false
-    writematrix(data,'Training_Data.csv') 
-    save('Training_Data','data')
-end
+% if nnc == false
+%     writematrix(data,'Training_Data.csv') 
+%     save('Training_Data','data')
+% end
 
-hyper = [];
-hyper2 = [];
-
-for i = 1:6
-    hyper(i,:) = [max( data(:,i)),min( data(:,i))];
-end
-
-for i = 1:length(data)
-    for j = 1:6
-        hyper2(i,j,1) = (data(i,j)) + 0.1;
-        hyper2(i,j,2) = (data(i,j)) - 0.1;
-    end
-    hyper2(i,7,1) = -0.5;
-    hyper2(i,7,2) = 0.5;
-end
-
-hyper(7,:) = [0.5,-0.5];
+% hyper = [];
+% hyper2 = [];
+% 
+% for i = 1:6
+%     hyper(i,:) = [max( data(:,i)),min( data(:,i))];
+% end
+% 
+% for i = 1:length(data)
+%     for j = 1:6
+%         hyper2(i,j,1) = (data(i,j)) + 0.1;
+%         hyper2(i,j,2) = (data(i,j)) - 0.1;
+%     end
+%     hyper2(i,7,1) = -0.5;
+%     hyper2(i,7,2) = 0.5;
+% end
+% 
+% hyper(7,:) = [0.5,-0.5];
 
 
 
@@ -79,10 +79,14 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
     theta0 = 0;
     x0 = 0;
     % y0 = 0;
-    error = (y0 * 0.07) - (-1*0.07*x0 - 2);
-    errors = (y0 * 0.07) - (- 2);
-    errors2 = (y0 * 0.07) - (-1*0.07*x0 - 2);
-    error2 = (y0 * 0.07) - (- 2);
+    % error = (y0 * 0.07) - (-1*0.07*x0 - 2);
+    % errors = (y0 * 0.07) - (- 2);
+    % errors2 = (y0 * 0.07) - (-1*0.07*x0 - 2);
+    % error2 = (y0 * 0.07) - (- 2);
+    error = 0;
+    errors = 0;
+    errors2 = 0;
+    error2 = 0;
 
     if nnc == true
         % NN CONTROLLER

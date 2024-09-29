@@ -13,18 +13,18 @@ params.points = 25;
 
 params.R0 = polyZonotope(interval( ...
     [1; 0; 0; 0; 0; -1/0.07; 0],...
-    [1; 0; 0; 0; 0; -1/0.07; 0]));
+    [1; 0; 0; 0; 0; 1/0.07; 0]));
 
 % params.R0 = zonotope([zeros(6,1),0.05*diag(ones(6,1))]);
 % params.U = zonotope(0.193);
 % params.u = 0.181;
 
-% params.x0 = [1,0,0,0,0,0,2];
+params.x0 = [1;0;0;0;0;0;2];
 % Reachability Settings ---------------------------------------------------
 
 options.points = 250;
 options.type = 'standard';
-options.timeStep = 0.25; 
+options.timeStep = 0.2;  
 options.taylorTerms = 20;
 options.zonotopeOrder = 50;
 options.alg = 'lin';

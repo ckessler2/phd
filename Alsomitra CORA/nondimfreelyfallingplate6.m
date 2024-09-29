@@ -64,15 +64,15 @@ function dydt = nondimfreelyfallingplate6(y,u)
     delta = deg2rad(6);
 
     % f activation function, it specifies laminar and stall regimes
-    Falpha2 = ((1 - tanh((abs(alpha) - alpha0)/delta))/2);
+    Falpha2 = ((1 - tanh((-(alpha) - alpha0)/delta))/2);
 
-    C_Lalpha2 = Falpha2*C_L1.*sin(abs(alpha)) + (1-Falpha2)*C_L2.*sin(2*abs(alpha));
+    C_Lalpha2 = Falpha2*C_L1.*sin(-(alpha)) + (1-Falpha2)*C_L2.*sin(2*-(alpha));
     C_Lalpha = - C_Lalpha2;
 
-    C_Dalpha2 = Falpha2.*(C_D0 + C_D1.*sin((abs(alpha)).^2)) + (1 - Falpha2).*C_D_pi_2.*(sin(abs(alpha)).^2);
+    C_Dalpha2 = Falpha2.*(C_D0 + C_D1.*sin((-(alpha)).^2)) + (1 - Falpha2).*C_D_pi_2.*(sin(-(alpha)).^2);
     C_Dalpha = C_Dalpha2;
 
-    l_CP_alpha_l2 = Falpha2.*(C_0_CP - C_1_CP.*abs(alpha).^2) + (1-Falpha2).*C_2_CP.*(1-abs(alpha)/(pi/2));
+    l_CP_alpha_l2 = Falpha2.*(C_0_CP - C_1_CP.*(alpha).^2) + (1-Falpha2).*C_2_CP.*(1+(alpha)/(pi/2));
    
     epsilon_alpha = l_CP_alpha_l2;
 
@@ -111,7 +111,7 @@ function dydt = nondimfreelyfallingplate6(y,u)
 
     Inertia = (m * (a^2 + b^2)/(rho_f * l^4))+1/32+e_x^2;
     
-    domegadt = ((-C_D_pi_2/(32*pi))*omega*abs(omega)*plus_minus + ((L_Ty + D_y)*(epsilon_alpha - e_x)) - gamma*e_x*cos(theta))/Inertia;
+    domegadt = ((-C_D_pi_2/(32*pi))*omega*(sqrt(omega^2 + 0.00001))*plus_minus + ((L_Ty + D_y)*(epsilon_alpha - e_x)) - gamma*e_x*cos(theta))/Inertia;
     
     dv_xpdt = (1/m_prime)*((m_prime + 1)*omega*v_yp - e_x*omega^2 + (L_Tx + L_Rx) + D_x - sin(theta)); 
 
