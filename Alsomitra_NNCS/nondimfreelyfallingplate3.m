@@ -9,8 +9,9 @@ function dydt = nondimfreelyfallingplate3(y,u)
     v_yp = y(2);
     omega = y(3);
     theta = y(4);
-    % x_ = y(5);
-    % y_ = y(6);
+    x_ = y(5);
+    y_ = y(6);
+    error_ = y(7);
 
     p = [0.070000000000000;3.175000000000000e-04;1.225000000000000;0.033750000000000;5.000000000000000e-04;0.174500000000000];
     l = p(1);
@@ -145,7 +146,9 @@ function dydt = nondimfreelyfallingplate3(y,u)
     
     dy_dt = v_xp.*sin(theta) + v_yp.*cos(theta);
 
-    error = (dy_dt * 0.07) - (-1*0.07*dx_dt);
+    error = ((y_+dy_dt) * 0.07) - (-1*0.07*(x_+dx_dt) - 2) - error_;
+
+    % error = error_ + (dy_dt * 0.07) - (-1*0.07*dx_dt - 2);
     
      % Create output column vector dydt
     dydt = [dv_xpdt; dv_ypdt; domegadt; dthetadt; dx_dt; dy_dt; error];

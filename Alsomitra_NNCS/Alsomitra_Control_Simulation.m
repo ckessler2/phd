@@ -36,12 +36,17 @@ figure
 
 data = [];
 
-for n = -4:0.4:0
+% Plot simulations over a range of starting y values
+
+for n = -4:0.25:0
     disp(n)
     hold on
     [data1,errors1,ex_all1] = simulate(n/0.07,parameters,ObjectiveFunction,nn,nnc);
     data = [data;data1];
 end
+
+%  Remove data points randomly with a gaussian distribution, such that
+%  datapoints are not mostly close to error = 0
 
 x_gau =  -5:0.001:5;
 y = gaussmf(x_gau,[0.5 0])/2;
@@ -54,7 +59,7 @@ y_plot=[];
 figure
 
 for i = 1:length(data2)
-    if rand(1) < gaussmf((data2(i,5)),[0.6 0])*0.5
+    if rand(1) < gaussmf((data2(i,5)),[0.05 0.04])*0.99
         disp(data2(i,5))
 
     else
@@ -126,7 +131,7 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
     for i = 1:num_sims
 
        
-        error = (y0 * 0.07) - (-1*0.07*x0 - 2);
+        error = error2;
 
         if nnc == true
             % NN CONTROLLER
@@ -138,7 +143,8 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
             derivative = errors(end) - error;
             
             
-            ex = 0.1870 + (error * 0.1) + (derivative * -0.6) + (integral * 0.0001);
+            % ex = 0.1870 + (error * 0.1) + (derivative * -5) + (integral * 0.1);
+            ex = 0.1870 + (error * 0.2) + (derivative * -1) + (integral * 0.0001);
             if ex > 0.19
                 ex = 0.193;
             elseif ex < 0.181
@@ -151,7 +157,7 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
         
 
 
-        [v_xp, v_yp, omega, theta, x, y, error2] = ObjectiveFunction([parameters,ex],v_xp0, v_yp0, omega0, theta0, x0, y0,num_sims);
+        [v_xp, v_yp, omega, theta, x, y, error2] = ObjectiveFunction([parameters,ex],v_xp0, v_yp0, omega0, theta0, x0, y0,num_sims,error2);
         
         x_all = [x_all;x];
         y_all = [y_all;y];
@@ -162,7 +168,7 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
         theta0 = theta(end);
         x0 = x(end);
         y0 = y(end);
-        error2 = error2(end) + errors2(end);
+        error2 = error2(end);
     
         x_scatter = [x_scatter;x0];
         y_scatter = [y_scatter;y0];
@@ -193,7 +199,7 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
     
     end
     
-    data = [vx_all,vy_all,omega_all,theta_all,errors2,(ex_all - 0.181)./0.012];
+    data = [vx_all,vy_all,omega_all,theta_all,errors2,ex_all];
     
     % newplot
     % tiledlayout(3,1);
@@ -236,7 +242,7 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
     % plot(1:61, errors2)
 end
 
-function [v_xp, v_yp, omega, theta, x_, y_, error] = Alsomitra_nondim(opt,v_xp0, v_yp0, omega0, theta0, x0, y0,num_sims)
+function [v_xp, v_yp, omega, theta, x_, y_, error] = Alsomitra_nondim(opt,v_xp0, v_yp0, omega0, theta0, x0, y0,num_sims,error)
     
     % display(opt)
     
@@ -255,7 +261,7 @@ function [v_xp, v_yp, omega, theta, x_, y_, error] = Alsomitra_nondim(opt,v_xp0,
     % initial conditions for v_xp, v_yp, omega, theta, x, y
     % eps in Matlab gives a value close to 0
     % Y0 = [0; 0; 0; 0; 0.; 0.]; % Cathal's % Y0 = [0.1; 0.1; 0.1; 0.1; 0.1; 0.1]; % mine
-    Y0 = [v_xp0, v_yp0, omega0, theta0, x0, y0, 0];
+    Y0 = [v_xp0, v_yp0, omega0, theta0, x0, y0, error];
 
     % Using SI units, instead of the units in LiJFM2022, is not a problem since
     % the code is non dimensional 
