@@ -5,6 +5,10 @@ from pandas import read_csv
 import tensorflow as tf
 from keras.models import Sequential
 from keras.layers import Dense, Lambda
+
+from tensorflow.keras.layers import Input, Concatenate
+from tensorflow.keras.models import Model
+
 from sklearn.model_selection import train_test_split
 import onnx
 import tf2onnx
@@ -13,20 +17,75 @@ import numpy as np
 
 # load data and arrange into dataframe
 df = read_csv("Training_Data.csv", delim_whitespace=False, header=None)
-df.columns = ['dv_xpdt', 'dv_ypdt', 'domegadt', 'dthetadt', 'dx_dt', 'dy_dt', 'error', 'e_x']
+df.columns = ['dv_xpdt', 'dv_ypdt', 'domegadt', 'dthetadt', 'error', 'e_x']
+
+df2 = df.drop('e_x', axis = 1)
+df2['x'] = 0
+df2['y'] = 0
+df2['e_x'] = df['e_x']
+df = df2
+
+
+scaling_params = np.zeros((6,2))
+index=0
+
+column = 'e_x'
+    
+# Calculate mean and standard deviation
+mean = df[column].mean()
+std_dev = df[column].std()
+
+max_ = 0.193
+min_ = 0.181 
+mean = np.mean([0.193,0.181])
+
+# scaling_params[index,0] = (mean)
+# scaling_params[index,1] = (std_dev)
+# index = index + 1
+
+df[column] = (df2[column] - min_) / (max_- min_)
+
+print("Original DataFrame:")
+print(df)
+print("\nScaled DataFrame (df2):")
+print(df2)
+print("\nScaling Parameters:")
+print(scaling_params)
+
 
 # Split by inputs and output (e_x), and into train/test datasets
 X = df.drop('e_x', axis = 1)
 y = df['e_x']
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.1, random_state = 20)
 
-# Define network layers
-model = Sequential()
-model.add(Dense(120, input_dim=7, activation='sigmoid'))
-model.add(Dense(120, activation='sigmoid'))
-model.add(Dense(1, activation='sigmoid'))
-# model.add(Lambda(lambda x: (x * (0.193 - 0.181)) + 0.181))
-model.output_names=['output'] 
+
+# Define the input layer that accepts the whole dataset
+input_layer = Input(shape=(7,), name='full_input')
+
+# Use Lambda layers to split the input
+# Main input (first 5 columns)
+primary_input = Lambda(lambda x: x[:, :5])(input_layer)
+
+# Dummy input (6th and 7th columns)
+dummy_input = Lambda(lambda x: x[:, 5:])(input_layer)
+
+# Define the main network flow for primary input
+x = Dense(10, activation='sigmoid')(primary_input)
+x = Dense(10, activation='sigmoid')(x)
+x = Dense(3, activation='sigmoid')(x)
+main_output = Dense(1, activation='sigmoid')(x)
+
+# Dummy processing (if you want to process these, otherwise just pass through)
+# If you need dummy processing include these layers, if not skip to concatenation
+# y = Dense(10, activation='sigmoid')(dummy_input)
+# dummy_output = Dense(1, activation='sigmoid')(y)
+dummy_output = dummy_input  # This passes dummy input directly to output without alteration
+
+# Concatenate outputs; here adjust according to what is exactly needed, either combined or just shaped alike
+output = Concatenate()([main_output, dummy_output])
+
+# Create the model
+model = Model(inputs=input_layer, outputs=output)
 
 # Define loss function (rmse)
 def rmse(y_true, y_pred):
@@ -34,10 +93,11 @@ def rmse(y_true, y_pred):
 
 # Train network
 opt = tf.keras.optimizers.Adamax(
-    learning_rate=0.001)
+    learning_rate=0.0003)
+
 model.compile(loss=rmse, optimizer=opt, metrics=['mse'])
 model.summary()
-history = model.fit(X_train, y_train, validation_split=0.1, epochs=1000, batch_size=25)
+history = model.fit(X_train, y_train, validation_split=0.1, epochs= 2000, batch_size=50)
 
 # Plot rmse against training epochs
 from matplotlib import pyplot as plt
@@ -60,5 +120,7 @@ print("Predicted values are: ", predictions)
 print("Real values are: ", y_test[:5])
 
 # Export network as onnx
-onnx_model, _ = tf2onnx.convert.from_keras(model)
-onnx.save(onnx_model, 'Alsomitra_Controller.onnx')
+input_signature = [tf.TensorSpec([1,7], tf.float32, name='x')]
+onnx_model, _ = tf2onnx.convert.from_keras(model, input_signature, opset=13)
+
+onnx.save(onnx_model, 'Alsomitra_Controller4.onnx')

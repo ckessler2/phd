@@ -46,12 +46,12 @@ evParams.poly_method = 'regression';
 alsomitra = nonlinearSys(@nondimfreelyfallingplate6,7,1);
 tic
 
-nn = neuralNetwork.readONNXNetwork('alsomitra_controller.onnx');
+nn = neuralNetwork.readONNXNetwork('Alsomitra_Controller4.onnx');
 params.U = nn.evaluate(params.R0, evParams);
 % nn.refine(2, "layer", "both", params.R0.c, true);
 
 
-sys = neurNetContrSys(alsomitra, nn, 1);
+sys = neurNetContrSys(alsomitra, nn, 1, 5);
 
 % [t,x] = simulate(alsomitra,params);
 simRes = simulateRandom(sys,params);
