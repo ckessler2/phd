@@ -15,7 +15,7 @@ set(0, 'defaultLegendFontName', 'Times New Roman');
 set(0, 'DefaultLineLineWidth', 1.0);
 
 % NN or PID controller
-nnc = false;
+nnc = true;
 
 ObjectiveFunction = @Alsomitra_nondim;
 
