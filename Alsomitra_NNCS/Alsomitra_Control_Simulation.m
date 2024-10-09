@@ -15,7 +15,7 @@ set(0, 'defaultLegendFontName', 'Times New Roman');
 set(0, 'DefaultLineLineWidth', 1.0);
 
 % NN or PID controller
-nnc = true;
+nnc = false;
 
 ObjectiveFunction = @Alsomitra_nondim;
 
@@ -61,7 +61,7 @@ if nnc == false
     figure
     
     for i = 1:length(data2)
-        if rand(1) < gaussmf((data2(i,7)),[0.05 0.04])*0.0
+        if rand(1) < gaussmf((data2(i,7)),[0.05 0.04])*0.9
             disp(data2(i,5))
     
         else
