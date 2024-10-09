@@ -27,7 +27,7 @@ The control problem is based on a related NNCS reachability benchmark involving 
  <img src="https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Figures/PID_Result.png" width="250" class="center" />
 </p>
 
-Each of the 5 simulations runs for 60s, with a control frequency of 1Hz. 
+Each of the 5 simulations runs for 60s, with a control frequency of 1Hz.
 
 <hr style="height: 1px;">
 
