@@ -4,7 +4,7 @@ function H=hessianTensorInt_nondimfreelyfallingplate6Controlled(x,u)
     % x = x(1:6);
     f = @nondimfreelyfallingplate6;
     n = 7;
-    delta =10; 
+    delta =0.01; 
 
     for k = 1:n+1
         H{k} = interval(sparse(n+2, n+2));

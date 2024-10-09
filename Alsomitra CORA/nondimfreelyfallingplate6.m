@@ -34,6 +34,7 @@ function dydt = nondimfreelyfallingplate6(y,u)
     C_2_CP = p_aero(8);
     C_R = p_aero(9);
     e_x= u(1);
+    e_x = (e_x * (0.012)) + 0.181;
 
     % l_CM = l_CE*(rho_s - rho_f)/rho_s; 
     l_CM = e_x * l;

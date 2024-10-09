@@ -3,7 +3,7 @@ function [completed, R,simRes, dims] = Alsomitra_Closed_Loop_Reachability
 
 % Parameters --------------------------------------------------------------
 tic
-params.tFinal = 60;
+params.tFinal = 15;
 
 w = 2/0.07;
 k = zeros(7,7);
@@ -12,8 +12,8 @@ k(6,6) = 2/0.07;
 params.points = 25;
 
 params.R0 = polyZonotope(interval( ...
-    [1; 0; 0; 0; 0; -1/0.07; 0],...
-    [1; 0; 0; 0; 0; 1/0.07; 0]));
+    [1; 0; 0; 0; 0; -4/0.07; 0;],...
+    [1; 0; 0; 0; 0; 0/0.07; 0;]));
 
 % params.R0 = zonotope([zeros(6,1),0.05*diag(ones(6,1))]);
 % params.U = zonotope(0.193);
@@ -51,7 +51,7 @@ params.U = nn.evaluate(params.R0, evParams);
 % nn.refine(2, "layer", "both", params.R0.c, true);
 
 
-sys = neurNetContrSys(alsomitra, nn, 1, 5);
+sys = neurNetContrSys(alsomitra, nn, 1);
 
 % [t,x] = simulate(alsomitra,params);
 simRes = simulateRandom(sys,params);

@@ -17,13 +17,9 @@ import numpy as np
 
 # load data and arrange into dataframe
 df = read_csv("Training_Data.csv", delim_whitespace=False, header=None)
-df.columns = ['dv_xpdt', 'dv_ypdt', 'domegadt', 'dthetadt', 'error', 'e_x']
+df.columns = ['dv_xpdt', 'dv_ypdt', 'domegadt', 'dthetadt', 'x', 'y', 'error', 'e_x']
 
-df2 = df.drop('e_x', axis = 1)
-df2['x'] = 0
-df2['y'] = 0
-df2['e_x'] = df['e_x']
-df = df2
+df2 = df
 
 
 scaling_params = np.zeros((6,2))
@@ -59,33 +55,13 @@ y = df['e_x']
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.1, random_state = 20)
 
 
-# Define the input layer that accepts the whole dataset
-input_layer = Input(shape=(7,), name='full_input')
+# Define network layers
+model = Sequential()
+model.add(Dense(10, input_dim=7, activation='sigmoid'))
+model.add(Dense(3, activation='sigmoid'))
+model.add(Dense(1, activation='sigmoid'))
+model.output_names=['output'] 
 
-# Use Lambda layers to split the input
-# Main input (first 5 columns)
-primary_input = Lambda(lambda x: x[:, :5])(input_layer)
-
-# Dummy input (6th and 7th columns)
-dummy_input = Lambda(lambda x: x[:, 5:])(input_layer)
-
-# Define the main network flow for primary input
-x = Dense(10, activation='sigmoid')(primary_input)
-x = Dense(10, activation='sigmoid')(x)
-x = Dense(3, activation='sigmoid')(x)
-main_output = Dense(1, activation='sigmoid')(x)
-
-# Dummy processing (if you want to process these, otherwise just pass through)
-# If you need dummy processing include these layers, if not skip to concatenation
-# y = Dense(10, activation='sigmoid')(dummy_input)
-# dummy_output = Dense(1, activation='sigmoid')(y)
-dummy_output = dummy_input  # This passes dummy input directly to output without alteration
-
-# Concatenate outputs; here adjust according to what is exactly needed, either combined or just shaped alike
-output = Concatenate()([main_output, dummy_output])
-
-# Create the model
-model = Model(inputs=input_layer, outputs=output)
 
 # Define loss function (rmse)
 def rmse(y_true, y_pred):
@@ -93,11 +69,11 @@ def rmse(y_true, y_pred):
 
 # Train network
 opt = tf.keras.optimizers.Adamax(
-    learning_rate=0.0003)
+    learning_rate=0.003)
 
 model.compile(loss=rmse, optimizer=opt, metrics=['mse'])
 model.summary()
-history = model.fit(X_train, y_train, validation_split=0.1, epochs= 2000, batch_size=50)
+history = model.fit(X_train, y_train, validation_split=0.1, epochs= 1000, batch_size=50)
 
 # Plot rmse against training epochs
 from matplotlib import pyplot as plt

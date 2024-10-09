@@ -1,5 +1,5 @@
 % Colin Kessler 4.8.2024 - colinkessler00@gmail.com
-% clear; clc; close all;
+clear; clc;
 
 % Plot preamble.
 set(0, 'defaultFigureRenderer', 'painters')
@@ -15,7 +15,7 @@ set(0, 'defaultLegendFontName', 'Times New Roman');
 set(0, 'DefaultLineLineWidth', 1.0);
 
 % NN or PID controller
-nnc = false;
+nnc = true;
 
 ObjectiveFunction = @Alsomitra_nondim;
 
@@ -23,7 +23,7 @@ its = 64;
 epochs = 1;
 obj_f = [];
 
-nn = importONNXNetwork('Alsomitra_Controller4.onnx',InputDataFormats='BC');
+nn = importNetworkFromONNX('Alsomitra_Controller4.onnx',InputDataFormats='BC');
 
 parameters = [5.18218452125279	0.807506506794260	0.105977518471870	4.93681162104530	1.49958010664229	0.238565281050545	2.85289007725274	0.368933365279324	1.73001889433847];
 
@@ -45,36 +45,38 @@ for n = -4:0.25:0
     data = [data;data1];
 end
 
-%  Remove data points randomly with a gaussian distribution, such that
-%  datapoints are not mostly close to error = 0
 
-x_gau =  -5:0.001:5;
-y = gaussmf(x_gau,[0.5 0])/2;
-
-data2 = sortrows(data,5);
-data3 = [];
-
-x_plot=[];
-y_plot=[];
-figure
-
-for i = 1:length(data2)
-    if rand(1) < gaussmf((data2(i,5)),[0.05 0.04])*0.99
-        disp(data2(i,5))
-
-    else
-        x_plot = [x_plot;length(x_plot)+1];
-        y_plot = [y_plot;data2(i,5)];
-        data3 = [data3;data2(i,:)];
+if nnc == false
+    %  Remove data points randomly with a gaussian distribution, such that
+    %  datapoints are not mostly close to error = 0
+    
+    x_gau =  -5:0.001:5;
+    y = gaussmf(x_gau,[0.5 0])/2;
+    
+    data2 = sortrows(data,7);
+    data3 = [];
+    
+    x_plot=[];
+    y_plot=[];
+    figure
+    
+    for i = 1:length(data2)
+        if rand(1) < gaussmf((data2(i,7)),[0.05 0.04])*0.0
+            disp(data2(i,5))
+    
+        else
+            x_plot = [x_plot;length(x_plot)+1];
+            y_plot = [y_plot;data2(i,7)];
+            data3 = [data3;data2(i,:)];
+        end
+    
     end
-
+    
+    plot(x_plot,y_plot)
+    
+    writematrix(data,'Training_Data.csv') 
+    save('Training_Data','data3')
 end
-
-plot(x_plot,y_plot)
-
-writematrix(data3,'Training_Data.csv') 
-save('Training_Data','data3')
-
 
 
 function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn, nnc)
@@ -96,9 +98,10 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
 
     if nnc == true
         % NN CONTROLLER
-        ex = nn.predict([v_xp0 v_yp0 omega0 theta0 error2]);
+        ex = nn.predict([v_xp0 v_yp0 omega0 theta0 x0 y0 error2]);
         ex = (ex * (0.012)) + 0.181;
     else
+        tic
         i  = sum(errors);
         d = errors(end) - error;
         % % PID CONTROLLER
@@ -109,6 +112,7 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
         elseif ex < 0.181
             ex = 0.181;
         end
+        toc
     end
     
     
@@ -135,7 +139,7 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
 
         if nnc == true
             % NN CONTROLLER
-            ex = nn.predict([v_xp0 v_yp0 omega0 theta0 error2]);
+            ex = nn.predict([v_xp0 v_yp0 omega0 theta0 x0 y0 error2]);
             ex = (ex * (0.012)) + 0.181;
         else
             % % PID CONTROLLER
@@ -199,7 +203,7 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
     
     end
     
-    data = [vx_all,vy_all,omega_all,theta_all,errors2,ex_all];
+    data = [vx_all,vy_all,omega_all,theta_all,x_scatter, y_scatter, errors2,ex_all];
     
     % newplot
     % tiledlayout(3,1);

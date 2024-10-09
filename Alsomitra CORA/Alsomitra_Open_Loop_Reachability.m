@@ -59,7 +59,7 @@ simRes = simulateRandom(alsomitra,params);
 toc
 % plot(x(:,5),x(:,6))
 plot(simRes,[5,6])
-daspect([1 1 1])
+% daspect([1 1 1])
 tic
 R = reach(alsomitra, params, options);
 tComp = toc;
