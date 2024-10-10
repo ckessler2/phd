@@ -3,28 +3,28 @@ function [completed, R,simRes, dims] = Alsomitra_Closed_Loop_Reachability
 
 % Parameters --------------------------------------------------------------
 tic
-params.tFinal = 15;
+params.tFinal = 1;
 
 w = 2/0.07;
 k = zeros(7,7);
 k(6,6) = 2/0.07;
 % params.R0 = zonotope([zeros(7,1),k]);
-params.points = 25;
+params.points = 250;
 
 params.R0 = polyZonotope(interval( ...
     [1; 0; 0; 0; 0; -4/0.07; 0;],...
-    [1; 0; 0; 0; 0; 0/0.07; 0;]));
+    [1; 0; 0; 0; 0; -0/0.07; 0;]));
 
 % params.R0 = zonotope([zeros(6,1),0.05*diag(ones(6,1))]);
 % params.U = zonotope(0.193);
 % params.u = 0.181;
 
-params.x0 = [1;0;0;0;0;0;2];
+params.x0 = [1;0;0;0;0;0;0];
 % Reachability Settings ---------------------------------------------------
 
-options.points = 250;
+options.points = 25;
 options.type = 'standard';
-options.timeStep = 0.2;  
+options.timeStep = 0.25;  
 options.taylorTerms = 20;
 options.zonotopeOrder = 50;
 options.alg = 'lin';
@@ -33,13 +33,15 @@ options.errorOrder = 10;
 
 
 options.intermediateOrder = 50;
-options.polyZono.maxPolyZonoRatio = 1;
+options.polyZono.maxPolyZonoRatio = 2;
 options.polyZono.maxDepGenOrder = 2;
 
 % options.lagrangeRem.simplify = 'simplify';
 % options.lagrangeRem.method = 'taylorModel';
 evParams = struct();
 evParams.poly_method = 'regression';
+evParams.num_generators = 1000;
+% evParams.bound_approx = false;
 
 % System Dynamics ---------------------------------------------------------
     
