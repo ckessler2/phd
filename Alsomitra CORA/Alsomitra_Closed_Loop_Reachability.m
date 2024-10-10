@@ -1,6 +1,6 @@
 function [completed, R,simRes, dims] = Alsomitra_Closed_Loop_Reachability
 
-
+set(groot, 'defaultFigureRenderer', 'painters')
 % Parameters --------------------------------------------------------------
 tic
 params.tFinal = 1;
