@@ -9,7 +9,7 @@ w = 2/0.07;
 k = zeros(7,7);
 k(6,6) = 2/0.07;
 % params.R0 = zonotope([zeros(7,1),k]);
-params.points = 250;
+params.points = 50;
 
 params.R0 = polyZonotope(interval( ...
     [1; 0; 0; 0; 0; -4/0.07; 0;],...
@@ -45,12 +45,12 @@ evParams.num_generators = 1000;
 
 % System Dynamics ---------------------------------------------------------
     
-alsomitra = nonlinearSys(@nondimfreelyfallingplate6,7,1);
+alsomitra = nonlinearSys(@nondimfreelyfallingplate6);
 tic
 
 nn = neuralNetwork.readONNXNetwork('Alsomitra_Controller4.onnx');
-params.U = nn.evaluate(params.R0, evParams);
-% nn.refine(2, "layer", "both", params.R0.c, true);
+nn.evaluate(params.R0, evParams);
+nn.refine(2, "layer", "both", params.R0.c, true);
 
 
 sys = neurNetContrSys(alsomitra, nn, 1);

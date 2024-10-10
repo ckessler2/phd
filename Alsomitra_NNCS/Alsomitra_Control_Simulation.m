@@ -219,7 +219,7 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
     
     
     
-    plot([x_c1] * 1000/70, [y_c1]* 1000/70, '--')
+    plot([x_c1] * 1000/70, [y_c1]* 1000/70, '--black')
     
     
     % scatter(x_scatter * 70 / 1000,y_scatter * 70 / 1000,4,'blue')
