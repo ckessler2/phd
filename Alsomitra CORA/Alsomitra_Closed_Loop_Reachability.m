@@ -3,7 +3,7 @@ function [completed, R,simRes, dims] = Alsomitra_Closed_Loop_Reachability
 
 % Parameters --------------------------------------------------------------
 tic
-params.tFinal = 1;
+params.tFinal = 60;
 
 w = 2/0.07;
 k = zeros(7,7);
