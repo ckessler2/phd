@@ -3,19 +3,25 @@ function [completed, R,simRes, dims] = Alsomitra_Closed_Loop_Reachability_2
 
 % Parameters --------------------------------------------------------------
 tic
-params.tFinal = 2;
+params.tFinal = 12;
 
 params.R0 = polyZonotope(interval( ...
-    [1; 0; 0; 0; 0; -4/0.07; 0;],...
-    [1; 0; 0; 0; 0; -0/0.07; 0;]));
+    [1; 0; 0; 0; 0; 0.1/0.07; 0;],...
+    [1; 0; 0; 0; 0; 0.3/0.07; 0;]));
 
 % Reachability Settings ---------------------------------------------------
 
-options.timeStep = 0.02;
+options.timeStep = 0.0005;
 options.alg = 'lin';
 options.tensorOrder = 2;
 options.taylorTerms = 1;
-options.zonotopeOrder = 80;
+options.zonotopeOrder = 20;
+params.points = 25;
+
+options.zonotopeOrder = 50;
+options.intermediateOrder = 20;
+options.errorOrder = 10;
+
 
 % Parameters for NN evaluation --------------------------------------------
 
@@ -27,12 +33,12 @@ evParams.poly_method = 'regression';
 alsomitra = nonlinearSys(@nondimfreelyfallingplate6);
 tic
 
-nn = neuralNetwork.readONNXNetwork('Alsomitra_Controller4.onnx');
+nn = neuralNetwork.readONNXNetwork('Alsomitra_Controller5.onnx');
 nn.evaluate(params.R0, evParams);
 nn.refine(2, "layer", "both", params.R0.c, true);
 
 
-sys = neurNetContrSys(alsomitra, nn, 1);
+sys = neurNetContrSys(alsomitra, nn, 0.5);
 
 % Specification -----------------------------------------------------------
 
@@ -82,3 +88,5 @@ daspect([1 1 1])
 % labels and legend
 xlabel('x (m)'); ylabel('y (m)');
 title("Reachability of NN-controlled Alsomitra")
+
+end
