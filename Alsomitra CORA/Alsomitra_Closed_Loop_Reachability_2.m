@@ -14,16 +14,16 @@ params.R0 = polyZonotope(interval( ...
 options.timeStep = 0.02;
 options.alg = 'lin';
 options.tensorOrder = 2;
-options.taylorTerms = 5;
+options.taylorTerms = 50;
 params.points = 25;
 
 options.zonotopeOrder = 100;
 options.intermediateOrder = 10;
-options.errorOrder = 10;
+options.errorOrder = 20;
 polyZono.maxDepGenOrder = 50;
 polyZono.maxPolyZonoRatio = 0.01;
-polyZono.restructureTechnique = 'reducePca';
-options.polyZono = polyZono;
+% polyZono.restructureTechnique = 'reducePca';
+% options.polyZono = polyZono;
 
 % Parameters for NN evaluation --------------------------------------------
 
@@ -63,9 +63,11 @@ daspect([1 1 1])
 t = tic;
 R = [];
 
-for i = 1:10
-    start_ = 0.1 + (i-1)/50;
-    end_ = 0.1 + i/50;
+segments = 8;
+for i = 1:segments
+    n = segments/0.2;
+    start_ = 0.1 + (i-1)/n;
+    end_ = 0.1 + i/n;
     params.R0 = polyZonotope(interval( ...
         [1; 0; 0; 0; 0; start_/0.07; 0;],...
         [1; 0; 0; 0; 0; end_/0.07; 0;]));
@@ -119,10 +121,10 @@ title("Reachability of NN-controlled Alsomitra")
 x_c1 = -2:1:30;
 y_c1 = -1 * x_c1;
 
-plot([x_c1] * 1000/70, [y_c1]* 1000/70, '--black')
+% plot([x_c1] * 1000/70, [y_c1]* 1000/70, '--black')
 
 % scatter(x_scatter * 70 / 1000,y_scatter * 70 / 1000,4,'blue')
 % scatter(x_scatter,y_scatter,2,'filled','s')
 % 
-xlim([0 25])
-ylim([-25 5])
+% xlim([0 25])
+% ylim([-25 5])
