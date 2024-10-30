@@ -15,7 +15,7 @@ set(0, 'defaultLegendFontName', 'Times New Roman');
 set(0, 'DefaultLineLineWidth', 1.0);
 
 % NN or PID controller
-nnc = true;
+nnc =  true;
 
 ObjectiveFunction = @Alsomitra_nondim;
 
@@ -23,7 +23,7 @@ its = 64;
 epochs = 1;
 obj_f = [];
 
-nn = importNetworkFromONNX('Alsomitra_Controller4.onnx',InputDataFormats='BC');
+nn = importNetworkFromONNX('Alsomitra_Controller5.onnx',InputDataFormats='BC');
 
 parameters = [5.18218452125279	0.807506506794260	0.105977518471870	4.93681162104530	1.49958010664229	0.238565281050545	2.85289007725274	0.368933365279324	1.73001889433847];
 
@@ -38,7 +38,7 @@ data = [];
 
 % Plot simulations over a range of starting y values
 
-for n = -4:0.25:0
+for n = 0.1:0.01:0.3
     disp(n)
     hold on
     [data1,errors1,ex_all1] = simulate(n/0.07,parameters,ObjectiveFunction,nn,nnc);
@@ -59,21 +59,21 @@ if nnc == false
     x_plot=[];
     y_plot=[];
     figure
-    
+
     for i = 1:length(data2)
-        if rand(1) < gaussmf((data2(i,7)),[0.05 0.04])*0.9
+        if rand(1) < gaussmf((data2(i,7)),[0.003 0.003])*0
             disp(data2(i,5))
-    
+
         else
             x_plot = [x_plot;length(x_plot)+1];
             y_plot = [y_plot;data2(i,7)];
             data3 = [data3;data2(i,:)];
         end
-    
+
     end
-    
+
     plot(x_plot,y_plot)
-    
+
     writematrix(data,'Training_Data.csv') 
     save('Training_Data','data3')
 end
@@ -93,7 +93,7 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
     % error2 = (y0 * 0.07) - (- 2);
     error = 0;
     errors = 0;
-    errors2 = 0;
+    errors2 = [];
     error2 = 0;
 
     if nnc == true
@@ -102,11 +102,10 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
         ex = (ex * (0.012)) + 0.181;
     else
         tic
-        i  = sum(errors);
-        d = errors(end) - error;
+        integral  = sum(errors);
+        derivative = errors(end) - error;
         % % PID CONTROLLER
-        ex = 0.1870 + ((error) * 0.01);
-        ex = ex -(0.1*d) - (-0.0003 * i);
+        ex = 0.1850 + (error * 0.1);
         if ex > 0.193
             ex = 0.193;
         elseif ex < 0.181
@@ -117,17 +116,17 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
     
     
     
-    num_sims = 60;
-    x_scatter = [x0];
-    y_scatter = [y0];
+    num_sims = 24;
+    x_scatter = [];
+    y_scatter = [];
     
-    omega_all = [omega0];
-    theta_all = [theta0];
-    vx_all =[v_xp0];
-    vy_all =[v_yp0];
-    x_all =[x0];
-    y_all =[y0];
-    ex_all = [ex];
+    omega_all = [];
+    theta_all = [];
+    vx_all =[];
+    vy_all =[];
+    x_all =[];
+    y_all =[];
+    ex_all = [];
     
     ds = [];
     
@@ -147,9 +146,14 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
             derivative = errors(end) - error;
             
             
-            % ex = 0.1870 + (error * 0.1) + (derivative * -5) + (integral * 0.1);
-            ex = 0.1870 + (error * 0.2) + (derivative * -1) + (integral * 0.0001);
-            if ex > 0.19
+            % ex = 0.1870 + (error * 0.008)+ (derivative * 0.02) + (integral * 0.0001);
+
+            % if error < 1
+            %     error = error * 0.25;
+            % end
+
+            ex = 0.1870 + (error * 0.05)+ (derivative * -0.45)+ (integral * 0.0000);
+            if ex > 0.193
                 ex = 0.193;
             elseif ex < 0.181
                 ex = 0.181;
@@ -215,22 +219,17 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
     hold on
     
     x_c1 = -2:1:30;
-    y_c1 = -1 * x_c1 - 2;
-    
-    
+    y_c1 = -1 * x_c1;
     
     plot([x_c1] * 1000/70, [y_c1]* 1000/70, '--black')
-    
-    
+   
     % scatter(x_scatter * 70 / 1000,y_scatter * 70 / 1000,4,'blue')
     % scatter(x_scatter,y_scatter,2,'filled','s')
     % 
-    % xlim([-1 5])
-    % ylim([-5 0])
-    % xlim([-1 30])
-    % ylim([-20 2])
-    xlim([0 120])
-    ylim([-150 25])
+    xlim([0 25])
+    ylim([-25 5])
+    % xlim([0 55])
+    % ylim([-55 5])
 
     colororder(["#721f81","black"])
 
@@ -256,10 +255,10 @@ function [v_xp, v_yp, omega, theta, x_, y_, error] = Alsomitra_nondim(opt,v_xp0,
     T = 2;
     f = 999;
     % number of periods
-    n = 60 / num_sims; % Cathal's % n = 1; % mine
+    n = 12 / num_sims; % Cathal's % n = 1; % mine
     
     % time interval over which to solve the ODEs
-    t = 0:T/10^1:n;
+    t = 0:0.01:n;
     % fprintf("t end = " + t(end))
     
     % initial conditions for v_xp, v_yp, omega, theta, x, y

@@ -3,7 +3,7 @@ function [completed, R,simRes, dims] = Alsomitra_Closed_Loop_Reachability
 set(groot, 'defaultFigureRenderer', 'painters')
 % Parameters --------------------------------------------------------------
 tic
-params.tFinal = 1;
+params.tFinal = 60;
 
 w = 2/0.07;
 k = zeros(7,7);
@@ -122,6 +122,17 @@ ylabel(['x_{',num2str(projDim(2)),'}']);
 legend()
 grid off
 % daspect([1 1 1])
+
+x_c1 = -2:1:30;
+y_c1 = -1 * x_c1;
+
+plot([x_c1] * 1000/70, [y_c1]* 1000/70, '--black')
+
+% scatter(x_scatter * 70 / 1000,y_scatter * 70 / 1000,4,'blue')
+% scatter(x_scatter,y_scatter,2,'filled','s')
+% 
+xlim([0 25])
+ylim([-25 5])
 
 toc
 

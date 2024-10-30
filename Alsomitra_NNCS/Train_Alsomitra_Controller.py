@@ -41,6 +41,8 @@ mean = np.mean([0.193,0.181])
 
 df[column] = (df2[column] - min_) / (max_- min_)
 
+# df['error'] = (df['error'] * 5) + 0.5 
+
 print("Original DataFrame:")
 print(df)
 print("\nScaled DataFrame (df2):")
@@ -65,17 +67,17 @@ model.output_names=['output']
 
 # Define loss function (rmse)
 def rmse(y_true, y_pred):
-        return (K.sqrt(K.mean(K.square(y_pred - y_true)))) 
+        return ((K.mean(K.square(y_pred - y_true)))) 
 
 # Train network
-opt = tf.keras.optimizers.Adamax(
-    learning_rate=0.003)
+opt = tf.keras.optimizers.Adam(
+    learning_rate=0.001)
 
 model.compile(loss=rmse, optimizer=opt, metrics=['mse'])
 model.summary()
-history = model.fit(X_train, y_train, validation_split=0.1, epochs= 1000, batch_size=50)
-
+history = model.fit(X_train, y_train, validation_split=0.1, epochs= 3000, batch_size=100)
 # Plot rmse against training epochs
+
 from matplotlib import pyplot as plt
 plt.rcParams['figure.dpi'] = 900
 plt.rc('font', family='sans-serif') 
@@ -99,4 +101,4 @@ print("Real values are: ", y_test[:5])
 input_signature = [tf.TensorSpec([1,7], tf.float32, name='x')]
 onnx_model, _ = tf2onnx.convert.from_keras(model, input_signature, opset=13)
 
-onnx.save(onnx_model, 'Alsomitra_Controller4.onnx')
+onnx.save(onnx_model, 'Alsomitra_Controller5.onnx')
