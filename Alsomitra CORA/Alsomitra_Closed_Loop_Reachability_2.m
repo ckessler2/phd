@@ -18,10 +18,10 @@ options.taylorTerms = 50;
 params.points = 25;
 
 options.zonotopeOrder = 100;
-options.intermediateOrder = 10;
-options.errorOrder = 20;
-polyZono.maxDepGenOrder = 50;
-polyZono.maxPolyZonoRatio = 0.01;
+% options.intermediateOrder = 10;
+% options.errorOrder = 20;
+% polyZono.maxDepGenOrder = 50;
+% polyZono.maxPolyZonoRatio = 0.01;
 % polyZono.restructureTechnique = 'reducePca';
 % options.polyZono = polyZono;
 
