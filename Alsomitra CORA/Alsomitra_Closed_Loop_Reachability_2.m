@@ -128,3 +128,6 @@ y_c1 = -1 * x_c1;
 % 
 % xlim([0 25])
 % ylim([-25 5])
+
+% call other plot file
+plot_alsomitra_reachability
