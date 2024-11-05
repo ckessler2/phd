@@ -11,6 +11,6 @@ This folder contains scripts for performing reachaibility of the aforementioned 
 </p>
 
 In order for CORA to execute within a readonable time and still return an accurate and useful result, some changes were made to the dynamic equations and reachability setup:
-- Equations
+- Equations - these needed simplification otherwise the symbolic hessian matrix was too large, requiring a long time to compute.
     - Item 2
-- Item 3
+- Reachability
