@@ -16,3 +16,5 @@ In order for CORA to execute within a readonable time and still return an accura
     - Simplified angle-of-attack definition to not include CoV/CoM discrepancy (has negligible effect)
 - Reachability - the initial set is too large to run through CORA, and it explodes after a few seconds
     - Divided initial set into 8 sets, calculate reachable state for each, and combine into final plot
+
+My plan is to crate a similar plot but from a slightly larger initial set, and see how the controller effectiveness deteriorates. This will make for a good comparison of other controllers, such as ones trained to be more robust.
