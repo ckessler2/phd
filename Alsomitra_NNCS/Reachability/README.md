@@ -19,4 +19,4 @@ In order for CORA to execute within a readonable time and still return an accura
  
 This script takes a long time to run (2h on my i5-12400f) and takes a lot of memory (10GB after plotting). It could be much faster, but that would require either: larger timesteps (which cause it to crash), fewer initial sets (reachability tends to diverge with fewer sets), or simpler equations.
 
-My plan is to create similar plots but from a slightly larger initial set, and see how the controller effectiveness deteriorates. This will make for a good comparison of other controllers, such as ones trained to be more robust.
+For now, my plan is to create similar plots but from a slightly larger initial set, and see how the controller effectiveness deteriorates. This will make for a good comparison of other controllers, such as ones trained to be more robust.
