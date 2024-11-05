@@ -12,5 +12,6 @@ This folder contains scripts for performing reachaibility of the aforementioned 
 
 In order for CORA to execute within a readonable time and still return an accurate and useful result, some changes were made to the dynamic equations and reachability setup:
 - Equations - these needed simplification otherwise the symbolic hessian matrix was too big to compute in a reasonable time.
-    - Limited pitch angle to $-\pi/2 > \theta \leq 0$
-- Reachability $`\sqrt{2}`$
+    - Limited pitch angle to $-\pi/2 > \theta \leq 0$ (drone is always within this region anyway)
+    - Simplified angle-of-attack definition to not include CoV/CoM discrepancy (has negligible effect)
+- Reachability
