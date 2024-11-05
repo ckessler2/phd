@@ -1,4 +1,4 @@
-% function [completed, R,simRes, dims] = Alsomitra_Closed_Loop_Reachability_2
+% function [completed, R,simRes, dims] = Alsomitra_Closed_Loop_Reachability
 
 set(0,'DefaultFigureWindowStyle','docked')
 % Parameters --------------------------------------------------------------
