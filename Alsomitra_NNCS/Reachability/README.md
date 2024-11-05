@@ -14,4 +14,5 @@ In order for CORA to execute within a readonable time and still return an accura
 - Equations - these needed simplification otherwise the symbolic hessian matrix was too big to compute in a reasonable time.
     - Limited pitch angle to $-\pi/2 > \theta \leq 0$ (drone is always within this region anyway)
     - Simplified angle-of-attack definition to not include CoV/CoM discrepancy (has negligible effect)
-- Reachability
+- Reachability - the initial set is too large to run through CORA, and it explodes after a few seconds
+    - Divided initial set into 8 sets, calculate reachable state for each, and combine into final plot
