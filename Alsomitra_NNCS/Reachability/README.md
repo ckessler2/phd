@@ -13,10 +13,10 @@ This folder contains scripts for performing reachability of the aforementioned _
 In order for CORA to return an accurate and useful result within a reasonable time, some changes were made to the dynamic equations and reachability setup:
 - Equations - these needed simplification otherwise the symbolic hessian matrix was too big to compute in a reasonable time
     - Limited pitch angle to $-\pi/2 > \theta \leq 0$ (drone is always within this region anyway)
-    - Simplified angle-of-attack definition to not include CoV/CoM discrepancy (has negligible effect given the system scale)
+    - Simplified angle-of-attack definition to not include CoV/CoM discrepancy (has negligible effect given the system dimensions)
 - Reachability - the initial set is too large to run through CORA, and it explodes after a few seconds
-    - Divided initial set into 8 sets, calculate reachable region for each, and combine into final plot
+    - Divided initial set into 8 smaller sets, calculate reachable region for each, and combine into final plot
  
-This script takes a long time to run (2h on my i5-12400f) and takes a lot of memory (10GB after plotting). It could be much faster, but that would require either: larger timesteps (which cause it to crash), fewer initial sets (reachability tends to diverge with fewer sets), or simpler equations.
+This script takes a long time to run (2h on my i5-12400f) and takes a lot of memory (10GB after plotting). It could be much faster, but that would require either: larger timesteps (which tends to make it explode), fewer initial sets (reachability tends to diverge with fewer sets), or simpler equations.
 
-For now, my plan is to create similar plots but from a slightly larger initial set, and see how the controller effectiveness deteriorates. This will make for a good comparison of other controllers, such as ones trained to be more robust.
+For now, my plan is to create similar plots but from slightly larger initial sets, to visualise how the controller effectiveness deteriorates. This will make for a good comparison of other controllers, such as ones trained to be more robust.
