@@ -8,8 +8,8 @@ This folder contains scripts for performing reachability analysis of the aforeme
 
 In order for CORA to return an accurate and useful result within a reasonable time, some changes were made to the dynamic equations and reachability setup:
 
-- Reachability
-    - Asd
+- Reachability - the initial set was too big for CORA to handle, and the nonlinear equations cause divergence long before it could reach 60s
+    - Scaled down simulation to 16s from 60s, with an inital set of 0.1/0.07 to 0.3/0.07. This required retuning the PID controller and retraining the controller, but the concept is otherwise unchanged
     - Divided initial set into 8 smaller sets (the initial set is too large to run through CORA, and it explodes after a few seconds), calculate reachable region for each, and combine into final plot
 - Equations - these needed simplification otherwise the symbolic hessian matrix was too big to compute in a reasonable time
     - Limited pitch angle to $-\pi/2 > \theta \leq 0$ (drone is always within this region anyway)
