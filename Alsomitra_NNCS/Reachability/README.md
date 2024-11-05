@@ -11,6 +11,6 @@ This folder contains scripts for performing reachaibility of the aforementioned 
 </p>
 
 In order for CORA to execute within a readonable time and still return an accurate and useful result, some changes were made to the dynamic equations and reachability setup:
-- Item 1
-- Item 2
+- Equations
+    - Item 2
 - Item 3
