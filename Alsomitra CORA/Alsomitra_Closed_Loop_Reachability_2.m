@@ -4,31 +4,32 @@ set(0,'DefaultFigureWindowStyle','docked')
 % Parameters --------------------------------------------------------------
 tic
 params.tFinal = 16;
+w = 0.0;
 
 params.R0 = polyZonotope(interval( ...
-    [1; 0; 0; 0; 0; 0.1/0.07; 0;],...
-    [1; 0; 0; 0; 0; 0.3/0.07; 0;]));
+    [1-w; 0-w; 0-w; 0-w; 0-w; 0.1/0.07-w; 0-w;],...
+    [1+w; 0+w; 0+w; 0+w; 0+w; 0.3/0.07+w; 0+w;]));
 
 % Reachability Settings ---------------------------------------------------
 
-options.timeStep = 0.02;
+options.timeStep = 0.01;
 options.alg = 'lin';
 options.tensorOrder = 2;
 options.taylorTerms = 50;
-params.points = 25;
+% params.points = 25;
 
 options.zonotopeOrder = 100;
-options.intermediateOrder = 10;
-options.errorOrder = 20;
-polyZono.maxDepGenOrder = 50;
-polyZono.maxPolyZonoRatio = 0.01;
+% options.intermediateOrder = 10;
+% options.errorOrder = 20;
+% polyZono.maxDepGenOrder = 50;
+% polyZono.maxPolyZonoRatio = 0.01;
 % polyZono.restructureTechnique = 'reducePca';
 % options.polyZono = polyZono;
 
 % Parameters for NN evaluation --------------------------------------------
 
 evParams = struct();
-evParams.poly_method = 'regression';
+% evParams.poly_method = 'regression';
 
 options.nn = evParams;
 
@@ -72,6 +73,14 @@ for i = 1:segments
         [1; 0; 0; 0; 0; start_/0.07; 0;],...
         [1; 0; 0; 0; 0; end_/0.07; 0;]));
     [res, X, simRes] = verify(sys, spec, params, options, evParams, true);
+
+    % figure; hold on
+    % 
+    % goalSet3 = interval([-999;-999;-999;-999;0;0;-sqrt(2)*0.3 * 0.07;],[999;999;999;999;0;0;sqrt(2)*0.3 * 0.07;]);
+    % spec = specification(goalSet3, 'safeSet',interval(0, params.tFinal));
+    % plotOverTime(spec, 7, 'DisplayName', 'Goal set');
+    % plotOverTime(X, 7, 'DisplayName', 'Reachable set','FaceColor', [0 0.4470 0.7410]);
+
     R = [R; X];
 end
 % [res, R, simRes] = verify(sys, spec, params, options, evParams, true);

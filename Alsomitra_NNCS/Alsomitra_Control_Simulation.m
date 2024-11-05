@@ -38,7 +38,7 @@ data = [];
 
 % Plot simulations over a range of starting y values
 
-for n = 0.1:0.01:0.3
+for n = 0.1:0.025:0.3
     disp(n)
     hold on
     [data1,errors1,ex_all1] = simulate(n/0.07,parameters,ObjectiveFunction,nn,nnc);
@@ -86,6 +86,7 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
     omega0 = 0;
     theta0 = 0;
     x0 = 0;
+    alpha0 = 0;
     % y0 = 0;
     % error = (y0 * 0.07) - (-1*0.07*x0 - 2);
     % errors = (y0 * 0.07) - (- 2);
@@ -127,6 +128,7 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
     x_all =[];
     y_all =[];
     ex_all = [];
+    alpha_all = [];
     
     ds = [];
     
@@ -165,7 +167,7 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
         
 
 
-        [v_xp, v_yp, omega, theta, x, y, error2] = ObjectiveFunction([parameters,ex],v_xp0, v_yp0, omega0, theta0, x0, y0,num_sims,error2);
+        [v_xp, v_yp, omega, theta, x, y, error2, alpha] = ObjectiveFunction([parameters,ex],v_xp0, v_yp0, omega0, theta0, x0, y0,num_sims,error2, alpha0);
         
         x_all = [x_all;x];
         y_all = [y_all;y];
@@ -177,6 +179,7 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
         x0 = x(end);
         y0 = y(end);
         error2 = error2(end);
+        alpha0 = alpha(end);
     
         x_scatter = [x_scatter;x0];
         y_scatter = [y_scatter;y0];
@@ -198,6 +201,7 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
         vy_all =[vy_all;v_yp0];
         x_all =[x_all;x(end)];
         y_all =[y_all;y(end)];
+        alpha_all = [alpha_all;alpha0];
 
        
 
@@ -207,36 +211,35 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
     
     end
     
-    data = [vx_all,vy_all,omega_all,theta_all,x_scatter, y_scatter, errors2,ex_all];
+    data = [vx_all,vy_all,omega_all,theta_all,x_scatter, y_scatter, errors2,ex_all, alpha_all];
     
     % newplot
     % tiledlayout(3,1);
     % nexttile
     % 
     % plot(x_all * 70 / 1000,y_all * 70 / 1000,'red')
-    plot(x_all,y_all)
+    % plot(x_all,y_all)
+    plot(1:24, abs(omega_all .* (ex_all) * 0.07 ./ vy_all))
 
-    hold on
-    
-    x_c1 = -2:1:30;
-    y_c1 = -1 * x_c1;
-    
-    plot([x_c1] * 1000/70, [y_c1]* 1000/70, '--black')
-   
-    % scatter(x_scatter * 70 / 1000,y_scatter * 70 / 1000,4,'blue')
-    % scatter(x_scatter,y_scatter,2,'filled','s')
+    % hold on
     % 
-    xlim([0 25])
-    ylim([-25 5])
-    % xlim([0 55])
-    % ylim([-55 5])
+    % x_c1 = -2:1:30;
+    % y_c1 = -1 * x_c1;
+    % 
+    % plot([x_c1] * 1000/70, [y_c1]* 1000/70, '--black')
+
+    % % scatter(x_scatter * 70 / 1000,y_scatter * 70 / 1000,4,'blue')
+    % % scatter(x_scatter,y_scatter,2,'filled','s')
+    % % 
+    % xlim([0 25])
+    % ylim([-25 5])
 
     colororder(["#721f81","black"])
 
-    xlabel('x (m)')
-    ylabel('y (m)')
-    legend("Simulation","Desired Trajectory")
-    daspect([1 1 1])
+    xlabel('time')
+    ylabel('relative error')
+    % legend("Simulation","Desired Trajectory")
+    % daspect([1 1 1])
 
     % nexttile
     % plot(1:61, errors)
@@ -245,11 +248,12 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
     % plot(1:61, errors2)
 end
 
-function [v_xp, v_yp, omega, theta, x_, y_, error] = Alsomitra_nondim(opt,v_xp0, v_yp0, omega0, theta0, x0, y0,num_sims,error)
+function [v_xp, v_yp, omega, theta, x_, y_, error, alpha] = Alsomitra_nondim(opt,v_xp0, v_yp0, omega0, theta0, x0, y0,num_sims,error, alpha)
     
     % display(opt)
     
     %% define the initial conditions 
+    
     
     % non dimensional period of oscillation T
     T = 2;
@@ -264,7 +268,7 @@ function [v_xp, v_yp, omega, theta, x_, y_, error] = Alsomitra_nondim(opt,v_xp0,
     % initial conditions for v_xp, v_yp, omega, theta, x, y
     % eps in Matlab gives a value close to 0
     % Y0 = [0; 0; 0; 0; 0.; 0.]; % Cathal's % Y0 = [0.1; 0.1; 0.1; 0.1; 0.1; 0.1]; % mine
-    Y0 = [v_xp0, v_yp0, omega0, theta0, x0, y0, error];
+    Y0 = [v_xp0, v_yp0, omega0, theta0, x0, y0, error, alpha];
 
     % Using SI units, instead of the units in LiJFM2022, is not a problem since
     % the code is non dimensional 
@@ -317,5 +321,7 @@ function [v_xp, v_yp, omega, theta, x_, y_, error] = Alsomitra_nondim(opt,v_xp0,
     y_ = ySol(:,6);
 
     error = ySol(:,7);
+
+    alpha = ySol(:,8);
 
 end

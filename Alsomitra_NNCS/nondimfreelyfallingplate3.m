@@ -149,7 +149,8 @@ function dydt = nondimfreelyfallingplate3(y,u)
     error = ((y_+dy_dt) * 0.07) - (-1*0.07*(x_+dx_dt)) - error_;
 
     % error = error_ + (dy_dt * 0.07) - (-1*0.07*dx_dt - 2);
+    % alpha2 = atan2((v_yp),v_xp); 
     
      % Create output column vector dydt
-    dydt = [dv_xpdt; dv_ypdt; domegadt; dthetadt; dx_dt; dy_dt; error];
+    dydt = [dv_xpdt; dv_ypdt; domegadt; dthetadt; dx_dt; dy_dt; error; alpha];
 end

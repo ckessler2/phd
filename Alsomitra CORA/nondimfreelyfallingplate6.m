@@ -58,7 +58,8 @@ function dydt = nondimfreelyfallingplate6(y,u)
     %gamma = 0.0029;
     gamma = rho_f/(rho_s-rho_f);
 
-    alpha = atan((v_yp - omega*l_CM)/v_xp); 
+    % alpha = atan((v_yp - omega*l_CM)/v_xp); 
+    alpha = atan((v_yp)/v_xp); 
     
     % critical angle of attack at stall
     alpha0 = deg2rad(14);
@@ -68,12 +69,35 @@ function dydt = nondimfreelyfallingplate6(y,u)
     % f activation function, it specifies laminar and stall regimes
     Falpha2 = ((1 - tanh((-(alpha) - alpha0)/delta))/2);
 
+    % Falpha2 = 1-(1./(1+exp(19.1.*alpha + 4.667)));
+    % Falpha2 = 0.5328 - 0.3463 .* atan((-18.45 .* alpha) - 4.434);
+    % Falpha2 = 0.5246 + 0.5246*((10.88 * (alpha + 0.2416))/(sqrt(1+((10.88 * (alpha + 0.2416))^2))));
+    % Falpha2 = sin(alpha);
+
     C_Lalpha2 = Falpha2*C_L1.*sin(-(alpha)) + (1-Falpha2)*C_L2.*sin(2*-(alpha));
     C_Lalpha = - C_Lalpha2;
 
-    C_Dalpha2 = Falpha2.*(C_D0 + C_D1.*sin((-(alpha)).^2)) + (1 - Falpha2).*C_D_pi_2.*(sin(-(alpha)).^2);
-    C_Dalpha = C_Dalpha2;
+    % C_Dalpha2 = Falpha2.*(C_D0 + C_D1.*sin((-(alpha)).^2)) + (1 - Falpha2).*C_D_pi_2.*(sin(-(alpha)).^2);
+    % C_Dalpha = C_Dalpha2;
 
+    C_Dalpha = Falpha2.*(C_D0 + 0.683.*C_D1.*sin(alpha).*sin(alpha)) + 0.66.*cos(2.143.*alpha + pi) + 0.66;
+
+    % a1 =     -0.4085;
+    % b1 =     -0.2411; 
+    % a2 =      0.3164;
+    % a3 =      0.1869;
+    % b2 =     -0.6492;
+    % b3 =     0.03671;
+    % a4 =    -0.08876;
+    % b4 =      0.0207;
+    % a5 =    -0.0145;
+    % b5 =    -0.02304;
+    % a6 =     0.01116;
+    % b6 =    0.00229;
+    % w =       7.889;
+    % x2 = alpha;
+    % l_CP_alpha_l2 =  (a1*sin(w*x2))/w - (b2*cos(2*w*x2))/(2*w) - (b3*cos(3*w*x2))/(3*w) - (b4*cos(4*w*x2))/(4*w) - (b5*cos(5*w*x2))/(5*w) - (b6*cos(6*w*x2))/(6*w) - (b1*cos(w*x2))/w + (a2*sin(2*w*x2))/(2*w) + (a3*sin(3*w*x2))/(3*w) + (a4*sin(4*w*x2))/(4*w) + (a5*sin(5*w*x2))/(5*w) + (a6*sin(6*w*x2))/(6*w);
+    
     l_CP_alpha_l2 = Falpha2.*(C_0_CP - C_1_CP.*(alpha).^2) + (1-Falpha2).*C_2_CP.*(1+(alpha)/(pi/2));
    
     epsilon_alpha = l_CP_alpha_l2;
@@ -101,8 +125,8 @@ function dydt = nondimfreelyfallingplate6(y,u)
     % D = D_x + D_y;
     
     % plus sign applies for 2*l_CM/l < 1, when the CoM lies within the plate
-    e_xplus = (2*e_x + 1).^4 + (2*e_x - 1).^4;
-    e_xminus = (2*e_x + 1).^4 - (2*e_x - 1).^4;
+    e_xplus = (2*e_x + 1)^4 + (2*e_x - 1)^4;
+    e_xminus = (2*e_x + 1)^4 - (2*e_x - 1)^4;
 
     plus_minus = e_xplus + e_xminus;
     

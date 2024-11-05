@@ -19,10 +19,10 @@ goalSet = plus(goalSet1,goalSet2);
 
 goalSet3 = interval([-999;-999;-999;-999;0;0;-sqrt(2)*0.3 * 0.07;],[999;999;999;999;0;0;sqrt(2)*0.3 * 0.07;]);
 
-spec = specification(goalSet, 'safeSet',interval(0, params.tFinal));
+spec = specification(goalSet, 'safeSet',interval(0, 16));
 
 dims = [5 6];
-figure 
+f1 = figure ;
 tiledlayout(1,3); nexttile
 
 hold on; box on;
@@ -30,6 +30,7 @@ projDim = dims;
 h1 = [];
 
 h0 = plot(spec, dims,'DisplayName', 'Goal set');
+% R = X;
 
 for i = 1:length(R)
     h1 =  plot(R(i),projDim,'DisplayName','Reachable set','Unify',true,'UnifyTotalSets',5,'FaceColor', [0 0.4470 0.7410]);
@@ -82,3 +83,5 @@ title("$y$ error vs time")
 axis square;
 xlim([0 15])
 grid on
+
+exportgraphics(f1,'Reach1.png','Resolution',600)
