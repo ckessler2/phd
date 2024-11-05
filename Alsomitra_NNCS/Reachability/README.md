@@ -10,7 +10,7 @@ This folder contains scripts for performing reachaibility of the aforementioned 
  <img src="https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Reachability/Reach_8_01.png" width="1250" class="center" />
 </p>
 
-There are 3 main modifications to the system to get this to work
+In order for CORA to execute within a readonable time and still return an accurate and useful result, some changes were made to the dynamic equations and reachability setup:
 - Item 1
 - Item 2
 - Item 3
