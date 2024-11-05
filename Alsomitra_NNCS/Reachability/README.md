@@ -4,7 +4,7 @@ This folder contains scripts for performing reachaibility of the aforementioned 
 
 ### Step 1 - Run simulations to generate a training dataset (MATLAB)
 
-[Alsomitra_Closed_Loop_Reachability.m](https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Reachability/Alsomitra_Closed_Loop_Reachability.m) is a mostly standard CORA implementation: 
+[Alsomitra_Closed_Loop_Reachability.m](https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Reachability/Alsomitra_Closed_Loop_Reachability.m) is a mostly standard CORA implementation, over 16s with the initial set being a range of y positions.
 
 <p align="center"> 
  <img src="https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Reachability/Reach_8_01.png" width="1250" class="center" />
