@@ -34,7 +34,6 @@ evParams = struct();
 options.nn = evParams;
 
 % System Dynamics ---------------------------------------------------------
-    
 alsomitra = nonlinearSys(@nondimfreelyfallingplate6);
 tic
 
@@ -46,7 +45,6 @@ nn.refine(2, "layer", "both", params.R0.c, true);
 sys = neurNetContrSys(alsomitra, nn, 0.5);
 
 % Specification -----------------------------------------------------------
-
 goalSet = interval( ...
     [-Inf;-Inf;-Inf;-Inf;-Inf;-Inf;-Inf], ...
     [ Inf; Inf; Inf; Inf; Inf; Inf; Inf] ...
@@ -55,9 +53,9 @@ spec = specification(goalSet, 'safeSet', interval(params.tFinal));
 
 % Verification ------------------------------------------------------------
 simRes1 = simulateRandom(sys,params);
+
 % Reachability Analysis ---------------------------------------------------
 toc
-% plot(x(:,5),x(:,6))
 plot(simRes1,[5,6])
 daspect([1 1 1])
 
@@ -75,7 +73,6 @@ for i = 1:segments
     [res, X, simRes] = verify(sys, spec, params, options, evParams, true);
 
     % figure; hold on
-    % 
     % goalSet3 = interval([-999;-999;-999;-999;0;0;-sqrt(2)*0.3 * 0.07;],[999;999;999;999;0;0;sqrt(2)*0.3 * 0.07;]);
     % spec = specification(goalSet3, 'safeSet',interval(0, params.tFinal));
     % plotOverTime(spec, 7, 'DisplayName', 'Goal set');
@@ -84,8 +81,6 @@ for i = 1:segments
     R = [R; X];
 end
 % [res, R, simRes] = verify(sys, spec, params, options, evParams, true);
-
-
 
 tTotal = toc(t);
 disp(['Result: ' res])
@@ -130,13 +125,5 @@ title("Reachability of NN-controlled Alsomitra")
 x_c1 = -2:1:30;
 y_c1 = -1 * x_c1;
 
-% plot([x_c1] * 1000/70, [y_c1]* 1000/70, '--black')
 
-% scatter(x_scatter * 70 / 1000,y_scatter * 70 / 1000,4,'blue')
-% scatter(x_scatter,y_scatter,2,'filled','s')
-% 
-% xlim([0 25])
-% ylim([-25 5])
-
-% call other plot file
 plot_alsomitra_reachability
