@@ -7,6 +7,6 @@ This folder contains scripts for performing reachaibility of the aforementioned 
 [Alsomitra_Closed_Loop_Reachability.m] (https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Reachability/Alsomitra_Closed_Loop_Reachability.m) is a mostly standard CORA implementation: 
 
 <p align="center"> 
- <img src="https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Reachability/Reach_8_01.png" width="750" class="center" />
+ <img src="https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Reachability/Reach_8_01.png" width="1250" class="center" />
 </p>
 
