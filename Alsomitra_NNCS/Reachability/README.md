@@ -13,4 +13,4 @@ This folder contains scripts for performing reachaibility of the aforementioned 
 In order for CORA to execute within a readonable time and still return an accurate and useful result, some changes were made to the dynamic equations and reachability setup:
 - Equations - these needed simplification otherwise the symbolic hessian matrix was too big to compute in a reasonable time.
     - Limited pitch angle to ![equation](https://latex.codecogs.com/svg.image?-\pi/2>\theta\leq&space;0)
-- Reachability
+- Reachability $`\sqrt{2}`$
