@@ -50,29 +50,29 @@ if nnc == false
     %  Remove data points randomly with a gaussian distribution, such that
     %  datapoints are not mostly close to error = 0
     
-    x_gau =  -5:0.001:5;
-    y = gaussmf(x_gau,[0.5 0])/2;
-    
-    data2 = sortrows(data,7);
-    data3 = [];
-    
-    x_plot=[];
-    y_plot=[];
-    figure
-
-    for i = 1:length(data2)
-        if rand(1) < gaussmf((data2(i,7)),[0.003 0.003])*0
-            disp(data2(i,5))
-
-        else
-            x_plot = [x_plot;length(x_plot)+1];
-            y_plot = [y_plot;data2(i,7)];
-            data3 = [data3;data2(i,:)];
-        end
-
-    end
-
-    plot(x_plot,y_plot)
+    % x_gau =  -5:0.001:5;
+    % y = gaussmf(x_gau,[0.5 0])/2;
+    % 
+    % data2 = sortrows(data,7);
+    % data3 = [];
+    % 
+    % x_plot=[];
+    % y_plot=[];
+    % figure
+    % 
+    % for i = 1:length(data2)
+    %     if rand(1) < gaussmf((data2(i,7)),[0.003 0.003])*0
+    %         disp(data2(i,5))
+    % 
+    %     else
+    %         x_plot = [x_plot;length(x_plot)+1];
+    %         y_plot = [y_plot;data2(i,7)];
+    %         data3 = [data3;data2(i,:)];
+    %     end
+    % 
+    % end
+    % 
+    % plot(x_plot,y_plot)
 
     writematrix(data,'Training_Data.csv') 
     save('Training_Data','data3')
