@@ -3,12 +3,15 @@
 set(0,'DefaultFigureWindowStyle','docked')
 % Parameters --------------------------------------------------------------
 tic
-params.tFinal = 16;
-w = 0.0;
+params.tFinal = 4;
+w = 0.1;
+
+start_ = 0.1;
+end_ = 0.3;
 
 params.R0 = polyZonotope(interval( ...
-    [1-w; 0-w; 0-w; 0-w; 0-w; 0.1/0.07-w; 0-w;],...
-    [1+w; 0+w; 0+w; 0+w; 0+w; 0.3/0.07+w; 0+w;]));
+        [1; 0; 0; 0; 0-w; start_/0.07-w; 0;],...
+        [1; 0; 0; 0; 0+w; end_/0.07+w; 0;]));
 
 % Reachability Settings ---------------------------------------------------
 
@@ -16,15 +19,15 @@ options.timeStep = 0.01;
 options.alg = 'lin';
 options.tensorOrder = 2;
 options.taylorTerms = 50;
-% params.points = 25;
+params.points = 25;
 
 options.zonotopeOrder = 100;
-% options.intermediateOrder = 10;
-% options.errorOrder = 20;
-% polyZono.maxDepGenOrder = 50;
-% polyZono.maxPolyZonoRatio = 0.01;
-% polyZono.restructureTechnique = 'reducePca';
-% options.polyZono = polyZono;
+options.intermediateOrder = 10;
+options.errorOrder = 20;
+polyZono.maxDepGenOrder = 50;
+polyZono.maxPolyZonoRatio = 0.01;
+polyZono.restructureTechnique = 'reducePca';
+options.polyZono = polyZono;
 
 % Parameters for NN evaluation --------------------------------------------
 
@@ -62,14 +65,14 @@ daspect([1 1 1])
 t = tic;
 R = [];
 
-segments = 8;
-for i = 1:segments
+segments = 24;
+for i = 1:1
     n = segments/0.2;
     start_ = 0.1 + (i-1)/n;
     end_ = 0.1 + i/n;
     params.R0 = polyZonotope(interval( ...
-        [1; 0; 0; 0; 0; start_/0.07; 0;],...
-        [1; 0; 0; 0; 0; end_/0.07; 0;]));
+            [1; 0; 0; 0; 0-w; start_/0.07-w; 0;],...
+            [1; 0; 0; 0; 0+w; end_/0.07+w; 0;]));
     [res, X, simRes] = verify(sys, spec, params, options, evParams, true);
 
     % figure; hold on

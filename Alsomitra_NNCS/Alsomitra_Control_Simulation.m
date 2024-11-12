@@ -15,7 +15,7 @@ set(0, 'defaultLegendFontName', 'Times New Roman');
 set(0, 'DefaultLineLineWidth', 1.0);
 
 % NN or PID controller
-nnc =  true;
+nnc =  false;
 
 ObjectiveFunction = @Alsomitra_nondim;
 
@@ -218,28 +218,28 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
     % nexttile
     % 
     % plot(x_all * 70 / 1000,y_all * 70 / 1000,'red')
-    % plot(x_all,y_all)
-    plot(1:24, abs(omega_all .* (ex_all) * 0.07 ./ vy_all))
+    plot(x_all,y_all,'red')
+    % plot(1:24, abs(omega_all .* (ex_all) * 0.07 ./ vy_all))
 
-    % hold on
-    % 
-    % x_c1 = -2:1:30;
-    % y_c1 = -1 * x_c1;
-    % 
-    % plot([x_c1] * 1000/70, [y_c1]* 1000/70, '--black')
+    hold on
+
+    x_c1 = -2:1:30;
+    y_c1 = -1 * x_c1;
+
+    plot([x_c1] * 1000/70, [y_c1]* 1000/70, '--black')
 
     % % scatter(x_scatter * 70 / 1000,y_scatter * 70 / 1000,4,'blue')
     % % scatter(x_scatter,y_scatter,2,'filled','s')
     % % 
-    % xlim([0 25])
-    % ylim([-25 5])
+    xlim([0 25])
+    ylim([-25 5])
 
-    colororder(["#721f81","black"])
+    % colororder(["#721f81","black"])
 
-    xlabel('time')
-    ylabel('relative error')
-    % legend("Simulation","Desired Trajectory")
-    % daspect([1 1 1])
+    % xlabel('time')
+    % ylabel('relative error')
+    legend("Simulation","Desired Trajectory")
+    daspect([1 1 1])
 
     % nexttile
     % plot(1:61, errors)

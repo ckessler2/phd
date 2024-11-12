@@ -57,7 +57,8 @@ function dydt = nondimfreelyfallingplate3(y,u)
     %gamma = 0.0029;
     gamma = rho_f/(rho_s-rho_f);
 
-    alpha = atan2((v_yp - omega*l_CM),v_xp); 
+    % alpha = atan2((v_yp - omega*l_CM),v_xp); 
+    alpha = atan((v_yp)/v_xp); 
     
     % critical angle of attack at stall
     alpha0 = deg2rad(14);
