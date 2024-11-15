@@ -76,7 +76,7 @@ plotOverTime(R, 7, 'DisplayName', 'Reachable set','FaceColor', [0 0.4470 0.7410]
 
 plotOverTime(simRes1, 7, 'DisplayName', 'Simulations','color','k');
 
-
+plot([0 params.tFinal],[0 0],'--black')
 xlabel('$t$(s)');
 ylabel(['$y$ error (m)']);
 title("$y$ error vs time")
