@@ -19,7 +19,7 @@ goalSet = plus(goalSet1,goalSet2);
 
 goalSet3 = interval([-999;-999;-999;-999;0;0;-sqrt(2)*0.3 * 0.07;],[999;999;999;999;0;0;sqrt(2)*0.3 * 0.07;]);
 
-spec = specification(goalSet, 'safeSet',interval(0, 16));
+spec = specification(goalSet, 'safeSet',interval(0, params.tFinal));
 
 dims = [5 6];
 f1 = figure ;
@@ -63,8 +63,8 @@ title("$x$ vs $y$")
 % scatter(x_scatter * 70 / 1000,y_scatter * 70 / 1000,4,'blue')
 % scatter(x_scatter,y_scatter,2,'filled','s')
 axis square;
-xlim([0 25])
-ylim([-25 5])
+xlim([0 40])
+ylim([-40 5])
 
 nexttile
 hold on; box on;useCORAcolors('CORA:contDynamics');
@@ -81,7 +81,7 @@ xlabel('$t$(s)');
 ylabel(['$y$ error (m)']);
 title("$y$ error vs time")
 axis square;
-xlim([0 15])
+xlim([0 params.tFinal])
 grid on
 
 exportgraphics(f1,'Reach1.png','Resolution',600)

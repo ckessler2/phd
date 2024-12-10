@@ -3,7 +3,7 @@
 set(0,'DefaultFigureWindowStyle','docked')
 % Parameters --------------------------------------------------------------
 tic
-params.tFinal = 16;
+params.tFinal = 20;
 w = 0.0;
 
 params.R0 = polyZonotope(interval( ...
@@ -65,14 +65,14 @@ t = tic;
 R = [];
 
 segments = 8;
-for i = 1:segments
+for i = 1:1
     n = segments/0.2;
     start_ = 0.1 + (i-1)/n;
     end_ = 0.1 + i/n;
     params.R0 = polyZonotope(interval( ...
         [1; 0; 0; 0; 0; start_/0.07; 0;],...
         [1; 0; 0; 0; 0; end_/0.07; 0;]));
-    [res, X, simRes] = verify(sys, spec, params, options, evParams, true);
+    [res, X, simRes] = verify(sys, spec, params, options, true);
 
     % figure; hold on
     % 

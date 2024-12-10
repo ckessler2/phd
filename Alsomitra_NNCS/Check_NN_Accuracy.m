@@ -7,9 +7,9 @@ clear all;clc
 load('Training_Data.mat')
 % nn = neuralNetwork.readONNXNetwork('model2.onnx');
 % nn = neuralNetwork.readONNXNetwork('C:\Users\Colin Kessler\AI_2\model.onnx');
-nn = importNetworkFromONNX('Alsomitra_Controller5.onnx',InputDataFormats='BC');
+nn = importNetworkFromONNX('base_model.onnx',InputDataFormats='BC');
 
-data = data3;
+% data = data3;
 ex_true = data(:,8);
 ex_nn1 = [];
 ex_nn2 = [];
@@ -41,7 +41,7 @@ colororder(["#721f81","black"])
 xlim([0.181 0.193])
 ylim([0.181 0.193])
 
-title('NN accuracy,  R = ' + string(round(b,3)) + ',  RMSE = ' + string(round(mean(err2),6)))
+title('base model 2 NN accuracy,  R = ' + string(round(b,3)) + ',  RMSE = ' + string(round(mean(err2),6)))
 
 pbaspect([1 1 1])
 xlim([min(ex_true),max(ex_true)])

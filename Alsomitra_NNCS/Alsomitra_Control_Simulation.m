@@ -23,7 +23,7 @@ its = 64;
 epochs = 1;
 obj_f = [];
 
-nn = importNetworkFromONNX('Alsomitra_Controller5.onnx',InputDataFormats='BC');
+nn = importNetworkFromONNX('adversarial_model.onnx',InputDataFormats='BC');
 
 parameters = [5.18218452125279	0.807506506794260	0.105977518471870	4.93681162104530	1.49958010664229	0.238565281050545	2.85289007725274	0.368933365279324	1.73001889433847];
 
@@ -47,35 +47,19 @@ end
 
 
 if nnc == false
-    %  Remove data points randomly with a gaussian distribution, such that
-    %  datapoints are not mostly close to error = 0
-    
-    % x_gau =  -5:0.001:5;
-    % y = gaussmf(x_gau,[0.5 0])/2;
-    % 
-    % data2 = sortrows(data,7);
-    % data3 = [];
-    % 
-    % x_plot=[];
-    % y_plot=[];
-    % figure
-    % 
-    % for i = 1:length(data2)
-    %     if rand(1) < gaussmf((data2(i,7)),[0.003 0.003])*0
-    %         disp(data2(i,5))
-    % 
-    %     else
-    %         x_plot = [x_plot;length(x_plot)+1];
-    %         y_plot = [y_plot;data2(i,7)];
-    %         data3 = [data3;data2(i,:)];
-    %     end
-    % 
-    % end
-    % 
-    % plot(x_plot,y_plot)
+    Cs = [];
+    Ss = [];
+    for i = 1:7
+        [N,C,S] = normalize(data(:,i));
+        data(:,i) = N;
+        Cs = [Cs;C];
+        Ss = [Ss;S];
+    end
 
     writematrix(data,'Training_Data.csv') 
-    save('Training_Data','data3')
+    save('Training_Data','data')
+    data2 = [Cs, Ss];
+    save('Normalisation_Constants')
 end
 
 
@@ -211,7 +195,7 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
     
     end
     
-    data = [vx_all,vy_all,omega_all,theta_all,x_scatter, y_scatter, errors2,ex_all, alpha_all];
+    data = [vx_all,vy_all,omega_all,theta_all,x_scatter, y_scatter, errors2,ex_all];
     
     % newplot
     % tiledlayout(3,1);
