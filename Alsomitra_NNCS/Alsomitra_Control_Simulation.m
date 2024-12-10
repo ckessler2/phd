@@ -14,6 +14,10 @@ set(0, 'defaultAxesFontName', 'Times New Roman');
 set(0, 'defaultLegendFontName', 'Times New Roman');
 set(0, 'DefaultLineLineWidth', 1.0);
 
+load("Normalisation_Constants.mat")
+Cs = data2(:,1);
+Ss = data2(:,2);
+
 % NN or PID controller
 nnc =  false;
 
@@ -59,7 +63,7 @@ if nnc == false
     writematrix(data,'Training_Data.csv') 
     save('Training_Data','data')
     data2 = [Cs, Ss];
-    save('Normalisation_Constants')
+    save('Normalisation_Constants','data2')
 end
 
 
@@ -83,7 +87,7 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
 
     if nnc == true
         % NN CONTROLLER
-        ex = nn.predict([v_xp0 v_yp0 omega0 theta0 x0 y0 error2]);
+        ex = nn.predict(([v_xp0 v_yp0 omega0 theta0 x0 y0 error2].* Ss) + Cs);
         ex = (ex * (0.012)) + 0.181;
     else
         tic
@@ -124,7 +128,7 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
 
         if nnc == true
             % NN CONTROLLER
-            ex = nn.predict([v_xp0 v_yp0 omega0 theta0 x0 y0 error2]);
+            ex = nn.predict(([v_xp0 v_yp0 omega0 theta0 x0 y0 error2].* Ss) + Cs);
             ex = (ex * (0.012)) + 0.181;
         else
             % % PID CONTROLLER
