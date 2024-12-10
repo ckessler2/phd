@@ -15,12 +15,11 @@ set(0, 'defaultLegendFontName', 'Times New Roman');
 set(0, 'DefaultLineLineWidth', 1.0);
 
 load("Normalisation_Constants.mat")
-Cs = data2(:,1];
-
-
+Cs = data2(1,:);
+Ss = data2(2,:);
 
 % NN or PID controller
-nnc =  false;
+nnc =  true;
 
 ObjectiveFunction = @Alsomitra_nondim;
 
@@ -28,7 +27,7 @@ its = 64;
 epochs = 1;
 obj_f = [];
 
-nn = importNetworkFromONNX('adversarial_model.onnx',InputDataFormats='BC');
+nn = importNetworkFromONNX('base_model.onnx',InputDataFormats='BC');
 
 parameters = [5.18218452125279	0.807506506794260	0.105977518471870	4.93681162104530	1.49958010664229	0.238565281050545	2.85289007725274	0.368933365279324	1.73001889433847];
 
@@ -38,6 +37,7 @@ p3 = [-0.3311	0.37305935	18.62325016];
 p4 = [-0.4493	0.685756098	7.797849674];
 
 figure
+title("base model NNCS (alsomitra)")
 
 data = [];
 
@@ -46,7 +46,7 @@ data = [];
 for n = 0.1:0.025:0.3
     disp(n)
     hold on
-    [data1,errors1,ex_all1] = simulate(n/0.07,parameters,ObjectiveFunction,nn,nnc);
+    [data1,errors1,ex_all1] = simulate(n/0.07,parameters,ObjectiveFunction,nn,nnc,Ss,Cs);
     data = [data;data1];
 end
 
@@ -54,21 +54,22 @@ end
 if nnc == false
     Cs = [];
     Ss = [];
+    data3 = data;
     for i = 1:7
         [N,C,S] = normalize(data(:,i));
         data(:,i) = N;
-        Cs = [Cs;C];
-        Ss = [Ss;S];
+        Cs = [Cs,C];
+        Ss = [Ss,S];
     end
 
     writematrix(data,'Training_Data.csv') 
     save('Training_Data','data')
-    data2 = [Cs, Ss];
+    data2 = [Cs; Ss];
     save('Normalisation_Constants','data2')
 end
 
 
-function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn, nnc)
+function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn, nnc,Ss,Cs)
 
     v_xp0 = 1;
     v_yp0 = 0;
@@ -88,7 +89,8 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
 
     if nnc == true
         % NN CONTROLLER
-        ex = nn.predict([v_xp0 v_yp0 omega0 theta0 x0 y0 error2]);
+        % ex = nn.predict([v_xp0 v_yp0 omega0 theta0 x0 y0 error2] - rot90(Cs) ./ rot90(Ss));
+        ex = nn.predict(([v_xp0 v_yp0 omega0 theta0 x0 y0 error2] - Cs) ./ Ss);
         ex = (ex * (0.012)) + 0.181;
     else
         tic
@@ -129,7 +131,8 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
 
         if nnc == true
             % NN CONTROLLER
-            ex = nn.predict([v_xp0 v_yp0 omega0 theta0 x0 y0 error2]);
+            % ex = nn.predict([v_xp0 v_yp0 omega0 theta0 x0 y0 error2] - rot90(Cs) ./ rot90(Ss));
+            ex = nn.predict(([v_xp0 v_yp0 omega0 theta0 x0 y0 error2] - Cs) ./ Ss);
             ex = (ex * (0.012)) + 0.181;
         else
             % % PID CONTROLLER

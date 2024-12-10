@@ -15,8 +15,8 @@ set(0, 'defaultLegendFontName', 'Times New Roman');
 set(0, 'DefaultLineLineWidth', 1.0);
 
 load("Normalisation_Constants.mat")
-Cs = data2(:,1);
-Ss = data2(:,2);
+Cs = data2(1,:);
+Ss = data2(2,:);
 
 % NN or PID controller
 nnc =  false;
@@ -37,6 +37,7 @@ p3 = [-0.3311	0.37305935	18.62325016];
 p4 = [-0.4493	0.685756098	7.797849674];
 
 figure
+title("adversarial model NNCS (alsomitra)")
 
 data = [];
 
@@ -45,7 +46,7 @@ data = [];
 for n = 0.1:0.025:0.3
     disp(n)
     hold on
-    [data1,errors1,ex_all1] = simulate(n/0.07,parameters,ObjectiveFunction,nn,nnc);
+    [data1,errors1,ex_all1] = simulate(n/0.07,parameters,ObjectiveFunction,nn,nnc,Ss,Cs);
     data = [data;data1];
 end
 
@@ -53,21 +54,22 @@ end
 if nnc == false
     Cs = [];
     Ss = [];
+    data3 = data;
     for i = 1:7
         [N,C,S] = normalize(data(:,i));
         data(:,i) = N;
-        Cs = [Cs;C];
-        Ss = [Ss;S];
+        Cs = [Cs,C];
+        Ss = [Ss,S];
     end
 
     writematrix(data,'Training_Data.csv') 
     save('Training_Data','data')
-    data2 = [Cs, Ss];
+    data2 = [Cs; Ss];
     save('Normalisation_Constants','data2')
 end
 
 
-function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn, nnc)
+function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn, nnc,Ss,Cs)
 
     v_xp0 = 1;
     v_yp0 = 0;
@@ -75,11 +77,6 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
     theta0 = 0;
     x0 = 0;
     alpha0 = 0;
-    % y0 = 0;
-    % error = (y0 * 0.07) - (-1*0.07*x0 - 2);
-    % errors = (y0 * 0.07) - (- 2);
-    % errors2 = (y0 * 0.07) - (-1*0.07*x0 - 2);
-    % error2 = (y0 * 0.07) - (- 2);
     error = 0;
     errors = 0;
     errors2 = [];
@@ -87,7 +84,7 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
 
     if nnc == true
         % NN CONTROLLER
-        ex = nn.predict(([v_xp0 v_yp0 omega0 theta0 x0 y0 error2].* Ss) + Cs);
+        ex = nn.predict(([v_xp0 v_yp0 omega0 theta0 x0 y0 error2] - Cs) ./ Ss);
         ex = (ex * (0.012)) + 0.181;
     else
         tic
@@ -103,8 +100,6 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
         toc
     end
     
-    
-    
     num_sims = 24;
     x_scatter = [];
     y_scatter = [];
@@ -117,9 +112,7 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
     y_all =[];
     ex_all = [];
     alpha_all = [];
-    
     ds = [];
-    
     
     for i = 1:num_sims
 
@@ -128,7 +121,8 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
 
         if nnc == true
             % NN CONTROLLER
-            ex = nn.predict(([v_xp0 v_yp0 omega0 theta0 x0 y0 error2].* Ss) + Cs);
+            % ex = nn.predict([v_xp0 v_yp0 omega0 theta0 x0 y0 error2] - rot90(Cs) ./ rot90(Ss));
+            ex = nn.predict(([v_xp0 v_yp0 omega0 theta0 x0 y0 error2] - Cs) ./ Ss);
             ex = (ex * (0.012)) + 0.181;
         else
             % % PID CONTROLLER
@@ -142,7 +136,7 @@ function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn,
             %     error = error * 0.25;
             % end
 
-            ex = 0.1870 + (error * 0.05)+ (derivative * -0.45)+ (integral * 0.0000);
+            ex = 0.1893 + (error * 0.05)+ (derivative * -0.45)+ (integral * 0.0000);
             if ex > 0.193
                 ex = 0.193;
             elseif ex < 0.181
