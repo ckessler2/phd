@@ -12,8 +12,12 @@ nn = importNetworkFromONNX('base_model.onnx',InputDataFormats='BC');
 plot_results(nn,"base")
 
 nexttile
-nn = importNetworkFromONNX('adversarial_model.onnx',InputDataFormats='BC');
-plot_results(nn,"adversarial")
+nn = importNetworkFromONNX('adversarial_model_0.01.onnx',InputDataFormats='BC');
+plot_results(nn,"adversarial (0.01)")
+
+nexttile
+nn = importNetworkFromONNX('adversarial_model_0.02_1000.onnx',InputDataFormats='BC');
+plot_results(nn,"adversarial (0.02_500)")
 
 function plot_results(nn,name)
     load('Training_Data.mat')
