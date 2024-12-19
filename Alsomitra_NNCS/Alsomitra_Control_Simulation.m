@@ -1,233 +1,239 @@
-% Colin Kessler 4.8.2024 - colinkessler00@gmail.com
-clear; clc;
+function Alsomitra_Control_simulation(network1)
 
-% Plot preamble.
-set(0, 'defaultFigureRenderer', 'painters')
-set(0,'DefaultFigureWindowStyle','docked')
-font=12;
-set(groot, 'defaultAxesTickLabelInterpreter', 'latex'); 
-set(groot, 'defaultLegendInterpreter', 'latex');
-set(0,'defaultTextInterpreter','latex');
-set(0, 'defaultAxesFontSize', font)
-set(0, 'defaultLegendFontSize', font)
-set(0, 'defaultAxesFontName', 'Times New Roman');
-set(0, 'defaultLegendFontName', 'Times New Roman');
-set(0, 'DefaultLineLineWidth', 1.0);
-
-load("Normalisation_Constants.mat")
-Cs = data2(1,:);
-Ss = data2(2,:);
-
-% NN or PID controller
-nnc =  false;
-
-ObjectiveFunction = @Alsomitra_nondim;
-
-its = 64;
-epochs = 1;
-obj_f = [];
-
-nn = importNetworkFromONNX('adversarial_model.onnx',InputDataFormats='BC');
-
-parameters = [5.18218452125279	0.807506506794260	0.105977518471870	4.93681162104530	1.49958010664229	0.238565281050545	2.85289007725274	0.368933365279324	1.73001889433847];
-
-p1 = [-0.3363	0.32178673	13.25541439];
-p2 = [-0.4547	1.117865818	9.362957704];
-p3 = [-0.3311	0.37305935	18.62325016];
-p4 = [-0.4493	0.685756098	7.797849674];
-
-figure
-title("adversarial model NNCS (alsomitra)")
-
-data = [];
-
-% Plot simulations over a range of starting y values
-
-for n = 0.1:0.025:0.3
-    disp(n)
-    hold on
-    [data1,errors1,ex_all1] = simulate(n/0.07,parameters,ObjectiveFunction,nn,nnc,Ss,Cs);
-    data = [data;data1];
-end
-
-
-if nnc == false
-    Cs = [];
-    Ss = [];
-    data3 = data;
-    for i = 1:7
-        [N,C,S] = normalize(data(:,i));
-        data(:,i) = N;
-        Cs = [Cs,C];
-        Ss = [Ss,S];
+    % Colin Kessler 4.8.2024 - colinkessler00@gmail.com
+    % clear; clc;
+    
+    % Plot preamble.
+    set(0, 'defaultFigureRenderer', 'painters')
+    set(0,'DefaultFigureWindowStyle','docked')
+    font=12;
+    set(groot, 'defaultAxesTickLabelInterpreter', 'latex'); 
+    set(groot, 'defaultLegendInterpreter', 'latex');
+    set(0,'defaultTextInterpreter','latex');
+    set(0, 'defaultAxesFontSize', font)
+    set(0, 'defaultLegendFontSize', font)
+    set(0, 'defaultAxesFontName', 'Times New Roman');
+    set(0, 'defaultLegendFontName', 'Times New Roman');
+    set(0, 'DefaultLineLineWidth', 1.0);
+    
+    load("Normalisation_Constants.mat")
+    Cs = data2(1,:);
+    Ss = data2(2,:);
+    
+    % NN or PID controller
+    nnc =  true;
+    
+    ObjectiveFunction = @Alsomitra_nondim;
+    
+    its = 64;
+    epochs = 1;
+    obj_f = [];
+    
+    nn = importNetworkFromONNX(network1,InputDataFormats='BC');
+    
+    parameters = [5.18218452125279	0.807506506794260	0.105977518471870	4.93681162104530	1.49958010664229	0.238565281050545	2.85289007725274	0.368933365279324	1.73001889433847];
+    
+    p1 = [-0.3363	0.32178673	13.25541439];
+    p2 = [-0.4547	1.117865818	9.362957704];
+    p3 = [-0.3311	0.37305935	18.62325016];
+    p4 = [-0.4493	0.685756098	7.797849674];
+    
+    figure
+    title(network1)
+    
+    data = [];
+    
+    % Plot simulations over a range of starting y values
+    
+    for n = 0.1:0.025:0.3
+        disp(n)
+        hold on
+        [data1,errors1,ex_all1] = simulate(n/0.07,parameters,ObjectiveFunction,nn,nnc,Ss,Cs);
+        data = [data;data1];
     end
-
-    writematrix(data,'Training_Data.csv') 
-    save('Training_Data','data')
-    data2 = [Cs; Ss];
-    save('Normalisation_Constants','data2')
-end
-
-
-function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn, nnc,Ss,Cs)
-
-    v_xp0 = 1;
-    v_yp0 = 0;
-    omega0 = 0;
-    theta0 = 0;
-    x0 = 0;
-    alpha0 = 0;
-    error = 0;
-    errors = 0;
-    errors2 = [];
-    error2 = 0;
-
-    if nnc == true
-        % NN CONTROLLER
-        ex = nn.predict(([v_xp0 v_yp0 omega0 theta0 x0 y0 error2] - Cs) ./ Ss);
-        ex = (ex * (0.012)) + 0.181;
-    else
-        tic
-        integral  = sum(errors);
-        derivative = errors(end) - error;
-        % % PID CONTROLLER
-        ex = 0.1850 + (error * 0.1);
-        if ex > 0.193
-            ex = 0.193;
-        elseif ex < 0.181
-            ex = 0.181;
+    % xlim([22 24])
+    % ylim([-24 -22])
+    
+    
+    if nnc == false
+        Cs = [];
+        Ss = [];
+        data3 = data;
+        for i = 1:7
+            [N,C,S] = normalize(data(:,i));
+            data(:,i) = N;
+            Cs = [Cs,C];
+            Ss = [Ss,S];
         end
-        toc
+    
+        writematrix(data,'Training_Data.csv') 
+        save('Training_Data','data')
+        data2 = [Cs; Ss];
+        save('Normalisation_Constants','data2')
     end
     
-    num_sims = 24;
-    x_scatter = [];
-    y_scatter = [];
     
-    omega_all = [];
-    theta_all = [];
-    vx_all =[];
-    vy_all =[];
-    x_all =[];
-    y_all =[];
-    ex_all = [];
-    alpha_all = [];
-    ds = [];
+    function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn, nnc,Ss,Cs)
     
-    for i = 1:num_sims
-
-       
-        error = error2;
-
+        v_xp0 = 1;
+        v_yp0 = 0;
+        omega0 = 0;
+        theta0 = 0;
+        x0 = 0;
+        alpha0 = 0;
+        error = 0;
+        errors = 0;
+        errors2 = [];
+        error2 = 0;
+    
         if nnc == true
             % NN CONTROLLER
-            % ex = nn.predict([v_xp0 v_yp0 omega0 theta0 x0 y0 error2] - rot90(Cs) ./ rot90(Ss));
             ex = nn.predict(([v_xp0 v_yp0 omega0 theta0 x0 y0 error2] - Cs) ./ Ss);
             ex = (ex * (0.012)) + 0.181;
         else
-            % % PID CONTROLLER
+            tic
             integral  = sum(errors);
             derivative = errors(end) - error;
-            
-            
-            % ex = 0.1870 + (error * 0.008)+ (derivative * 0.02) + (integral * 0.0001);
-
-            % if error < 1
-            %     error = error * 0.25;
-            % end
-
-            ex = 0.1893 + (error * 0.05)+ (derivative * -0.45)+ (integral * 0.0000);
+            % % PID CONTROLLER
+            ex = 0.1850 + (error * 0.1);
             if ex > 0.193
                 ex = 0.193;
             elseif ex < 0.181
                 ex = 0.181;
             end
+            toc
         end
-
         
+        num_sims = 24;
+        x_scatter = [];
+        y_scatter = [];
         
+        omega_all = [];
+        theta_all = [];
+        vx_all =[];
+        vy_all =[];
+        x_all =[];
+        y_all =[];
+        ex_all = [];
+        alpha_all = [];
+        ds = [];
         
-
-
-        [v_xp, v_yp, omega, theta, x, y, error2, alpha] = ObjectiveFunction([parameters,ex],v_xp0, v_yp0, omega0, theta0, x0, y0,num_sims,error2, alpha0);
-        
-        x_all = [x_all;x];
-        y_all = [y_all;y];
+        for i = 1:num_sims
     
-        v_xp0 = v_xp(end);
-        v_yp0 = v_yp(end);
-        omega0 = omega(end);
-        theta0 = theta(end);
-        x0 = x(end);
-        y0 = y(end);
-        error2 = error2(end);
-        alpha0 = alpha(end);
+           
+            error = error2;
     
-        x_scatter = [x_scatter;x0];
-        y_scatter = [y_scatter;y0];
-        % error = (y0 * 70) - (-0.5 * (x0 * 70) - 4000);
+            if nnc == true
+                % NN CONTROLLER
+                % ex = nn.predict([v_xp0 v_yp0 omega0 theta0 x0 y0 error2] - rot90(Cs) ./ rot90(Ss));
+                ex = nn.predict(([v_xp0 v_yp0 omega0 theta0 x0 y0 error2] - Cs) ./ Ss);
+                ex = (ex * (0.012)) + 0.181;
+            else
+                % % PID CONTROLLER
+                integral  = sum(errors);
+                derivative = errors(end) - error;
+                
+                
+                % ex = 0.1870 + (error * 0.008)+ (derivative * 0.02) + (integral * 0.0001);
+    
+                % if error < 1
+                %     error = error * 0.25;
+                % end
+    
+                ex = 0.1893 + (error * 0.05)+ (derivative * -0.45)+ (integral * 0.0000);
+                if ex > 0.193
+                    ex = 0.193;
+                elseif ex < 0.181
+                    ex = 0.181;
+                end
+            end
+    
+            
+            
+            
+    
+    
+            [v_xp, v_yp, omega, theta, x, y, error2, alpha] = ObjectiveFunction([parameters,ex],v_xp0, v_yp0, omega0, theta0, x0, y0,num_sims,error2, alpha0);
+            
+            x_all = [x_all;x];
+            y_all = [y_all;y];
         
-
-        % 
-        % BANG-BANG controller
-        % if error > 0
-        %     ex = 0.106;
-        % else
-        %     ex = 0.161;
-        % end
-
-        ex_all = [ex_all;ex];
-        theta_all =[theta_all;theta0];
-        omega_all =[omega_all;omega0];
-        vx_all =[vx_all;v_xp0];
-        vy_all =[vy_all;v_yp0];
-        x_all =[x_all;x(end)];
-        y_all =[y_all;y(end)];
-        alpha_all = [alpha_all;alpha0];
-
+            v_xp0 = v_xp(end);
+            v_yp0 = v_yp(end);
+            omega0 = omega(end);
+            theta0 = theta(end);
+            x0 = x(end);
+            y0 = y(end);
+            error2 = error2(end);
+            alpha0 = alpha(end);
+        
+            x_scatter = [x_scatter;x0];
+            y_scatter = [y_scatter;y0];
+            % error = (y0 * 70) - (-0.5 * (x0 * 70) - 4000);
+            
+    
+            % 
+            % BANG-BANG controller
+            % if error > 0
+            %     ex = 0.106;
+            % else
+            %     ex = 0.161;
+            % end
+    
+            ex_all = [ex_all;ex];
+            theta_all =[theta_all;theta0];
+            omega_all =[omega_all;omega0];
+            vx_all =[vx_all;v_xp0];
+            vy_all =[vy_all;v_yp0];
+            x_all =[x_all;x(end)];
+            y_all =[y_all;y(end)];
+            alpha_all = [alpha_all;alpha0];
+    
+           
+    
+            errors = [errors; error];
+            errors2 = [errors2; error2];
        
-
-        errors = [errors; error];
-        errors2 = [errors2; error2];
-   
+        
+        end
+        
+        data = [vx_all,vy_all,omega_all,theta_all,x_scatter, y_scatter, errors2,ex_all];
+        
+        % newplot
+        % tiledlayout(3,1);
+        % nexttile
+        % 
+        % plot(x_all * 70 / 1000,y_all * 70 / 1000,'red')
+        plot(x_all,y_all,'red')
+        % plot(1:24, abs(omega_all .* (ex_all) * 0.07 ./ vy_all))
     
+        hold on
+    
+        x_c1 = -2:1:30;
+        y_c1 = -1 * x_c1;
+    
+        plot([x_c1] * 1000/70, [y_c1]* 1000/70, '--black')
+    
+        % % scatter(x_scatter * 70 / 1000,y_scatter * 70 / 1000,4,'blue')
+        % % scatter(x_scatter,y_scatter,2,'filled','s')
+        % % 
+        xlim([0 25])
+        ylim([-25 5])
+    
+        % colororder(["#721f81","black"])
+    
+        % xlabel('time')
+        % ylabel('relative error')
+        legend("Simulation","Desired Trajectory")
+        daspect([1 1 1])
+    
+        % nexttile
+        % plot(1:61, errors)
+        % 
+        % nexttile
+        % plot(1:61, errors2)
     end
-    
-    data = [vx_all,vy_all,omega_all,theta_all,x_scatter, y_scatter, errors2,ex_all];
-    
-    % newplot
-    % tiledlayout(3,1);
-    % nexttile
-    % 
-    % plot(x_all * 70 / 1000,y_all * 70 / 1000,'red')
-    plot(x_all,y_all,'red')
-    % plot(1:24, abs(omega_all .* (ex_all) * 0.07 ./ vy_all))
 
-    hold on
-
-    x_c1 = -2:1:30;
-    y_c1 = -1 * x_c1;
-
-    plot([x_c1] * 1000/70, [y_c1]* 1000/70, '--black')
-
-    % % scatter(x_scatter * 70 / 1000,y_scatter * 70 / 1000,4,'blue')
-    % % scatter(x_scatter,y_scatter,2,'filled','s')
-    % % 
-    xlim([0 25])
-    ylim([-25 5])
-
-    % colororder(["#721f81","black"])
-
-    % xlabel('time')
-    % ylabel('relative error')
-    legend("Simulation","Desired Trajectory")
-    daspect([1 1 1])
-
-    % nexttile
-    % plot(1:61, errors)
-    % 
-    % nexttile
-    % plot(1:61, errors2)
 end
 
 function [v_xp, v_yp, omega, theta, x_, y_, error, alpha] = Alsomitra_nondim(opt,v_xp0, v_yp0, omega0, theta0, x0, y0,num_sims,error, alpha)
