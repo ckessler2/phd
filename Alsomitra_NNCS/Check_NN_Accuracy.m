@@ -12,12 +12,20 @@ nn = importNetworkFromONNX('base_model.onnx',InputDataFormats='BC');
 plot_results(nn,"base")
 
 nexttile
+nn = importNetworkFromONNX('adversarial_model_0.005.onnx',InputDataFormats='BC');
+plot_results(nn,"adversarial (0.005)")
+
+nexttile
 nn = importNetworkFromONNX('adversarial_model_0.01.onnx',InputDataFormats='BC');
 plot_results(nn,"adversarial (0.01)")
 
 nexttile
-nn = importNetworkFromONNX('adversarial_model_0.02_1000.onnx',InputDataFormats='BC');
-plot_results(nn,"adversarial (0.02_500)")
+nn = importNetworkFromONNX('adversarial_model_0.02.onnx',InputDataFormats='BC');
+plot_results(nn,"adversarial (0.02)")
+
+nexttile
+nn = importNetworkFromONNX('adversarial_model_0.04.onnx',InputDataFormats='BC');
+plot_results(nn,"adversarial (0.04)")
 
 function plot_results(nn,name)
     load('Training_Data.mat')
@@ -45,7 +53,7 @@ function plot_results(nn,name)
     xlim([0.181 0.193])
     ylim([0.181 0.193])
     
-    title(name + ' model NN accuracy,  R = ' + string(round(b,3)) + ',  RMSE = ' + string(round(mean(err2),6)))
+    title(name + ' R = ' + string(round(b,6)) + ',  RMSE = ' + string(round(mean(err2),6)))
     
     pbaspect([1 1 1])
     xlim([min(ex_true),max(ex_true)])
