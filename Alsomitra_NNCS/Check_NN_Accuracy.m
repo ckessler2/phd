@@ -4,28 +4,74 @@ clear all;clc
 % load('F:\matlab_stuff\Straight_Flight_4722ALLPLOTS\CORA2\Scripts\training_data4.mat')
 % load('F:\matlab_stuff\Straight_Flight_4722ALLPLOTS\CORA2\Scripts\Quad Testing\data_quad2.mat')
 
-figure
-tiledlayout("horizontal")
-nexttile
+% figure
+% tiledlayout("horizontal")
+% nexttile
 
+datafile = 'adversarial_data_0.04.csv';
+% 
 nn = importNetworkFromONNX('base_model.onnx',InputDataFormats='BC');
-plot_results(nn,"base")
-
-nexttile
+L0 = lipschitz_robustness(nn,datafile);
+% plot_results(nn,"base")
+% 
+% nexttile
 nn = importNetworkFromONNX('adversarial_model_0.005.onnx',InputDataFormats='BC');
-plot_results(nn,"adversarial (0.005)")
-
-nexttile
+L1 = lipschitz_robustness(nn,datafile);
+% plot_results(nn,"adversarial (0.005)")
+% 
+% nexttile
 nn = importNetworkFromONNX('adversarial_model_0.01.onnx',InputDataFormats='BC');
-plot_results(nn,"adversarial (0.01)")
-
-nexttile
+L2 = lipschitz_robustness(nn,datafile);
+% plot_results(nn,"adversarial (0.01)")
+% 
+% nexttile
 nn = importNetworkFromONNX('adversarial_model_0.02.onnx',InputDataFormats='BC');
-plot_results(nn,"adversarial (0.02)")
-
-nexttile
+L3 = lipschitz_robustness(nn,datafile);
+% plot_results(nn,"adversarial (0.02)")
+% 
+% nexttile
 nn = importNetworkFromONNX('adversarial_model_0.04.onnx',InputDataFormats='BC');
-plot_results(nn,"adversarial (0.04)")
+L4 = lipschitz_robustness(nn,datafile);
+% plot_results(nn,"adversarial (0.04)")
+answer = [L0;L1;L2;L3;L4]
+
+
+function L = lipschitz_robustness(nn,datafile)
+
+    load('Training_Data.mat') 
+    % T1 = readtable('adversarial_data_0.005.csv');
+    % T2 = readtable('adversarial_data_0.01.csv');
+    % T3 = readtable('adversarial_data_0.02.csv');
+    % T4 = readtable('adversarial_data_0.04.csv');
+    % T1 = table2array(T1);
+    % T2 = table2array(T2);
+    % T3 = table2array(T3);
+    % T4 = table2array(T4);
+    % T = [T1;T2;T3;T4];
+    T = readtable(datafile);
+    T = table2array(T);
+    L = [];
+    
+    for i = 1:length(data)
+        eucs = [];
+        for j = 1:length(T)
+            euc = sqrt(sum((data(i,1:7) - T(j,1:7)) .^ 2));
+            eucs = [eucs;euc];
+        end
+        [dist,index] = min(eucs);
+
+        x = T(index,:); 
+        y = data(i,1:7);
+        fx = nn.predict(T(index,:));
+        fy= data(i,8);
+
+        L1 = abs(fx-fy)./abs(x-y);
+        L = [L;mean(L1)];
+    end
+    
+    L = mean(L);
+end
+
 
 function plot_results(nn,name)
     load('Training_Data.mat')
