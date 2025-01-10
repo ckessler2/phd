@@ -38,7 +38,7 @@ options.nn = evParams;
 alsomitra = nonlinearSys(@nondimfreelyfallingplate6);
 tic
 
-nn = neuralNetwork.readONNXNetwork('Alsomitra_Controller5.onnx');
+nn = neuralNetwork.readONNXNetwork('adversarial_model_0.005.onnx');
 nn.evaluate(params.R0, evParams);
 nn.refine(2, "layer", "both", params.R0.c, true);
 
@@ -58,8 +58,12 @@ simRes1 = simulateRandom(sys,params);
 % Reachability Analysis ---------------------------------------------------
 toc
 % plot(x(:,5),x(:,6))
+hold on
 plot(simRes1,[5,6])
+x_c1 = -2:1:30; y_c1 = -1 * x_c1;
+plot([x_c1] * 1000/70, [y_c1]* 1000/70, '--black')
 daspect([1 1 1])
+xlim([0 25]); ylim([-25 5])
 
 t = tic;
 R = [];
@@ -72,7 +76,7 @@ for i = 1:1
     params.R0 = polyZonotope(interval( ...
         [1; 0; 0; 0; 0; start_/0.07; 0;],...
         [1; 0; 0; 0; 0; end_/0.07; 0;]));
-    [res, X, simRes] = verify(sys, spec, params, options, true);
+    [res, X, simRes] = verify(sys, spec, params, options, evParams);
 
     % figure; hold on
     % 
