@@ -38,7 +38,7 @@ options.nn = evParams;
 alsomitra = nonlinearSys(@nondimfreelyfallingplate6);
 tic
 
-nn = neuralNetwork.readONNXNetwork('adversarial_model_0.005.onnx');
+nn = neuralNetwork.readONNXNetwork('base_model.onnx');
 nn.evaluate(params.R0, evParams);
 nn.refine(2, "layer", "both", params.R0.c, true);
 

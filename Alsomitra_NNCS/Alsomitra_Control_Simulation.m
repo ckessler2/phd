@@ -24,7 +24,7 @@ function Alsomitra_Control_simulation(network1)
     Ss = data2(2,:);
     
     % NN or PID controller
-    nnc =  true;
+    nnc =  false;
     
     ObjectiveFunction = @Alsomitra_nondim;
     
@@ -62,13 +62,13 @@ function Alsomitra_Control_simulation(network1)
         Cs = [];
         Ss = [];
         data3 = data;
-        for i = 1:7
-            [N,C,S] = normalize(data(:,i));
-            data(:,i) = N;
-            Cs = [Cs,C];
-            Ss = [Ss,S];
-        end
-    
+        % for i = 1:7
+        %     [N,C,S] = normalize(data(:,i));
+        %     data(:,i) = N;
+        %     Cs = [Cs,C];
+        %     Ss = [Ss,S];
+        % end
+        % 
         writematrix(data,'Training_Data.csv') 
         save('Training_Data','data')
         data2 = [Cs; Ss];
@@ -143,7 +143,7 @@ function Alsomitra_Control_simulation(network1)
                 %     error = error * 0.25;
                 % end
     
-                ex = 0.1893 + (error * 0.05)+ (derivative * -0.45)+ (integral * 0.0000);
+                ex = 0.1893 + (error * 0.05)+ (derivative * -0.45)+ (integral * 0.0000);   
                 if ex > 0.193
                     ex = 0.193;
                 elseif ex < 0.181
