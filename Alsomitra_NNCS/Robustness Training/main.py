@@ -25,7 +25,7 @@ def main():
     input_size = 7  # Number of input features for the model
     batch_size = 100  # Batch size for training
     epochs = 1000  # Number of epochs for training
-    epsilon = 0.01  # Epsilon for adversarial robustness (small perturbations)
+    epsilon = 0.02  # Epsilon for adversarial robustness (small perturbations)
 
     # Step 1: Data Handling
     data_handler = DataHandler(filepath)  # Initialises the data handler with the file path
