@@ -85,6 +85,7 @@ class AdversarialTrainer:
             callbacks = []
             
         history2 = TrainingHistory()
+        # adversarial_data = []
 
         for epoch in range(epochs):
             for callback in callbacks:
@@ -95,6 +96,7 @@ class AdversarialTrainer:
                 adversarial_x_batch = self.generate_adversarial_example(
                     x_batch, y_batch
                 )
+                # adversarial_data.append(np.array(adversarial_x_batch))
 
                 # Concatenate original and adversarial examples
                 combined_x = tf.concat([x_batch, adversarial_x_batch], axis=0)
@@ -113,5 +115,8 @@ class AdversarialTrainer:
                 callback.on_epoch_end(epoch)
 
         print("Adversarial training with epsilon-ball robustness completed.")
-        return self.model, history2
+        a = np.array(adversarial_x_batch)
+        b = np.array(y_batch)
+        
+        return self.model, history2, np.c_[a,b]
 

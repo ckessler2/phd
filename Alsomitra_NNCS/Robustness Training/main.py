@@ -11,6 +11,7 @@ from progress_bar import ProgressBar  # Custom progress bar for tracking trainin
 from onnx_saver import OnnxModelSaver  # Saves models in ONNX format
 from adversarial_trainer import AdversarialTrainer  # Enhances model robustness with adversarial training
 from evaluator2 import Evaluator2
+import numpy as np
 
 def main():
     """
@@ -25,7 +26,7 @@ def main():
     input_size = 7  # Number of input features for the model
     batch_size = 100  # Batch size for training
     epochs = 1000  # Number of epochs for training
-    epsilon = 0.02  # Epsilon for adversarial robustness (small perturbations)
+    epsilon = 0.005  # Epsilon for adversarial robustness (small perturbations)
 
     # Step 1: Data Handling
     data_handler = DataHandler(filepath)  # Initialises the data handler with the file path
@@ -60,7 +61,7 @@ def main():
     print("\nStarting adversarial training with epsilon-ball robustness...")
 # %%
     adversarial_trainer = AdversarialTrainer(model2, epsilon=epsilon)  # Sets up adversarial trainer
-    adversarial_model, history2= adversarial_trainer.train_with_adversarial_examples(
+    adversarial_model, history2, adversarial_data= adversarial_trainer.train_with_adversarial_examples(
         train_dataset, epochs=epochs, callbacks=[progress_bar]
     )  # Trains the model with adversarial examples for robustness
 
@@ -78,7 +79,9 @@ def main():
 
     # Save Models in ONNX Format
 
-    saver.save(adversarial_model, "adversarial_model")  # Saves adversarially trained model as ONNX
+    saver.save(adversarial_model, "adversarial_model_" + str(epsilon))  # Saves adversarially trained model as ONNX
+    np.savetxt("adversarial_data_"+str(epsilon)+".csv", np.squeeze(np.array(adversarial_data)), delimiter=",", fmt="%.6f")
+
 
     return base_metrics, adversarial_metrics  # Returns metrics for further analysis
 
