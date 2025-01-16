@@ -2,6 +2,22 @@
 import tensorflow as tf
 import numpy as np
 
+def LipschitzLoss(x,x_ad,y,y_ad):
+    x = tf.cast(x,tf.float32)
+    y = tf.expand_dims(y, axis=-1)
+    y = tf.cast(y,tf.float32)
+    x_ad = tf.cast(x_ad,tf.float32)
+    y_ad = tf.cast(y_ad,tf.float32)
+    # print(f"x shape = {tf.shape(x)}" )
+    # print(f"y shape = {tf.shape(y)}" )
+    # print(f"x_ad shape = {tf.shape(x_ad)}" )
+    # print(f"y_ad shape = {tf.shape(y_ad)}" )
+    
+    L = tf.math.divide(tf.math.abs(tf.math.subtract(x, x_ad)), tf.math.abs(tf.math.subtract(y, y_ad)))
+    
+    return L
+    
+
 class TrainingHistory:
     def __init__(self):
         self.history = {
@@ -61,11 +77,12 @@ class AdversarialTrainer:
 
         # Create the adversarial example by adding a small perturbation within the epsilon-ball
         adversarial_x = x + self.epsilon * signed_grad
-        return tf.clip_by_value(
-            adversarial_x, 0, 1
-        )  # Ensure values stay within [0, 1] bounds
+        return adversarial_x
+        # return tf.clip_by_value(
+        #     adversarial_x, 0, 1
+        # )  # Ensure values stay within [0, 1] bounds
 
-    def train_with_adversarial_examples(self, train_dataset, epochs=10, callbacks=None):
+    def train_with_adversarial_examples(self, train_dataset, epochs=10, callbacks=None, alpha=1):
         """
         Trains the model on both normal and adversarial examples to enforce robustness within an epsilon-ball.
 
@@ -99,17 +116,26 @@ class AdversarialTrainer:
                 # adversarial_data.append(np.array(adversarial_x_batch))
 
                 # Concatenate original and adversarial examples
-                combined_x = tf.concat([x_batch, adversarial_x_batch], axis=0)
-                combined_y = tf.concat([y_batch, y_batch], axis=0)
+                # combined_x = tf.concat([x_batch, adversarial_x_batch], axis=0)
+                # combined_y = tf.concat([y_batch, y_batch], axis=0)
 
                 # Train on combined data
-                history = self.model.train_on_batch(combined_x, combined_y)
+                history = self.model.train_on_batch(x_batch,y_batch)
                 loss = np.float32(history[0])
                 val_loss = np.float32(history[1])
                 
                 # history2["history"]["loss"].append(np.float32(history[0]))
                 # history2["history"]["val_loss"].append(val_loss)
                 history2.add_entry(loss, val_loss)
+                
+                with tf.GradientTape() as tape:
+                    adversarial_y_batch = self.model(adversarial_x_batch, training=True)
+                
+                    loss = alpha*LipschitzLoss(x_batch, adversarial_x_batch, y_batch, adversarial_y_batch)
+                    
+                grads = tape.gradient(loss, self.model.trainable_weights)
+
+                tf.keras.optimizers.Adam().apply_gradients(zip(grads, self.model.trainable_weights))
 
             for callback in callbacks:
                 callback.on_epoch_end(epoch)

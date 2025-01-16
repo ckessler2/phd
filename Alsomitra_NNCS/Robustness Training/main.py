@@ -13,7 +13,7 @@ from adversarial_trainer import AdversarialTrainer  # Enhances model robustness 
 from evaluator2 import Evaluator2
 import numpy as np
 
-def main():
+def main(epsilon,basetraining):
     """
     Main function to set up parameters, build and train a model, 
     evaluate the model's performance, apply adversarial training, 
@@ -25,8 +25,8 @@ def main():
     target_column = "target"  # Column name for the labels in the dataset
     input_size = 7  # Number of input features for the model
     batch_size = 100  # Batch size for training
-    epochs = 1000  # Number of epochs for training
-    epsilon = 0.005  # Epsilon for adversarial robustness (small perturbations)
+    epochs = 100  # Number of epochs for training
+    # epsilon = 0.005  # Epsilon for adversarial robustness (small perturbations)
 
     # Step 1: Data Handling
     data_handler = DataHandler(filepath)  # Initialises the data handler with the file path
@@ -41,21 +41,25 @@ def main():
     model = model_builder.build_model()  # Constructs the model structure
     model_builder.compile_model()  # Compiles the model with specified loss and optimizer
     model2 = model
-    history = model_builder.train_model(
-        train_dataset,
-        test_dataset,
-        epochs=epochs,
-        verbose=0,  # Suppresses Keras verbose output
-        callbacks=[progress_bar],  # Integrates custom progress bar
-    )  # Trains the model with training and validation data
-
-    # Step 3: Evaluate the Base Model
-    evaluator = Evaluator()  # Initialises evaluator for performance metrics
-    print("\nEvaluating the base model:")
-    base_metrics = evaluator.evaluate(history, model, X_test, y_test)  # Evaluates base model
     
-    saver = OnnxModelSaver()  # Initialises the model saver
-    saver.save(model, "base_model")  # Saves base model as ONNX
+    if basetraining:
+        history = model_builder.train_model(
+            train_dataset,
+            test_dataset,
+            epochs=epochs,
+            verbose=0,  # Suppresses Keras verbose output
+            callbacks=[progress_bar],  # Integrates custom progress bar
+        )  # Trains the model with training and validation data
+    
+        # Step 3: Evaluate the Base Model
+        evaluator = Evaluator()  # Initialises evaluator for performance metrics
+        print("\nEvaluating the base model:")
+        base_metrics = evaluator.evaluate(history, model, X_test, y_test)  # Evaluates base model
+        
+        saver = OnnxModelSaver()  # Initialises the model saver
+        saver.save(model, "base_model")  # Saves base model as ONNX
+    else:
+        print("Base model already trained, skipping")
 
     # Step 4: Adversarial Training for Robustness
     print("\nStarting adversarial training with epsilon-ball robustness...")
@@ -88,5 +92,8 @@ def main():
 
 # Entry point of the script
 if __name__ == "__main__":
-    main()
+    # main(0.005,True)
+    # main(0.01,True)
+    # main(0.02,True)
+    main(0.04,True)
 
