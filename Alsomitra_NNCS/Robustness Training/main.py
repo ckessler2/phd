@@ -25,7 +25,7 @@ def main(epsilon,basetraining):
     target_column = "target"  # Column name for the labels in the dataset
     input_size = 7  # Number of input features for the model
     batch_size = 100  # Batch size for training
-    epochs = 100  # Number of epochs for training
+    epochs = 1000  # Number of epochs for training
     # epsilon = 0.005  # Epsilon for adversarial robustness (small perturbations)
 
     # Step 1: Data Handling
@@ -40,7 +40,7 @@ def main(epsilon,basetraining):
     model_builder = ModelBuilder(input_size=input_size)  # Initialises model builder with input size
     model = model_builder.build_model()  # Constructs the model structure
     model_builder.compile_model()  # Compiles the model with specified loss and optimizer
-    model2 = model
+    # model2 = model
     
     if basetraining:
         history = model_builder.train_model(
@@ -63,6 +63,10 @@ def main(epsilon,basetraining):
 
     # Step 4: Adversarial Training for Robustness
     print("\nStarting adversarial training with epsilon-ball robustness...")
+    model_builder2 = ModelBuilder(input_size=input_size)  # Initialises model builder with input size
+    model2 = model_builder2.build_model()  # Constructs the model structure
+    model_builder2.compile_model()  # Compiles the model with specified loss and optimizer
+    
 # %%
     adversarial_trainer = AdversarialTrainer(model2, epsilon=epsilon)  # Sets up adversarial trainer
     adversarial_model, history2, adversarial_data= adversarial_trainer.train_with_adversarial_examples(
@@ -93,7 +97,7 @@ def main(epsilon,basetraining):
 # Entry point of the script
 if __name__ == "__main__":
     # main(0.005,True)
-    # main(0.01,True)
+    main(0.01,True)
     # main(0.02,True)
-    main(0.04,True)
+    # main(0.04,True)
 
