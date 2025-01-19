@@ -82,7 +82,7 @@ class AdversarialTrainer:
         #     adversarial_x, 0, 1
         # )  # Ensure values stay within [0, 1] bounds
 
-    def train_with_adversarial_examples(self, train_dataset, epochs=10, callbacks=None, alpha=10):
+    def train_with_adversarial_examples(self, train_dataset, epochs=10, callbacks=None, alpha=1):
         """
         Trains the model on both normal and adversarial examples to enforce robustness within an epsilon-ball.
 
@@ -133,9 +133,9 @@ class AdversarialTrainer:
                 
                     loss = alpha*LipschitzLoss(x_batch, adversarial_x_batch, y_batch, adversarial_y_batch)
                     
-                grads = tape.gradient(loss, self.model.trainable_weights)
-
-                tf.keras.optimizers.Adam().apply_gradients(zip(grads, self.model.trainable_weights))
+                    grads = tape.gradient(loss, self.model.trainable_weights)
+    
+                    tf.keras.optimizers.Adam().apply_gradients(zip(grads, self.model.trainable_weights))
 
             for callback in callbacks:
                 callback.on_epoch_end(epoch)
