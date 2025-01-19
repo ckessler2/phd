@@ -3,37 +3,39 @@ clear all;clc
 
 % load('F:\matlab_stuff\Straight_Flight_4722ALLPLOTS\CORA2\Scripts\training_data4.mat')
 % load('F:\matlab_stuff\Straight_Flight_4722ALLPLOTS\CORA2\Scripts\Quad Testing\data_quad2.mat')
+set(0,'DefaultFigureWindowStyle','normal')
 
-% figure
-% tiledlayout("horizontal")
-% nexttile
+figure
+tiledlayout('flow');
+nexttile
 
 datafile = 'adversarial_data_0.04.csv';
 % 
 nn = importNetworkFromONNX('base_model.onnx',InputDataFormats='BC');
-% L0 = lipschitz_robustness(nn,datafile);
+L0 = lipschitz_robustness(nn,datafile);
 plot_results(nn,"base")
 % 
-% % nexttile
-% nn = importNetworkFromONNX('adversarial_model_0.005.onnx',InputDataFormats='BC');
-% L1 = lipschitz_robustness(nn,datafile);
-% % plot_results(nn,"adversarial (0.005)")
+nexttile
+nn = importNetworkFromONNX('adversarial_model_0.005.onnx',InputDataFormats='BC');
+L1 = lipschitz_robustness(nn,datafile);
+plot_results(nn,"adversarial (0.005)")
 % % 
-% % nexttile
-% nn = importNetworkFromONNX('adversarial_model_0.01.onnx',InputDataFormats='BC');
-% L2 = lipschitz_robustness(nn,datafile);
-% % plot_results(nn,"adversarial (0.01)")
+nexttile
+% figure
+nn = importNetworkFromONNX('adversarial_model_0.01.onnx',InputDataFormats='BC');
+L2 = lipschitz_robustness(nn,datafile);
+plot_results(nn,"adversarial (0.01)")
+
+nexttile
+nn = importNetworkFromONNX('adversarial_model_0.02.onnx',InputDataFormats='BC');
+L3 = lipschitz_robustness(nn,datafile);
+plot_results(nn,"adversarial (0.02)")
 % % 
-% % nexttile
-% nn = importNetworkFromONNX('adversarial_model_0.02.onnx',InputDataFormats='BC');
-% L3 = lipschitz_robustness(nn,datafile);
-% % plot_results(nn,"adversarial (0.02)")
-% % 
-% % nexttile
-% nn = importNetworkFromONNX('adversarial_model_0.04.onnx',InputDataFormats='BC');
-% L4 = lipschitz_robustness(nn,datafile);
-% % plot_results(nn,"adversarial (0.04)")
-% answer = [L0;L1;L2;L3;L4]
+nexttile
+nn = importNetworkFromONNX('adversarial_model_0.04.onnx',InputDataFormats='BC');
+L4 = lipschitz_robustness(nn,datafile);
+plot_results(nn,"adversarial (0.04)")
+answer = [L0;L1;L2;L3;L4]
 
 
 function L = lipschitz_robustness(nn,datafile)
@@ -60,10 +62,10 @@ function L = lipschitz_robustness(nn,datafile)
         end
         [dist,index] = min(eucs);
 
-        x = T(index,:); 
+        x = T(index,1:7); 
         y = data(i,1:7);
-        fx = nn.predict(T(index,:));
-        fy= data(i,8);
+        fx = nn.predict(x);
+        fy= nn.predict(y);
 
         L1 = abs(fx-fy)./abs(x-y);
         L = [L;mean(L1)];
@@ -82,8 +84,8 @@ function plot_results(nn,name)
     err2 = [];
     
     load("Normalisation_Constants.mat")
-    Cs = data2(1,:);
-    Ss = data2(2,:);
+    % Cs = data2(1,:);
+    % Ss = data2(2,:);
     
     for i = 1:length(data)
         ex_nn2 = [ex_nn2; (nn.predict(data(i,1:7))* (0.012)) + 0.181];
