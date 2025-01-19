@@ -97,7 +97,7 @@ def main(epsilon,basetraining):
 # Entry point of the script
 if __name__ == "__main__":
     # main(0.005,True)
-    # main(0.01,True)
+    main(0.01,True)
     # main(0.02,True)
-    main(0.04,True)
+    # main(0.04,True)
 # 
