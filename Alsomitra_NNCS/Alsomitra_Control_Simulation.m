@@ -19,9 +19,9 @@ function Alsomitra_Control_simulation(network1)
     set(0, 'defaultLegendFontName', 'Times New Roman');
     set(0, 'DefaultLineLineWidth', 1.0);
     
-    load("Normalisation_Constants.mat")
-    Cs = data2(1,:);
-    Ss = data2(2,:);
+    % load("Normalisation_Constants.mat")
+    % Cs = data2(1,:);
+    % Ss = data2(2,:);
     
     % NN or PID controller
     nnc =  false;
@@ -51,7 +51,7 @@ function Alsomitra_Control_simulation(network1)
     for n = 0.1:0.025:0.3
         disp(n)
         hold on
-        [data1,errors1,ex_all1] = simulate(n/0.07,parameters,ObjectiveFunction,nn,nnc,Ss,Cs);
+        [data1,errors1,ex_all1] = simulate(n/0.07,parameters,ObjectiveFunction,nn,nnc);
         data = [data;data1];
     end
     % xlim([22 24])
@@ -76,7 +76,7 @@ function Alsomitra_Control_simulation(network1)
     end
     
     
-    function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn, nnc,Ss,Cs)
+    function [data,errors,ex_all,ds] = simulate(y0,parameters, ObjectiveFunction,nn, nnc)
     
         v_xp0 = 1;
         v_yp0 = 0;
@@ -91,7 +91,7 @@ function Alsomitra_Control_simulation(network1)
     
         if nnc == true
             % NN CONTROLLER
-            ex = nn.predict(([v_xp0 v_yp0 omega0 theta0 x0 y0 error2] - Cs) ./ Ss);
+            ex = nn.predict(([v_xp0 v_yp0 omega0 theta0 x0 y0 error2]));
             ex = (ex * (0.012)) + 0.181;
         else
             tic
@@ -107,7 +107,7 @@ function Alsomitra_Control_simulation(network1)
             toc
         end
         
-        num_sims = 24;
+        num_sims = 40;
         x_scatter = [];
         y_scatter = [];
         
@@ -129,7 +129,7 @@ function Alsomitra_Control_simulation(network1)
             if nnc == true
                 % NN CONTROLLER
                 % ex = nn.predict([v_xp0 v_yp0 omega0 theta0 x0 y0 error2] - rot90(Cs) ./ rot90(Ss));
-                ex = nn.predict(([v_xp0 v_yp0 omega0 theta0 x0 y0 error2] - Cs) ./ Ss);
+                ex = nn.predict(([v_xp0 v_yp0 omega0 theta0 x0 y0 error2]));
                 ex = (ex * (0.012)) + 0.181;
             else
                 % % PID CONTROLLER
@@ -143,7 +143,7 @@ function Alsomitra_Control_simulation(network1)
                 %     error = error * 0.25;
                 % end
     
-                ex = 0.1893 + (error * 0.05)+ (derivative * -0.45)+ (integral * 0.0000);   
+                ex = 0.19 + (error * 0.05)+ (derivative * -0.5)+ (integral * 0.0000);   
                 if ex > 0.193
                     ex = 0.193;
                 elseif ex < 0.181
@@ -250,14 +250,14 @@ function [v_xp, v_yp, omega, theta, x_, y_, error, alpha] = Alsomitra_nondim(opt
     T = 2;
     f = 999;
     % number of periods
-    n = 12 / num_sims; % Cathal's % n = 1; % mine
+    n = 20 / num_sims; % Cathal's % n = 1; % mine
     
     % time interval over which to solve the ODEs
     t = 0:0.01:n;
     % fprintf("t end = " + t(end))
     
     % initial conditions for v_xp, v_yp, omega, theta, x, y
-    % eps in Matlab gives a value close to 0
+    % eps in Matlab gives a value close to  0
     % Y0 = [0; 0; 0; 0; 0.; 0.]; % Cathal's % Y0 = [0.1; 0.1; 0.1; 0.1; 0.1; 0.1]; % mine
     Y0 = [v_xp0, v_yp0, omega0, theta0, x0, y0, error, alpha];
 
