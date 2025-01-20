@@ -4,7 +4,7 @@ function [completed, R,simRes, dims] = Alsomitra_Closed_Loop_Reachability(networ
     % Parameters --------------------------------------------------------------
     tic
     params.tFinal = 20;
-    w = 0.02;
+    w = 0.1;
     % w = 0.01;
     % w = 0.0;
     
