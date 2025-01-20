@@ -82,7 +82,7 @@ class AdversarialTrainer:
         #     adversarial_x, 0, 1
         # )  # Ensure values stay within [0, 1] bounds
 
-    def train_with_adversarial_examples(self, train_dataset, epochs=10, callbacks=None, alpha=1):
+    def train_with_adversarial_examples(self, train_dataset, epochs=10, callbacks=None, alpha=0.5):
         """
         Trains the model on both normal and adversarial examples to enforce robustness within an epsilon-ball.
 
