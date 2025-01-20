@@ -4,16 +4,16 @@ function [completed, R,simRes, dims] = Alsomitra_Closed_Loop_Reachability(networ
     % Parameters --------------------------------------------------------------
     tic
     params.tFinal = 20;
-    w = 0.1;
-    % w = 0.01;
-    % w = 0.0;
+    % w = 0.05;
+    % w = 0.02;
+    w = 0.05;
     
     params.R0 = polyZonotope(interval( ...
         [1-w; 0-w; 0-w; 0-w; 0-w; 0.1/0.07-w; 0-w;],...
         [1+w; 0+w; 0+w; 0+w; 0+w; 0.3/0.07+w; 0+w;]));
     
     % Reachability Settings ---------------------------------------------------
-    
+   
     options.timeStep = 0.01;
     options.alg = 'lin';
     options.tensorOrder = 2;
@@ -68,8 +68,10 @@ function [completed, R,simRes, dims] = Alsomitra_Closed_Loop_Reachability(networ
     x_c1 = -2:1:30; y_c1 = -1 * x_c1;
     plot([x_c1] * 1000/70, [y_c1]* 1000/70, '--black')
     daspect([1 1 1])
-    % xlim([0 25]); ylim([-25 0])
-    xlim([35 45]); ylim([-45 -35])
+
+    xlim([0 45]); ylim([-45 0])
+    % xlim([35 45]); ylim([-45 -35])
+
     title(network)
     
     t = tic;
