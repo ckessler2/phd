@@ -6,11 +6,11 @@ function [completed, R,simRes, dims] = Alsomitra_Closed_Loop_Reachability(networ
     params.tFinal = 20;
     % w = 0.05;
     % w = 0.02;
-    w = 0.05;
+    w = 0;
     
     params.R0 = polyZonotope(interval( ...
-        [1-w; 0-w; 0-w; 0-w; 0-w; 0.1/0.07-w; 0-w;],...
-        [1+w; 0+w; 0+w; 0+w; 0+w; 0.3/0.07+w; 0+w;]));
+        [1; 0; 0; 0; 0; 0.1/0.07-w; 0;],...
+        [1; 0; 0; 0; 0; 0.3/0.07+w; 0;]));
     
     % Reachability Settings ---------------------------------------------------
    
@@ -69,7 +69,7 @@ function [completed, R,simRes, dims] = Alsomitra_Closed_Loop_Reachability(networ
     plot([x_c1] * 1000/70, [y_c1]* 1000/70, '--black')
     daspect([1 1 1])
 
-    xlim([0 45]); ylim([-45 0])
+    xlim([0 50]); ylim([-55 5])
     % xlim([35 45]); ylim([-45 -35])
 
     title(network)
@@ -77,11 +77,14 @@ function [completed, R,simRes, dims] = Alsomitra_Closed_Loop_Reachability(networ
     t = tic;
     R = [];
     
-    % segments = 8;
+    segments = 8;
+    min_y = 0.1 - w;
+    max_y = 0.3 + w;
+    intervals = linspace(min_y, max_y, segments+1);
+
     % for i = 1:1
-    %     n = segments/0.2;
-    %     start_ = 0.1 + (i-1)/n;
-    %     end_ = 0.1 + i/n;
+    %     start_ = intervals(i);
+    %     end_ = intervals(i+1);
     %     params.R0 = polyZonotope(interval( ...
     %         [1; 0; 0; 0; 0; start_/0.07; 0;],...
     %         [1; 0; 0; 0; 0; end_/0.07; 0;]));
@@ -89,7 +92,6 @@ function [completed, R,simRes, dims] = Alsomitra_Closed_Loop_Reachability(networ
     % 
     %     % figure; hold on
     %     % 
-    %     % goalSet3 = interval([-999;-999;-999;-999;0;0;-sqrt(2)*0.3 * 0.07;],[999;999;999;999;0;0;sqrt(2)*0.3 * 0.07;]);
     %     % spec = specification(goalSet3, 'safeSet',interval(0, params.tFinal));
     %     % plotOverTime(spec, 7, 'DisplayName', 'Goal set');
     %     % plotOverTime(X, 7, 'DisplayName', 'Reachable set','FaceColor', [0 0.4470 0.7410]);
@@ -153,4 +155,5 @@ function [completed, R,simRes, dims] = Alsomitra_Closed_Loop_Reachability(networ
     % 
     % % call other plot file
     % plot_alsomitra_reachability
+    completed = true;
 end
