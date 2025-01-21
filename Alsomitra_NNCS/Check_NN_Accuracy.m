@@ -11,7 +11,7 @@ nexttile
 
 datafile = 'adversarial_data_0.04.csv';
 
-nn = importNetworkFromONNX('base_model.onnx',InputDataFormats='BC');
+nn = importNetworkFromONNX('base_model2.onnx',InputDataFormats='BC');
 L0 = lipschitz_robustness(nn,datafile);
 plot_results(nn,"base")
 
