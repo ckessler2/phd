@@ -12,6 +12,9 @@ from onnx_saver import OnnxModelSaver  # Saves models in ONNX format
 from adversarial_trainer import AdversarialTrainer  # Enhances model robustness with adversarial training
 from evaluator2 import Evaluator2
 import numpy as np
+import onnx
+import tensorflow as tf
+import tf2onnx
 
 def main(epsilon,basetraining):
     """
@@ -57,7 +60,13 @@ def main(epsilon,basetraining):
         base_metrics = evaluator.evaluate(history, model, X_test, y_test)  # Evaluates base model
         
         saver = OnnxModelSaver()  # Initialises the model saver
-        saver.save(model, "base_model")  # Saves base model as ONNX
+        # saver.save(model, "base_model")  # Saves base model as ONNX
+        
+        # Export network as onnx
+        input_signature = [tf.TensorSpec([1,7], tf.float32, name='x')]
+        onnx_model, _ = tf2onnx.convert.from_keras(model, input_signature, opset=13)
+        onnx.save(onnx_model, 'base_model.onnx')
+        
     else:
         print("Base model already trained, skipping")
 
@@ -98,6 +107,6 @@ def main(epsilon,basetraining):
 if __name__ == "__main__":
     # main(0.005,True)
     # main(0.01,True)
-    # main(0.02,True)
-    main(0.08,True)
+    main(0.02,True)
+    # main(0.08,True)
 # 
