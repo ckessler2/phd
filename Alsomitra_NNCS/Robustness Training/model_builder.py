@@ -53,6 +53,7 @@ class ModelBuilder:
                 ),
             ]
         )
+        self.model.output_names=["output"]
         return self.model
 
     def compile_model(self):
