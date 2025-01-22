@@ -6,11 +6,11 @@ function [completed, R,simRes, dims] = Alsomitra_Closed_Loop_Reachability(networ
     params.tFinal = 20;
     % w = 0.05;
     % w = 0.02;
-    w = 0;
+    w = 0.2;
     
     params.R0 = polyZonotope(interval( ...
-        [1; 0; 0; 0; 0; 0.1/0.07-w; 0;],...
-        [1; 0; 0; 0; 0; 0.3/0.07+w; 0;]));
+        [1; 0; 0; 0; 0; (0.1-w)/0.07; 0;],...
+        [1; 0; 0; 0; 0; (0.3+w)/0.07; 0;]));
     
     % Reachability Settings ---------------------------------------------------
    
@@ -82,78 +82,78 @@ function [completed, R,simRes, dims] = Alsomitra_Closed_Loop_Reachability(networ
     max_y = 0.3 + w;
     intervals = linspace(min_y, max_y, segments+1);
 
-    % for i = 1:1
-    %     start_ = intervals(i);
-    %     end_ = intervals(i+1);
-    %     params.R0 = polyZonotope(interval( ...
-    %         [1; 0; 0; 0; 0; start_/0.07; 0;],...
-    %         [1; 0; 0; 0; 0; end_/0.07; 0;]));
-    %     [res, X, simRes] = verify(sys, spec, params, options, evParams);
+    for i = 1:8
+        start_ = intervals(i);
+        end_ = intervals(i+1);
+        params.R0 = polyZonotope(interval( ...
+            [1; 0; 0; 0; 0; start_/0.07; 0;],...
+            [1; 0; 0; 0; 0; end_/0.07; 0;]));
+        [res, X, simRes] = verify(sys, spec, params, options, evParams);
+
+        % figure; hold on
+        % 
+        % spec = specification(goalSet3, 'safeSet',interval(0, params.tFinal));
+        % plotOverTime(spec, 7, 'DisplayName', 'Goal set');
+        % plotOverTime(X, 7, 'DisplayName', 'Reachable set','FaceColor', [0 0.4470 0.7410]);
+
+        R = [R; X];
+    end
+    % [res, R, simRes] = verify(sys, spec, params, options, evParams, true);
+
+
+
+    tTotal = toc(t);
+    disp(['Result: ' res])
+
+    % Visualization -----------------------------------------------------------
+    disp("Plotting..")
+
+    figure; hold on; box on;
+
+    % plot specification (over entire time horizon)
+    spec = specification(goalSet, 'safeSet', interval(0, params.tFinal));
+    % plotOverTime(spec, 3, 'DisplayName', 'Goal set');
+
+    dims = [5 6];
+    hold on; box on;
+    projDim = dims;
+    h1 = [];
+
+    % plot reachable sets
+    % useCORAcolors("CORA:contDynamics")
+    for i = 1:length(R)
+        h1 =  plot(R(i),projDim,'DisplayName','Reachable set','Unify',true,'UnifyTotalSets',5,'FaceColor', [0 0.4470 0.7410]);
+    end
+
+    % plot initial set
+    h2 = plot(R(1).R0,projDim, 'DisplayName','Initial set','FaceColor', [1 1 1]);
+
+    % plot simulation results      
+    h3 = plot(simRes1,projDim,'DisplayName','Simulations','color','k');
+
+    % label plot
+    xlabel(['x_{',num2str(projDim(1)),'}']);
+    ylabel(['x_{',num2str(projDim(2)),'}']);
+    legend([h1 h2 h3], {"Reachable set",'Initial set', 'Simulations'})
+    grid on
+    daspect([1 1 1])
+
+    % labels and legend
+    xlabel('x (m)'); ylabel('y (m)');
+    title("Reachability of NN-controlled Alsomitra")
+
+    x_c1 = -2:1:30;
+    y_c1 = -1 * x_c1;
+
+    % plot([x_c1] * 1000/70, [y_c1]* 1000/70, '--black')
+
+    % scatter(x_scatter * 70 / 1000,y_scatter * 70 / 1000,4,'blue')
+    % scatter(x_scatter,y_scatter,2,'filled','s')
     % 
-    %     % figure; hold on
-    %     % 
-    %     % spec = specification(goalSet3, 'safeSet',interval(0, params.tFinal));
-    %     % plotOverTime(spec, 7, 'DisplayName', 'Goal set');
-    %     % plotOverTime(X, 7, 'DisplayName', 'Reachable set','FaceColor', [0 0.4470 0.7410]);
-    % 
-    %     R = [R; X];
-    % end
-    % % [res, R, simRes] = verify(sys, spec, params, options, evParams, true);
-    % 
-    % 
-    % 
-    % tTotal = toc(t);
-    % disp(['Result: ' res])
-    % 
-    % % Visualization -----------------------------------------------------------
-    % disp("Plotting..")
-    % 
-    % figure; hold on; box on;
-    % 
-    % % plot specification (over entire time horizon)
-    % spec = specification(goalSet, 'safeSet', interval(0, params.tFinal));
-    % % plotOverTime(spec, 3, 'DisplayName', 'Goal set');
-    % 
-    % dims = [5 6];
-    % hold on; box on;
-    % projDim = dims;
-    % h1 = [];
-    % 
-    % % plot reachable sets
-    % % useCORAcolors("CORA:contDynamics")
-    % for i = 1:length(R)
-    %     h1 =  plot(R(i),projDim,'DisplayName','Reachable set','Unify',true,'UnifyTotalSets',5,'FaceColor', [0 0.4470 0.7410]);
-    % end
-    % 
-    % % plot initial set
-    % h2 = plot(R(1).R0,projDim, 'DisplayName','Initial set','FaceColor', [1 1 1]);
-    % 
-    % % plot simulation results      
-    % h3 = plot(simRes1,projDim,'DisplayName','Simulations','color','k');
-    % 
-    % % label plot
-    % xlabel(['x_{',num2str(projDim(1)),'}']);
-    % ylabel(['x_{',num2str(projDim(2)),'}']);
-    % legend([h1 h2 h3], {"Reachable set",'Initial set', 'Simulations'})
-    % grid on
-    % daspect([1 1 1])
-    % 
-    % % labels and legend
-    % xlabel('x (m)'); ylabel('y (m)');
-    % title("Reachability of NN-controlled Alsomitra")
-    % 
-    % x_c1 = -2:1:30;
-    % y_c1 = -1 * x_c1;
-    % 
-    % % plot([x_c1] * 1000/70, [y_c1]* 1000/70, '--black')
-    % 
-    % % scatter(x_scatter * 70 / 1000,y_scatter * 70 / 1000,4,'blue')
-    % % scatter(x_scatter,y_scatter,2,'filled','s')
-    % % 
-    % % xlim([0 25])
-    % % ylim([-25 5])
-    % 
-    % % call other plot file
-    % plot_alsomitra_reachability
+    % xlim([0 25])
+    % ylim([-25 5])
+
+    % call other plot file
+    plot_alsomitra_reachability
     completed = true;
 end
