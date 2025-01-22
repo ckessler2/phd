@@ -77,12 +77,12 @@ function [completed, R,simRes, dims] = Alsomitra_Closed_Loop_Reachability(networ
     t = tic;
     R = [];
     
-    segments = 8;
+    segments = 16;
     min_y = 0.1 - w;
     max_y = 0.3 + w;
     intervals = linspace(min_y, max_y, segments+1);
 
-    for i = 1:8
+    for i = 1:segments
         start_ = intervals(i);
         end_ = intervals(i+1);
         params.R0 = polyZonotope(interval( ...
