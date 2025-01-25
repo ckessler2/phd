@@ -113,14 +113,14 @@ class AdversarialTrainer:
                 adversarial_x_batch = self.generate_adversarial_example(
                     x_batch, y_batch
                 )
-                # adversarial_data.append(np.array(adversarial_x_batch))
 
                 # Concatenate original and adversarial examples
-                # combined_x = tf.concat([x_batch, adversarial_x_batch], axis=0)
-                # combined_y = tf.concat([y_batch, y_batch], axis=0)
+                combined_x = tf.concat([x_batch, adversarial_x_batch], axis=0)
+                combined_y = tf.concat([y_batch, y_batch], axis=0)
 
                 # Train on combined data
-                history = self.model.train_on_batch(x_batch,y_batch)
+                # history = self.model.train_on_batch(x_batch,y_batch)
+                history = self.model.train_on_batch(combined_x,combined_y)
                 loss = np.float32(history[0])
                 val_loss = np.float32(history[1])
                 

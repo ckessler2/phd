@@ -47,12 +47,10 @@ type UnnormalisedInputVector = Vector Rat 7
 minimumInputValues : UnnormalisedInputVector
 minimumInputValues = [0.967568147, -0.607397104, -0.356972794, -0.96847853, 0.482420778, -41.68140527, -0.022779722]
 
---minimumInputValues = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
 
 maximumInputValues : UnnormalisedInputVector
 maximumInputValues = [3.489893069, -0.043021391, 0.049180223, -0.068002516, 41.714717, 4.197233529, 0.348832422]
 
---maximumInputValues = [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
 
 validInput : UnnormalisedInputVector -> Bool
 validInput x = forall i . minimumInputValues ! i <= x ! i <= maximumInputValues ! i
@@ -75,17 +73,13 @@ norm_alsomitra x = alsomitra (normalise x)
 
 droneFarAboveLine : UnnormalisedInputVector -> Bool
 droneFarAboveLine x =
-  x ! error >= (0.5 + 0.20712096) / (6*0.8521974)
+  x ! error >= 0.1
   
-scaleOutput : Rat -> Rat
-scaleOutput x = x * 1
-
-
 
 @property
 property1 : Bool
 property1 = forall x . validInput x and droneFarAboveLine x =>
-  norm_alsomitra x ! e_x >= scaleOutput 0.99
+  norm_alsomitra x ! e_x >= 0.99
 
 
 --------------------------------------------------------------------------------
@@ -96,7 +90,7 @@ property1 = forall x . validInput x and droneFarAboveLine x =>
 
 droneFarBelowLine : UnnormalisedInputVector -> Bool
 droneFarBelowLine x =
-  x ! error <= (-0.1 + 0.20712096) / (6*0.8521974)
+  x ! error <= 0.5
 
 
 
@@ -153,3 +147,15 @@ droneCloseToLine x =
 --property5 : Bool
 --property5 = forall x . validInput x and droneCloseToLine x =>
 --  norm_alsomitra x ! e_x <= (0.5 + 0.1) and norm_alsomitra x ! e_x >= (0.5 - 0.1)
+
+
+-- Property 5 - NOT WORKING AS INTENDED
+
+-- Output always between 0 and 1
+
+@property
+property6 : Bool
+property6 = forall x . validInput x =>
+	norm_alsomitra x ! e_x <= 0.9 and norm_alsomitra x ! e_x >= 0
+
+
