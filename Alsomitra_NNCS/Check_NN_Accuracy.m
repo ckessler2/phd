@@ -9,9 +9,9 @@ figure
 tiledlayout('flow');
 nexttile
 
-datafile = 'adversarial_data_0.04.csv';
+datafile = 'adversarial_data_0.02.csv';
 
-nn = importNetworkFromONNX('base_model2.onnx',InputDataFormats='BC');
+nn = importNetworkFromONNX('base_model.onnx',InputDataFormats='BC');
 L0 = lipschitz_robustness(nn,datafile);
 plot_results(nn,"base")
 
@@ -24,17 +24,17 @@ plot_results(nn,"base")
 % nn = importNetworkFromONNX('adversarial_model_0.01.onnx',InputDataFormats='BC');
 % L2 = lipschitz_robustness(nn,datafile);
 % plot_results(nn,"adversarial (0.01)")
-% 
-% nexttile
-% nn = importNetworkFromONNX('adversarial_model_0.02.onnx',InputDataFormats='BC');
-% L3 = lipschitz_robustness(nn,datafile);
-% plot_results(nn,"adversarial (0.02)")
-% 
-% nexttile
-% nn = importNetworkFromONNX('adversarial_model_0.04.onnx',InputDataFormats='BC');
-% L4 = lipschitz_robustness(nn,datafile);
-% plot_results(nn,"adversarial (0.04)")
-% answer = [L0;L1;L2;L3;L4]
+
+nexttile
+nn = importNetworkFromONNX('adversarial_model_0.02.onnx',InputDataFormats='BC');
+L3 = lipschitz_robustness(nn,datafile);
+plot_results(nn,"adversarial (0.02)")
+
+nexttile
+nn = importNetworkFromONNX('adversarial_model_0.04.onnx',InputDataFormats='BC');
+L4 = lipschitz_robustness(nn,datafile);
+plot_results(nn,"adversarial (0.04)")
+answer = [L0;L1;L2;L3;L4]
 
 
 function L = lipschitz_robustness(nn,datafile)

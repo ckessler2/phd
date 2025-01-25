@@ -1,4 +1,4 @@
-function [completed, R,simRes, dims] = Alsomitra_Closed_Loop_Reachability(network)
+function [completed, R,simRes, dims] = Alsomitra_Closed_Loop_Reachability(network,w,segments)
 
     set(0,'DefaultFigureWindowStyle','docked')
     % Parameters --------------------------------------------------------------
@@ -6,7 +6,7 @@ function [completed, R,simRes, dims] = Alsomitra_Closed_Loop_Reachability(networ
     params.tFinal = 20;
     % w = 0.05;
     % w = 0.02;
-    w = 0.2;
+    % w = 0.2;
     
     params.R0 = polyZonotope(interval( ...
         [1; 0; 0; 0; 0; (0.1-w)/0.07; 0;],...
@@ -38,14 +38,14 @@ function [completed, R,simRes, dims] = Alsomitra_Closed_Loop_Reachability(networ
     % System Dynamics ---------------------------------------------------------
         
     alsomitra = nonlinearSys(@nondimfreelyfallingplate6);
-    tic
+    % tic
     
     % nn = neuralNetwork.readONNXNetwork('base_model.onnx');
     % nn = neuralNetwork.readONNXNetwork('adversarial_model_0.01.onnx');
     nn = neuralNetwork.readONNXNetwork(network);
     nn.evaluate(params.R0, evParams);
-    nn.refine(2, "layer", "both", params.R0.c, true);
-    
+    % nn.refine(2, "layer", "both", params.R0.c, true);
+    % nn.refine(2, "layer", "sensitivity", params.R0.c, true);
     
     sys = neurNetContrSys(alsomitra, nn, 0.5);
     
@@ -60,29 +60,30 @@ function [completed, R,simRes, dims] = Alsomitra_Closed_Loop_Reachability(networ
     % Verification ------------------------------------------------------------
     simRes1 = simulateRandom(sys,params);
     % Reachability Analysis ---------------------------------------------------
-    toc
+    % toc
     % plot(x(:,5),x(:,6))
-    nexttile
-    hold on
-    plot(simRes1,[5,6])
-    x_c1 = -2:1:30; y_c1 = -1 * x_c1;
-    plot([x_c1] * 1000/70, [y_c1]* 1000/70, '--black')
-    daspect([1 1 1])
-
-    xlim([0 50]); ylim([-55 5])
-    % xlim([35 45]); ylim([-45 -35])
-
-    title(network)
+    % nexttile
+    % hold on
+    % plot(simRes1,[5,6])
+    % x_c1 = -2:1:30; y_c1 = -1 * x_c1;
+    % plot([x_c1] * 1000/70, [y_c1]* 1000/70, '--black')
+    % daspect([1 1 1])
+    % 
+    % xlim([0 50]); ylim([-55 5])
+    % % xlim([35 45]); ylim([-45 -35])
+    % 
+    % title(network)
     
-    t = tic;
+    % t = tic;
     R = [];
     
-    segments = 16;
+    % segments = 32;
     min_y = 0.1 - w;
     max_y = 0.3 + w;
     intervals = linspace(min_y, max_y, segments+1);
 
     for i = 1:segments
+        tStart = tic;
         start_ = intervals(i);
         end_ = intervals(i+1);
         params.R0 = polyZonotope(interval( ...
@@ -97,12 +98,13 @@ function [completed, R,simRes, dims] = Alsomitra_Closed_Loop_Reachability(networ
         % plotOverTime(X, 7, 'DisplayName', 'Reachable set','FaceColor', [0 0.4470 0.7410]);
 
         R = [R; X];
+        toc(tStart) 
     end
     % [res, R, simRes] = verify(sys, spec, params, options, evParams, true);
 
 
 
-    tTotal = toc(t);
+    % tTotal = toc(t);
     disp(['Result: ' res])
 
     % Visualization -----------------------------------------------------------
@@ -155,5 +157,7 @@ function [completed, R,simRes, dims] = Alsomitra_Closed_Loop_Reachability(networ
 
     % call other plot file
     plot_alsomitra_reachability
+    name = network + "_reach_" + w + ".mat";
+    save(name, "R")
     completed = true;
 end
