@@ -28,7 +28,7 @@ def main(epsilon,basetraining):
     target_column = "target"  # Column name for the labels in the dataset
     input_size = 7  # Number of input features for the model
     batch_size = 100  # Batch size for training
-    epochs = 4000  # Number of epochs for training
+    epochs = 2000  # Number of epochs for training
     # epsilon = 0.000  # Epsilon for adversarial robustness (small perturbations)
 
     # Step 1: Data Handling
@@ -111,9 +111,9 @@ def main(epsilon,basetraining):
 
 # Entry point of the script
 if __name__ == "__main__":
-    main(0.005,True)
-    main(0.01,True)
-    main(0.02,True)
+    # main(0.005,True)
+    # main(0.01,True)
+    # main(0.02,True)
     main(0.04,True)
-    main(0.08,True)
+    # main(0.08,True)
 # 
