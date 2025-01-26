@@ -5,9 +5,24 @@ R0 = R;
 load("base_model.onnx_reach_0.2.mat")
 R2 = R;
 
+% Plot preamble.
+set(0, 'defaultFigureRenderer', 'painters')
+set(0,'DefaultFigureWindowStyle','docked')
+font=12;
+set(groot, 'defaultAxesTickLabelInterpreter', 'latex'); 
+set(groot, 'defaultLegendInterpreter', 'latex');
+set(0,'defaultTextInterpreter','latex');
+set(0, 'defaultAxesFontSize', font)
+set(0, 'defaultLegendFontSize', font)
+set(0, 'defaultAxesFontName', 'Times New Roman');
+set(0, 'defaultLegendFontName', 'Times New Roman');
+set(0, 'DefaultLineLineWidth', 0.5);
+
+
 
 dims = [5 6];
 f1 = figure ;
+tiledlayout(1,3); nexttile
 
 hold on; box on;
 projDim = dims;
@@ -34,7 +49,6 @@ h4 = plot([x_c1] * 1000/70, [y_c1]* 1000/70, '--black');
 % lgd = legend([h1 h2 h3 h4], {"Reachable set 1",'Reachable set 2', 'Reachable set 3', 'Desired Trajectory'});
 xlabel('$x$ (m)'); ylabel('$y$ (m)');
 title("Base model $x$ vs $y$")
-
 axis square;
 xlim([0 40])
 ylim([-40 5])
