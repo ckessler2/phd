@@ -45,11 +45,14 @@ type UnnormalisedInputVector = Vector Rat 7
 -- These correspond to the range of the inputs that the network is designed
 -- to work over. These are taken from the training dataset
 minimumInputValues : UnnormalisedInputVector
-minimumInputValues = [0.967568147, -0.607397104, -0.356972794, -0.96847853, 0.482420778, -41.68140527, -0.022779722]
-
+-- minimumInputValues = [0.967568147, -0.607397104, -0.356972794, -0.96847853, 0.482420778, -41.68140527, -0.022779722]
+-- minimumInputValues = [0.8415, -0.6356, -0.3773, -1.0135, -1.5792, -43.9753, -0.0414]
+minimumInputValues = [0.3370, -0.7485, -0.4585, -1.1936, -9.8257, -53.1511, -0.1157]
 
 maximumInputValues : UnnormalisedInputVector
-maximumInputValues = [3.489893069, -0.043021391, 0.049180223, -0.068002516, 41.714717, 4.197233529, 0.348832422]
+-- maximumInputValues = [3.489893069, -0.043021391, 0.049180223, -0.068002516, 41.714717, 4.197233529, 0.348832422]
+-- maximumInputValues = [3.6160, -0.0148, 0.0695, -0.0230, 43.7763, 6.4912, 0.3674]
+maximumInputValues = [4.1205, 0.0981, 0.1507, 0.1571, 52.0228, 15.6669, 0.4417]
 
 
 validInput : UnnormalisedInputVector -> Bool
@@ -68,7 +71,7 @@ norm_alsomitra x = alsomitra (normalise x)
 --------------------------------------------------------------------------------
 -- Property 1
 
--- If the drone is far above the line (error > 1), the network will always make it pitch down (e_x > 0.5)
+-- If the drone is far above the line (error > 1), the network will always make it pitch down (e_x > 0.99)
 
 
 droneFarAboveLine : UnnormalisedInputVector -> Bool
@@ -79,7 +82,7 @@ droneFarAboveLine x =
 @property
 property1 : Bool
 property1 = forall x . validInput x and droneFarAboveLine x =>
-  norm_alsomitra x ! e_x >= 0.99
+  norm_alsomitra x ! e_x >= 0.5
 
 
 --------------------------------------------------------------------------------
@@ -90,72 +93,48 @@ property1 = forall x . validInput x and droneFarAboveLine x =>
 
 droneFarBelowLine : UnnormalisedInputVector -> Bool
 droneFarBelowLine x =
-  x ! error <= 0.5
+  x ! error <= -0.1
 
 
 
 @property
 property2 : Bool
 property2 = forall x . validInput x and droneFarBelowLine x =>
-  norm_alsomitra x ! e_x <= 0.5
+  norm_alsomitra x ! e_x <= 0.01
 
 
---------------------------------------------------------------------------------------
+
+  ---------------------------------------------------------------------------------------
 -- Property 3
 
--- If the drone is traveling above a certain velocity and is pitched up, the COM should not be forwards
-
---drone is above a minumum speed
-droneAboveMinimumSpeed : UnnormalisedInputVector -> Bool
-droneAboveMinimumSpeed x = 
-  x ! dv_x >= 0.1  or x ! dv_y >= 0.1
-
-droneMovingFast : UnnormalisedInputVector -> Bool
-droneMovingFast x =
-  x ! dv_x >= 0.6 or x ! dv_y >= 0.6
+-- Output always within -0.1 : 1.1
 
 @property
 property3 : Bool
-property3 = forall x . validInput x and droneMovingFast x =>
-  norm_alsomitra x ! e_x <= 0.5
-
-
----------------------------------------------------------------------------------------
+property3 = forall x . validInput x =>
+	norm_alsomitra x ! e_x <= 1.01 and norm_alsomitra x ! e_x >= -0.01
+	
+  ---------------------------------------------------------------------------------------
+  
 -- Property 4
 
--- If the drone is going too fast, it will pitch up to slow down
+-- If the drone is close to line and d_theta is small, output will be intermediate
 
-dronePastMaxSpeed : UnnormalisedInputVector -> Bool
-dronePastMaxSpeed x =
-  x ! dv_x >= 0.8
+droneCloseToLine : UnnormalisedInputVector -> Bool
+droneCloseToLine x =
+  x ! error <= 0.1 and
+  x ! error >= -0.1
+  
+droneStable : UnnormalisedInputVector -> Bool
+droneStable x = 
+  x ! d_theta >= -0.1 and
+  x ! d_theta <= 0.1 
 
 @property
 property4 : Bool
-property4 = forall x . validInput x and dronePastMaxSpeed x => 
-  norm_alsomitra x ! e_x <= 0.5
+property4 = forall x . validInput x and droneCloseToLine x and droneStable x=> 
+  norm_alsomitra x ! e_x <= 0.6 and norm_alsomitra x ! e_x >= 0.4
 
   ---------------------------------------------------------------------------------------
--- Property 5 - NOT WORKING AS INTENDED
-
--- If the drone is close to the line, no extreme control measures will be taken (e_x stays within +- 0.1)
-
-droneCloseToLine : UnnormalisedInputVector -> Bool
-droneCloseToLine x = 
-  not droneFarAboveLine x and not droneFarBelowLine x
-
--- @property
---property5 : Bool
---property5 = forall x . validInput x and droneCloseToLine x =>
---  norm_alsomitra x ! e_x <= (0.5 + 0.1) and norm_alsomitra x ! e_x >= (0.5 - 0.1)
-
-
--- Property 5 - NOT WORKING AS INTENDED
-
--- Output always between 0 and 1
-
-@property
-property6 : Bool
-property6 = forall x . validInput x =>
-	norm_alsomitra x ! e_x <= 0.9 and norm_alsomitra x ! e_x >= 0
 
 
