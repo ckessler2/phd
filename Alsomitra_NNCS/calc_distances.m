@@ -1,8 +1,8 @@
 data2 = [0 0];
 
-for n = 1:216
+for n = 1:360
     data3 = [];
-    for m = 1:216
+    for m = 1:360
         if n ~= m
             % data2((216*(n-1)+m),:) = data(n,:)- data(m,:);
             euc = sqrt(sum((data(n,:) - data(m,:)) .^ 2));

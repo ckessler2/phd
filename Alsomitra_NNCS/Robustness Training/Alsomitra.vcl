@@ -71,7 +71,7 @@ norm_alsomitra x = alsomitra (normalise x)
 --------------------------------------------------------------------------------
 -- Property 1
 
--- If the drone is far above the line (error > 1), the network will always make it pitch down (e_x > 0.99)
+-- If the drone is far above the line (error > 0.2), the network will always make it pitch down (e_x > 0.5)
 
 
 droneFarAboveLine : UnnormalisedInputVector -> Bool
@@ -88,7 +88,7 @@ property1 = forall x . validInput x and droneFarAboveLine x =>
 --------------------------------------------------------------------------------
 -- Property 2
 
--- If the drone is below the line (error < -0.1), the network will always make it pitch up (e_x < 0.5)
+-- If the drone is below the line (error < -0.1), the network will always make it pitch up (e_x < 0.01)
 
 
 droneFarBelowLine : UnnormalisedInputVector -> Bool
