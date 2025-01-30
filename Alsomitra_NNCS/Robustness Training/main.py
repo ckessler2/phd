@@ -24,8 +24,8 @@ def main(epsilon,basetraining,name):
     """
     
     # Parameters
-    filepath = "Training_Data.csv"  # Path to the dataset file
-    # filepath = "Training_Data_Normalised.csv"  # Path to the dataset file
+    # filepath = "Training_Data.csv"  # Path to the dataset file
+    filepath = "Training_Data_Normalised.csv"  # Path to the dataset file
     target_column = "target"  # Column name for the labels in the dataset
     input_size = 7  # Number of input features for the model
     batch_size = 100  # Batch size for training
