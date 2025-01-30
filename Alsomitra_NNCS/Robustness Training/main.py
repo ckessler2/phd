@@ -113,8 +113,8 @@ def main(epsilon,basetraining,name):
 # Entry point of the script
 if __name__ == "__main__":
     main(0.005,True,"_Norm")
-    # main(0.01,True,"_Norm")
-    # main(0.02,True,"_Norm")
-    # main(0.04,True,"_Norm")
-    # main(0.08,True,"_Norm")
+    main(0.01,True,"_Norm")
+    main(0.02,True,"_Norm")
+    main(0.04,True,"_Norm")
+    main(0.08,True,"_Norm")
 # 
