@@ -44,7 +44,7 @@ class DataHandler:
         ]
         # Uncomment the next line to visualise the dataframe in a GUI
         # show(self.df)
-        self.min_max_scale_target()
+        # self.min_max_scale_target()
         return self.df
 
     def min_max_scale_target(self, target_column="target"):

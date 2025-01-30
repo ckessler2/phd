@@ -1,6 +1,27 @@
 
 import tensorflow as tf
 
+import tensorflow as tf
+
+class InputMask(tf.keras.layers.Layer):
+    def __init__(self, mask_indices, **kwargs):
+        super(InputMask, self).__init__(**kwargs)
+        self.mask_indices = mask_indices
+
+    def build(self, input_shape):
+        # Create a mask at build time with all ones
+        self.mask = tf.ones(input_shape[1:])
+        # Set zeros at the specified indices
+        for idx in self.mask_indices:
+            self.mask = tf.tensor_scatter_nd_update(self.mask, [[idx]], [0.0])
+    
+    def call(self, inputs):
+        return inputs * self.mask
+
+    def get_config(self):
+        config = super(InputMask, self).get_config()
+        config.update({"mask_indices": self.mask_indices})
+        return config
 
 class ModelBuilder:
     """
@@ -33,6 +54,7 @@ class ModelBuilder:
         self.model = tf.keras.Sequential(
             [
                 tf.keras.layers.Input(shape=(self.input_size,), name="input_features"),
+                InputMask(mask_indices=[4, 5]),
                 tf.keras.layers.Dense(
                     64,
                     activation="sigmoid",
