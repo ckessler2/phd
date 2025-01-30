@@ -55,6 +55,7 @@ maximumInputValues = [3.489893069, -0.043021391, 0.049180223, -0.068002516, 41.7
 -- maximumInputValues = [4.1205, 0.0981, 0.1507, 0.1571, 52.0228, 15.6669, 0.4417]
 
 
+
 validInput : UnnormalisedInputVector -> Bool
 validInput x = forall i . minimumInputValues ! i <= x ! i <= maximumInputValues ! i
 
@@ -76,13 +77,13 @@ norm_alsomitra x = alsomitra (normalise x)
 
 droneFarAboveLine : UnnormalisedInputVector -> Bool
 droneFarAboveLine x =
-  x ! error >= (0.2 * 0.37161) + -0.0227797
+  x ! error >= 0.2
   
 
 @property
 property1 : Bool
 property1 = forall x . validInput x and droneFarAboveLine x =>
-  norm_alsomitra x ! e_x >= (0.5 * 0.012) + 0.181
+  norm_alsomitra x ! e_x >= 0.5
 
 
 --------------------------------------------------------------------------------
@@ -93,14 +94,14 @@ property1 = forall x . validInput x and droneFarAboveLine x =>
 
 droneFarBelowLine : UnnormalisedInputVector -> Bool
 droneFarBelowLine x =
-  x ! error <= (-0.1 * 0.37161) + -0.0227797
+  x ! error <= -0.1
 
 
 
 @property
 property2 : Bool
 property2 = forall x . validInput x and droneFarBelowLine x =>
-  norm_alsomitra x ! e_x <= (0.01 * 0.012) + 0.181
+  norm_alsomitra x ! e_x <= 0.01
 
 
 
@@ -112,7 +113,7 @@ property2 = forall x . validInput x and droneFarBelowLine x =>
 @property
 property3 : Bool
 property3 = forall x . validInput x =>
-	norm_alsomitra x ! e_x <= (1.01 * 0.012) + 0.181 and norm_alsomitra x ! e_x >= (-0.01 * 0.012) + 0.181
+	norm_alsomitra x ! e_x <= 1.01 and norm_alsomitra x ! e_x >= -0.01
 	
   ---------------------------------------------------------------------------------------
   
@@ -122,18 +123,18 @@ property3 = forall x . validInput x =>
 
 droneCloseToLine : UnnormalisedInputVector -> Bool
 droneCloseToLine x =
-  x ! error <= (0.1 * 0.37161) + -0.0227797 and
-  x ! error >= (-0.1 * 0.37161) + -0.0227797
+  x ! error <= 0.1 and
+  x ! error >= -0.1
   
 droneStable : UnnormalisedInputVector -> Bool
 droneStable x = 
-  x ! d_theta >= (-0.1*0.900476) + -0.96848 and
-  x ! d_theta <= (0.1*0.900476) + -0.96848
+  x ! d_theta >= -0.1 and
+  x ! d_theta <= 0.1 
 
 @property
 property4 : Bool
 property4 = forall x . validInput x and droneCloseToLine x and droneStable x=> 
-  norm_alsomitra x ! e_x <= (0.6 * 0.012) + 0.181 and norm_alsomitra x ! e_x >= (0.4 * 0.012) + 0.181
+  norm_alsomitra x ! e_x <= 0.6 and norm_alsomitra x ! e_x >= 0.4
 
   ---------------------------------------------------------------------------------------
 
