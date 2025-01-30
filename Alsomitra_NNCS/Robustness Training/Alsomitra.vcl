@@ -45,14 +45,12 @@ type UnnormalisedInputVector = Vector Rat 7
 -- These correspond to the range of the inputs that the network is designed
 -- to work over. These are taken from the training dataset
 minimumInputValues : UnnormalisedInputVector
-minimumInputValues = [0.967568147, -0.607397104, -0.356972794, -0.96847853, 0.482420778, -41.68140527, -0.022779722]
--- minimumInputValues = [0.8415, -0.6356, -0.3773, -1.0135, -1.5792, -43.9753, -0.0414]
---minimumInputValues = [0.3370, -0.7485, -0.4585, -1.1936, -9.8257, -53.1511, -0.1157]
+--minimumInputValues = [0.967568147, -0.607397104, -0.356972794, -0.96847853, 0.482420778, -41.68140527, -0.022779722]
+minimumInputValues = [0.3370, -0.7485, -0.4585, -1.1936, -9.8257, -53.1511, -0.1157]
 
 maximumInputValues : UnnormalisedInputVector
-maximumInputValues = [3.489893069, -0.043021391, 0.049180223, -0.068002516, 41.714717, 4.197233529, 0.348832422]
--- maximumInputValues = [3.6160, -0.0148, 0.0695, -0.0230, 43.7763, 6.4912, 0.3674]
--- maximumInputValues = [4.1205, 0.0981, 0.1507, 0.1571, 52.0228, 15.6669, 0.4417]
+-- maximumInputValues = [3.489893069, -0.043021391, 0.049180223, -0.068002516, 41.714717, 4.197233529, 0.348832422]
+maximumInputValues = [4.1205, 0.0981, 0.1507, 0.1571, 52.0228, 15.6669, 0.4417]
 
 
 
@@ -108,12 +106,12 @@ property2 = forall x . validInput x and droneFarBelowLine x =>
   ---------------------------------------------------------------------------------------
 -- Property 3
 
--- Output always within -0.1 : 1.1
+-- Output always within -0.1 : 1.01 (normalised)
 
 @property
 property3 : Bool
 property3 = forall x . validInput x =>
-	norm_alsomitra x ! e_x <= 1.01 and norm_alsomitra x ! e_x >= -0.01
+	norm_alsomitra x ! e_x <= (1.01-0.181) / 0.012 and norm_alsomitra x ! e_x >= (-0.01-0.181) / 0.012
 	
   ---------------------------------------------------------------------------------------
   
