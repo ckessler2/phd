@@ -25,6 +25,7 @@ def main(epsilon,basetraining,name):
     
     # Parameters
     filepath = "Training_Data.csv"  # Path to the dataset file
+    # filepath = "Training_Data_Normalised.csv"  # Path to the dataset file
     target_column = "target"  # Column name for the labels in the dataset
     input_size = 7  # Number of input features for the model
     batch_size = 100  # Batch size for training
@@ -112,8 +113,8 @@ def main(epsilon,basetraining,name):
 # Entry point of the script
 if __name__ == "__main__":
     main(0.005,True,"_Norm")
-    main(0.01,True,"_Norm")
-    main(0.02,True,"_Norm")
-    main(0.04,True,"_Norm")
-    main(0.08,True,"_Norm")
+    # main(0.01,True,"_Norm")
+    # main(0.02,True,"_Norm")
+    # main(0.04,True,"_Norm")
+    # main(0.08,True,"_Norm")
 # 
