@@ -9,53 +9,37 @@ figure
 tiledlayout('flow');
 nexttile
 
-datafile = 'adversarial_data_0.002.csv';
+datafile = 'adversarial_data_0.08.csv';
 
 nn = importNetworkFromONNX('base_model.onnx',InputDataFormats='BC');
 L0 = lipschitz_robustness(nn,datafile);
 plot_results(nn,"base")
 
 nexttile
-nn = importNetworkFromONNX('adversarial_model_0.0005_Norm.onnx',InputDataFormats='BC');
-L3 = lipschitz_robustness(nn,datafile);
-plot_results(nn,"adversarial (0.0005)")
-
-nexttile
-nn = importNetworkFromONNX('adversarial_model_0.001_Norm.onnx',InputDataFormats='BC');
-L1 = lipschitz_robustness(nn,datafile);
-plot_results(nn,"adversarial (0.001)")
-
-nexttile
 nn = importNetworkFromONNX('adversarial_model_0.002_Norm.onnx',InputDataFormats='BC');
-L2 = lipschitz_robustness(nn,datafile);
-plot_results(nn,"adversarial (0.002)")
-
-nexttile
-nn = importNetworkFromONNX('adversarial_model_0.005_Norm.onnx',InputDataFormats='BC');
-L2 = lipschitz_robustness(nn,datafile);
+L1 = lipschitz_robustness(nn,datafile);
 plot_results(nn,"adversarial (0.005)")
-
 
 % nexttile
 % nn = importNetworkFromONNX('adversarial_model_0.01_Norm.onnx',InputDataFormats='BC');
-% L3 = lipschitz_robustness(nn,datafile);
+% L2 = lipschitz_robustness(nn,datafile);
 % plot_results(nn,"adversarial (0.01)")
 % 
 % nexttile
 % nn = importNetworkFromONNX('adversarial_model_0.02_Norm.onnx',InputDataFormats='BC');
-% L4 = lipschitz_robustness(nn,datafile);
+% L3 = lipschitz_robustness(nn,datafile);
 % plot_results(nn,"adversarial (0.02)")
 % 
 % nexttile
 % nn = importNetworkFromONNX('adversarial_model_0.04_Norm.onnx',InputDataFormats='BC');
-% L5 = lipschitz_robustness(nn,datafile);
+% L4 = lipschitz_robustness(nn,datafile);
 % plot_results(nn,"adversarial (0.04)")
 % 
 % nexttile
 % nn = importNetworkFromONNX('adversarial_model_0.08_Norm.onnx',InputDataFormats='BC');
-% L6 = lipschitz_robustness(nn,datafile);
+% L5 = lipschitz_robustness(nn,datafile);
 % plot_results(nn,"adversarial (0.08)")
-% answer = [L0;L1;L2;L3;L4;L5;L6];
+% answer = [L0;L1;L2;L3;L4;L5];
 
 
 function L = lipschitz_robustness(nn,datafile)
@@ -113,6 +97,9 @@ function plot_results(nn,name)
         % ex_nn2 = [ex_nn2; (nn.predict(data(i,1:7))* (0.012)) + 0.181];
         ex_nn2 = [ex_nn2; (nn.predict(data(i,1:7)))];
         err2 = [err2;abs(ex_true(i) - ex_nn2)];
+        if abs(ex_nn2(i) - ex_true(i)) > 0.24
+            pause
+        end
     end
     
     b = corrcoef(ex_nn2,ex_true);
