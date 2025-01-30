@@ -42,6 +42,7 @@ class DataHandler:
             "error",
             "target",
         ]
+        self.df[['dx_dt', 'dy_dt']] = 0
         # Uncomment the next line to visualise the dataframe in a GUI
         # show(self.df)
         # self.min_max_scale_target()
