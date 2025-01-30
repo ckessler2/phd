@@ -21,7 +21,7 @@ function [completed, R,simRes1, dims] = Alsomitra_Closed_Loop_Reachability(netwo
     params.points = 25;
     
     options.zonotopeOrder = 100;
-    % options.intermediateOrder = 10;
+    % options.intermediateOrder = 10; 'adversarial_model_0.04.onnx'
     % options.errorOrder = 20;
     % polyZono.maxDepGenOrder = 50;
     % polyZono.maxPolyZonoRatio = 0.01;
@@ -64,7 +64,7 @@ function [completed, R,simRes1, dims] = Alsomitra_Closed_Loop_Reachability(netwo
     % plot(x(:,5),x(:,6))
     % nexttile
     % hold on
-    % plot(simRes1,[5,6],,'Color'[0.6928    0.1651    0.5645])
+    % plot(simRes1,[5,6],'Color',[0.6928    0.1651    0.5645])
     % x_c1 = -2:1:30; y_c1 = -1 * x_c1;
     % plot([x_c1] * 1000/70, [y_c1]* 1000/70, '--black')
     % daspect([1 1 1])
@@ -76,6 +76,7 @@ function [completed, R,simRes1, dims] = Alsomitra_Closed_Loop_Reachability(netwo
     
     % t = tic;
     R = [];
+    dims = [5 6];
     
     min_y = 0.1 - w;
     max_y = 0.3 + w;
@@ -115,7 +116,6 @@ function [completed, R,simRes1, dims] = Alsomitra_Closed_Loop_Reachability(netwo
     spec = specification(goalSet, 'safeSet', interval(0, params.tFinal));
     % plotOverTime(spec, 3, 'DisplayName', 'Goal set');
 
-    dims = [5 6];
     hold on; box on;
     projDim = dims;
     h1 = [];
@@ -160,8 +160,8 @@ function [completed, R,simRes1, dims] = Alsomitra_Closed_Loop_Reachability(netwo
     try
         name = network + "_reach_" + w + ".mat";
         save(name, "R")
-        completed = true;
     catch ME
-        completed = true;
+
     end
+    completed=true;
 end

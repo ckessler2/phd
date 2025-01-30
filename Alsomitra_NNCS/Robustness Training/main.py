@@ -16,7 +16,7 @@ import onnx
 import tensorflow as tf
 import tf2onnx
 
-def main(epsilon,basetraining):
+def main(epsilon,basetraining,name):
     """
     Main function to set up parameters, build and train a model, 
     evaluate the model's performance, apply adversarial training, 
@@ -101,7 +101,7 @@ def main(epsilon,basetraining):
     # Export network as onnx
     input_signature = [tf.TensorSpec([1,7], tf.float32, name='x')]
     onnx_model2, _ = tf2onnx.convert.from_keras(adversarial_model, input_signature, opset=13)
-    onnx.save(onnx_model2, "adversarial_model_" + str(epsilon) + ".onnx")
+    onnx.save(onnx_model2, "adversarial_model_" + str(epsilon) + name + ".onnx")
     
     np.savetxt("adversarial_data_"+str(epsilon)+".csv", np.squeeze(np.array(adversarial_data)), delimiter=",", fmt="%.6f")
 
@@ -111,9 +111,9 @@ def main(epsilon,basetraining):
 
 # Entry point of the script
 if __name__ == "__main__":
-    # main(0.005,True)
-    # main(0.01,True)
-    # main(0.02,True)
-    # main(0.04,True)
-    main(0.08,True)
+    main(0.005,True,"_Norm")
+    main(0.01,True,"_Norm")
+    main(0.02,True,"_Norm")
+    main(0.04,True,"_Norm")
+    main(0.08,True,"_Norm")
 # 
