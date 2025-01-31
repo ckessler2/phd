@@ -24,11 +24,11 @@ def main(epsilon,basetraining,name,filepath="Training_Data.csv"):
     """
     
     # Parameters
-    # filepath = "Training_Data.csv"  # Path to the dataset file
+    filepath = "Training_Data.csv"  # Path to the dataset file
     # filepath = "Training_Data_Normalised.csv"  # Path to the dataset file
     target_column = "target"  # Column name for the labels in the dataset
     input_size = 7  # Number of input features for the model
-    batch_size = 50  # Batch size for training
+    batch_size = 100  # Batch size for training
     epochs = 1000  # Number of epochs for training
     # epsilon = 0.000  # Epsilon for adversarial robustness (small perturbations)
 
@@ -112,17 +112,17 @@ def main(epsilon,basetraining,name,filepath="Training_Data.csv"):
 
 # Entry point of the script
 if __name__ == "__main__":
-    # main(0.005,True,"_no_x")
+    main(0.005,True,"_no_x")
     # main(0.01,True,"_no_x")
     # main(0.02,True,"_no_x")
     # main(0.04,True,"_no_x")
     # main(0.08,True,"_no_x")
     # main(0.0005,True,"_Norm","Training_Data_Normalised.csv")
-    main(0.005,True,"_Norm","Training_Data_Normalised.csv")
-    main(0.005,True,"_Norm2","Training_Data_Normalised.csv")
-    main(0.005,True,"_Norm3","Training_Data_Normalised.csv")
-    main(0.005,True,"_Norm4","Training_Data_Normalised.csv")
-    main(0.005,True,"_Norm5","Training_Data_Normalised.csv")
+    # main(0.005,True,"_Norm","Training_Data_Normalised.csv")
+    # main(0.005,True,"_Norm2","Training_Data_Normalised.csv")
+    # main(0.005,True,"_Norm3","Training_Data_Normalised.csv")
+    # main(0.005,True,"_Norm4","Training_Data_Normalised.csv")
+    # main(0.005,True,"_Norm5","Training_Data_Normalised.csv")
     # main(0.002,True,"_Norm","Training_Data_Normalised.csv")
     # main(0.005,True,"_Norm","Training_Data_Normalised.csv")
     # main(0.01,True,"_Norm","Training_Data_Normalised.csv")

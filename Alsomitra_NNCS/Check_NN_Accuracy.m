@@ -4,8 +4,19 @@ clear all;clc
 % load('F:\matlab_stuff\Straight_Flight_4722ALLPLOTS\CORA2\Scripts\training_data4.mat')
 % load('F:\matlab_stuff\Straight_Flight_4722ALLPLOTS\CORA2\Scripts\Quad Testing\data_quad2.mat')
 set(0,'DefaultFigureWindowStyle','docked')
+set(0, 'defaultFigureRenderer', 'painters')
+set(0,'DefaultFigureWindowStyle','docked')
+font=12;
+set(groot, 'defaultAxesTickLabelInterpreter', 'latex'); 
+set(groot, 'defaultLegendInterpreter', 'latex');
+set(0,'defaultTextInterpreter','latex');
+set(0, 'defaultAxesFontSize', font)
+set(0, 'defaultLegendFontSize', font)
+set(0, 'defaultAxesFontName', 'Times New Roman');
+set(0, 'defaultLegendFontName', 'Times New Roman');
+set(0, 'DefaultLineLineWidth', 0.5);
 
-figure
+f1 = figure
 tiledlayout('flow');
 nexttile
 
@@ -13,29 +24,30 @@ datafile = 'adversarial_data_0.005.csv';
 
 nn = importNetworkFromONNX('base_model.onnx',InputDataFormats='BC');
 L0 = lipschitz_robustness(nn,datafile);
-plot_results(nn,"base")
+plot_results(nn,{"Naive model ($\epsilon=0$)"})
 
-nexttile
-nn = importNetworkFromONNX('adversarial_model_0.0005_Norm.onnx',InputDataFormats='BC');
-L1 = lipschitz_robustness(nn,datafile);
-plot_results(nn,"adversarial (0.0005)")
-
-nexttile
-nn = importNetworkFromONNX('adversarial_model_0.001_Norm.onnx',InputDataFormats='BC');
-L2 = lipschitz_robustness(nn,datafile);
-plot_results(nn,"adversarial (0.001)")
-
-nexttile
-nn = importNetworkFromONNX('adversarial_model_0.002_Norm.onnx',InputDataFormats='BC');
-L3 = lipschitz_robustness(nn,datafile);
-plot_results(nn,"adversarial (0.002)")
-
-nexttile
-nn = importNetworkFromONNX('adversarial_model_0.005_Norm.onnx',InputDataFormats='BC');
-L4 = lipschitz_robustness(nn,datafile);
-plot_results(nn,"adversarial (0.005)")
-
-answer = [L0;L1;L2;L3;L4];
+% nexttile
+% nn = importNetworkFromONNX('adversarial_model_0.0005_Norm.onnx',InputDataFormats='BC');
+% L1 = lipschitz_robustness(nn,datafile);
+% plot_results(nn,"$\epsilon=0.0005$")
+% 
+% nexttile
+% nn = importNetworkFromONNX('adversarial_model_0.001_Norm.onnx',InputDataFormats='BC');
+% L2 = lipschitz_robustness(nn,datafile);
+% plot_results(nn,"$\epsilon=0.001$")
+% 
+% nexttile
+% nn = importNetworkFromONNX('adversarial_model_0.002_Norm.onnx',InputDataFormats='BC');
+% L3 = lipschitz_robustness(nn,datafile);
+% plot_results(nn,"$\epsilon=0.002$")
+% 
+% nexttile
+% nn = importNetworkFromONNX('adversarial_model_0.005_Norm.onnx',InputDataFormats='BC');
+% L4 = lipschitz_robustness(nn,datafile);
+% plot_results(nn,"$\epsilon=0.005$")
+% 
+% answer = [L0;L1;L2;L3;L4];
+% exportgraphics(f1,'Regression_Performance.pdf','ContentType','vector')
 
 
 % nexttile
@@ -98,9 +110,9 @@ end
 
 
 function plot_results(nn,name)
-    % load('Training_Data.mat')
-    load('Normalised_Data.mat')
-    data = normalized_matrix;
+    load('Training_Data.mat')
+    % load('Normalised_Data.mat')
+    % data = normalized_matrix;
     ex_true = data(:,8);
     ex_nn1 = [];
     ex_nn2 = [];
@@ -120,17 +132,18 @@ function plot_results(nn,name)
     b = corrcoef(ex_nn2,ex_true);
     b = b(1,2);
     
-    scatter(ex_true,ex_nn2,8,'filled');hold on;
+    scatter(ex_true,ex_nn2,4,'filled','MarkerFaceColor',[0.0504    0.0298    0.5280],'MarkerEdgeColor',[0.0504    0.0298    0.5280]);hold on;
     plot([-10,10],[-10,10]);
     colororder(["#721f81","black"])
     xlim([0.181 0.193])
     ylim([0.181 0.193])
     
-    title(name + ' R = ' + string(round(b,6)) + ',  RMSE = ' + string(round(mean(err2),6)))
+    % % title(name + ' R = ' + string(round(b,6)) + ',  RMSE = ' + string(round(mean(err2),6)))
+    title(name)
     
     pbaspect([1 1 1])
     xlim([min(ex_true),max(ex_true)])
     ylim([min(ex_true),max(ex_true)])
     ylabel("NN output")
-    xlabel("PID output")
+    xlabel("True value")
 end
