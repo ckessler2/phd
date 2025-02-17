@@ -17,7 +17,7 @@ function Alsomitra_Control_simulation(network1)
     set(0, 'defaultLegendFontSize', font)
     set(0, 'defaultAxesFontName', 'Times New Roman');
     set(0, 'defaultLegendFontName', 'Times New Roman');
-    set(0, 'DefaultLineLineWidth', 1.0);
+    set(0, 'DefaultLineLineWidth', 0.5);
     
     % load("Normalisation_Constants.mat")
     % Cs = data2(1,:);
@@ -41,7 +41,8 @@ function Alsomitra_Control_simulation(network1)
     p3 = [-0.3311	0.37305935	18.62325016];
     p4 = [-0.4493	0.685756098	7.797849674];
     
-    figure
+    % figure
+    nexttile
     title(network1)
     
     data = [];
@@ -227,7 +228,7 @@ function Alsomitra_Control_simulation(network1)
     
         % xlabel('time')
         % ylabel('relative error')
-        legend("Simulation","Desired Trajectory")
+        legend("Simulated trajectories","Desired trajectory")
         daspect([1 1 1])
     
         % nexttile
