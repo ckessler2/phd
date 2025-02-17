@@ -46,13 +46,13 @@ type UnnormalisedInputVector = Vector Rat 7
 -- to work over. These are taken from the training dataset
 
 minimumInputValues : UnnormalisedInputVector
-minimumInputValues = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
---minimumInputValues = [-0.25, -0.25, -0.25, -0.25, -0.25, -0.25, -0.25]
+--minimumInputValues = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+minimumInputValues = [-0.1, -0.1, -0.1, -0.1, -0.1, -0.1, -0.1]
 
 
 maximumInputValues : UnnormalisedInputVector
-maximumInputValues = [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
---maximumInputValues = [1.25, 1.25, 1.25, 1.25, 1.25, 1.25, 1.25]
+--maximumInputValues = [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+maximumInputValues = [1.1, 1.1, 1.1, 1.1, 1.1, 1.1, 1.1]
 
 
 validInput : UnnormalisedInputVector -> Bool
@@ -76,13 +76,14 @@ norm_alsomitra x = alsomitra (normalise x)
 
 droneFarAboveLine : UnnormalisedInputVector -> Bool
 droneFarAboveLine x =
-  x ! error >= (0 * 0.37161) + -0.0227797
+  x ! error >= (0.3 + 0.0228) / 0.3719
+  
   
 
 @property
 property1 : Bool
 property1 = forall x . validInput x and droneFarAboveLine x =>
-  norm_alsomitra x ! e_x >= (1.2 * 0.012) + 0.181
+  norm_alsomitra x ! e_x >= 0.5
 
 
 --------------------------------------------------------------------------------
@@ -93,14 +94,14 @@ property1 = forall x . validInput x and droneFarAboveLine x =>
 
 droneFarBelowLine : UnnormalisedInputVector -> Bool
 droneFarBelowLine x =
-  x ! error <= (-0.05 * 0.37161) + -0.0227797
+  x ! error <= (-0.02 + 0.0228) / 0.3719
 
 
 
 @property
 property2 : Bool
 property2 = forall x . validInput x and droneFarBelowLine x =>
-  norm_alsomitra x ! e_x <= (0.01 * 0.012) + 0.181
+  norm_alsomitra x ! e_x <= 0.99
 
 
 
@@ -112,7 +113,7 @@ property2 = forall x . validInput x and droneFarBelowLine x =>
 @property
 property3 : Bool
 property3 = forall x . validInput x =>
-	norm_alsomitra x ! e_x <= 1 and norm_alsomitra x ! e_x >= 0.01
+	norm_alsomitra x ! e_x <= 1 and norm_alsomitra x ! e_x >= 0
 	
   ---------------------------------------------------------------------------------------
   
@@ -122,19 +123,36 @@ property3 = forall x . validInput x =>
 
 droneCloseToLine : UnnormalisedInputVector -> Bool
 droneCloseToLine x =
-  x ! error <= (0.1 * 0.37161) + -0.0227797 and
-  x ! error >= (-0.1 * 0.37161) + -0.0227797
+  x ! error <= (0  + 0.0228) / 0.3719 and
+  x ! error >= (-0.01  + 0.0228) / 0.3719
   
 droneStable : UnnormalisedInputVector -> Bool
 droneStable x = 
-  x ! d_theta >= (-0.1*0.900476) + -0.96848 and
-  x ! d_theta <= (0.1*0.900476) + -0.96848
+  x ! d_theta >= 0 and
+  x ! d_theta <= 0.01
 
 @property
 property4 : Bool
 property4 = forall x . validInput x and droneCloseToLine x and droneStable x=> 
-  norm_alsomitra x ! e_x <= (0.6 * 0.012) + 0.181 and norm_alsomitra x ! e_x >= (0.4 * 0.012) + 0.181
+  norm_alsomitra x ! e_x <= 0.8 and norm_alsomitra x ! e_x >= 0.2
 
   ---------------------------------------------------------------------------------------
 
+-- Property 5
+
+-- If the drone is above the line, pitching down quickly and moving fast, the 
+
+droneCloseToLine2 : UnnormalisedInputVector -> Bool
+droneCloseToLine2 x =
+  x ! error >= 0.2
+  
+droneUnstable : UnnormalisedInputVector -> Bool
+droneUnstable x = 
+  x ! d_theta >= 0.99 and
+  x ! dv_y >= 0.99
+
+@property
+property5 : Bool
+property5 = forall x . validInput x and droneCloseToLine2 x and droneUnstable x=> 
+  norm_alsomitra x ! e_x <= 0.5
 
