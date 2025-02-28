@@ -13,17 +13,19 @@ set(0, 'DefaultLineLineWidth', 0.5);
 
 Y0 = [0; 0; 0; pi/3; 0.; 0.];
 % Y0 = [v_xp0, v_yp0, omega0, theta0, x0, y0, error, alpha];
-t = 0:0.01:30;
+t = 0:0.001:30;
 
 e_x = 0.0;
 e_y = .2;
 
 tic
-[tSol, ySol] = ode45(@(t, y) nondimfreelyfallingplate(y,e_x), t, Y0); toc
+[tSol, ySol] = ode45(@(t, y) nondimfreelyfallingplate(y,e_x), t, Y0); 
+toc
 plot_results(tSol, ySol,"chordwise only model ($e_x = "+string(e_x)+", e_y = 0$)")
 
 tic
-[tSol, ySol] = ode45(@(t, y) nondimfreelyfallingplate_chordnormal(y,[e_x,e_y]), t, Y0); toc
+[tSol, ySol] = ode45(@(t, y) nondimfreelyfallingplate_chordnormal(y,[e_x,e_y]), t, Y0); 
+toc
 plot_results(tSol, ySol,"chordwise \& chordnormal model ($e_x = "+string(e_x)+", e_y = "+string(e_y)+"$)")
 
 function plot_results(tSol, ySol, plot_title)

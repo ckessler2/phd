@@ -34,6 +34,7 @@ function [completed, R,simRes1, dims] = Alsomitra_Closed_Loop_Reachability(netwo
     % evParams.poly_method = 'regression';
     
     options.nn = evParams;
+    options.evParams = evParams;
     
     % System Dynamics ---------------------------------------------------------
         
@@ -89,7 +90,7 @@ function [completed, R,simRes1, dims] = Alsomitra_Closed_Loop_Reachability(netwo
         params.R0 = polyZonotope(interval( ...
             [1; 0; 0; 0; 0; start_/0.07; 0;],...
             [1; 0; 0; 0; 0; end_/0.07; 0;]));
-        [res, X, simRes] = verify(sys, spec, params, options, evParams);
+        [res, X, simRes] = verify(sys, spec, params, options);
 
         % figure; hold on
         % 
