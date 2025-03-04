@@ -2,7 +2,13 @@
  
 This folder contains scripts for training a classification NN to distringuish between STFT spectrographs of piezoelectric sensor recordings (attached to the throat) for swallows and other events. As a starting point I have used an examples script [1] for classifying the Fashion-MNIST dataset [2] in python using keras.
 
-### Requirements
+### Labels
+Each training and test example is assigned to one of the following labels:
+
+| Label | Description |
+| --- | --- |
+| 0 | Swallow |
+| 1 | Other |
 
 
 ### References
