@@ -7,6 +7,8 @@ In order for image classification to work, we first need to extract useful infor
 
 <img src="swallow_difference.png" width="100%">
 
+In order to be analagous to Fashion-MNIST networks, I have processed the data into 28x28 grayscale images spanning 1 second of the recordings - n examples of swallows and m others.
+
 ### Labels
 Each training and test example is assigned to one of the following labels:
 
