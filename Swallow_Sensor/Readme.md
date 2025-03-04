@@ -7,7 +7,9 @@ In order for image classification to work, we first need to extract useful infor
 
 <img src="swallow_difference.png" width="100%">
 
-In order to be analagous to Fashion-MNIST networks, I have processed the data into 28x28 grayscale images spanning 1 second of the recordings - n examples of swallows and m others.
+In order to be analagous to Fashion-MNIST networks, I have processed the data into 28x28 grayscale images spanning 1 second of the recordings - n examples of swallows and m others. To do this, I first convert the spectrogram into a 28x1070 grayscale image to be divided up.
+
+<img src="spec_image_1.png" width="100%">
 
 ### Labels
 Each training and test example is assigned to one of the following labels:
