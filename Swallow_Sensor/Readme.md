@@ -9,7 +9,7 @@ In order for image classification to work, we first need to extract useful infor
 
 In order to be analagous to Fashion-MNIST networks, I have processed the data into 28x28 grayscale images spanning 1 second of the recordings - n examples of swallows and m others. To do this, I first convert the 15s spectrogram into a 28x420 grayscale image to be divided up.
 
-<img src="spec_image_1.png" width="100%">
+<img src="spec_1.png" width="100%">
 
 By passing the timestamp of each swallow event in that particular recording, I divide the recording into a number of 28x28 segments - 2 swallow events per recording and many more others.
 
