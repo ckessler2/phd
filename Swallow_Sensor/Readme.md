@@ -5,13 +5,15 @@ This folder contains scripts for training a classification NN to distringuish be
 ### Data format
 In order for image classification to work, we first need to extract useful information from the recordings as 3d arrays. For this purpose I process the raw data (voltage over time) into STFT spectrograms in Matlab, where the difference between swallow events and others can clearly be seen.
 
-<img src="swallow_difference.png" width="100%">
+<img src="Figures/swallow_difference.png" width="100%">
 
 In order to be analagous to Fashion-MNIST networks, I have processed the data into 28x28 grayscale images spanning 1 second of the recordings - n examples of swallows and m others. To do this, I first convert the 15s spectrogram into a 28x420 grayscale image to be divided up.
 
-<img src="spec_1_10x.png" width="100%">
+<img src="Figures/spec_1_10x.png" width="100%">
 
 By passing the timestamp of each swallow event in that particular recording, I divide the recording into a number of 28x28 segments - 2 swallow events per recording and many more others.
+
+<img src="Figures/image1.png" width="100%">
 
 ### Labels
 Each training and test example is assigned to one of the following labels:
