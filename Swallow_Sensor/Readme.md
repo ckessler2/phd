@@ -5,6 +5,8 @@ This folder contains scripts for training a classification NN to distringuish be
 ### Data format
 In order for image classification to work, we first need to extract useful information from the recordings as 3d arrays. For this purpose I process the raw data (voltage over time) into STFT spectrograms in Matlab, where the difference between swallow events and others can clearly be seen.
 
+<img src="swallow_difference.png" width="100%">
+
 ### Labels
 Each training and test example is assigned to one of the following labels:
 
