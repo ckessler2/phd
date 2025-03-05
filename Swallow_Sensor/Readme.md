@@ -1,6 +1,6 @@
 # Classification NN for Piezoelectric Swallow Sensor
  
-This folder contains scripts for training a classification NN to distringuish between piezoelectric sensor recordings (attached to the throat) for swallows and other events. As a starting point I have used an example script for classifying the Fashion-MNIST dataset in python using keras [1,2].
+This folder contains scripts for training a classification NN to distringuish between piezoelectric sensor recordings (attached to the throat) for swallows and other events. The data is processed into an image dataset in MATLAB, and for ML I have started from an example script for classifying the Fashion-MNIST dataset in python using keras [1,2].
 
 ### Data formatting
 In order for image classification to work, we first need to extract useful information from the recordings as 3d arrays. For this purpose I process the raw data (voltage over time) into STFT spectrograms in Matlab, where the difference between swallow events and others can clearly be seen.
