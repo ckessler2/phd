@@ -15,6 +15,9 @@ By passing the timestamp of each swallow event in that particular recording, I d
 
 <img src="Figures/image1.png" width="100%">
 
+
+![Alt Text](Figures/swallow_data.gif)
+
 ### Labels
 Each training and test example is assigned a label:
 
@@ -22,6 +25,8 @@ Each training and test example is assigned a label:
 | --- | --- |
 | 0 | Other |
 | 1 | Swallow |
+
+
 
 
 ### References
