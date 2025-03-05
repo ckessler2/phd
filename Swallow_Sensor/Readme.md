@@ -15,6 +15,8 @@ By passing the timestamp of each swallow event in that particular recording, I d
 
 <img src="Figures/image1.png" width="100%">
 
+The 36 blank swallows are shown here:
+
 <img src="Figures/swallow_data.gif" width="80" height="80" />
 
 ### Labels
