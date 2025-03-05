@@ -25,5 +25,5 @@ Each training and test example is assigned a label:
 
 
 ### References
-[1] geeksforgeeks.org. [Fashion MNIST with Python Keras and Deep Learning](https://www.geeksforgeeks.org/fashion-mnist-with-python-keras-and-deep-learning/). <br />
-[2] H. Xiao,  K. Rasul, R. Vollgraf. [Fashion-MNIST](https://github.com/zalandoresearch/fashion-mnist). <br />
+[1] geeksforgeeks.org. 2023. [Fashion MNIST with Python Keras and Deep Learning](https://www.geeksforgeeks.org/fashion-mnist-with-python-keras-and-deep-learning/). <br />
+[2] H. Xiao,  K. Rasul, R. Vollgraf. 2017. [Fashion-MNIST](https://github.com/zalandoresearch/fashion-mnist). <br />
