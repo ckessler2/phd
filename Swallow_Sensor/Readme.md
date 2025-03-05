@@ -16,12 +16,12 @@ By passing the timestamp of each swallow event in that particular recording, I d
 <img src="Figures/image1.png" width="100%">
 
 ### Labels
-Each training and test example is assigned to one of the following labels:
+Each training and test example is assigned a label:
 
 | Label | Description |
 | --- | --- |
-| 0 | Swallow |
-| 1 | Other |
+| 0 | Other |
+| 1 | Swallow |
 
 
 ### References
