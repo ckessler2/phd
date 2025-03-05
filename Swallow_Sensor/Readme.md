@@ -15,7 +15,7 @@ By passing the timestamp of each swallow event in that particular recording, I d
 
 <img src="Figures/image1.png" width="100%">
 
-<img src="Figures/swallow_data.gif" width="40" height="40" />
+<img src="Figures/swallow_data.gif" width="80" height="80" />
 
 ### Labels
 Each training and test example is assigned a label:
