@@ -22,7 +22,7 @@ nexttile
 
 datafile = 'adversarial_data_0.005.csv';
 
-nn = importNetworkFromONNX('base_model.onnx',InputDataFormats='BC');
+nn = importNetworkFromONNX('base_model_2.onnx',InputDataFormats='BC');
 L0 = lipschitz_robustness(nn,datafile);
 plot_results(nn,{"Naive model ($\epsilon=0$)"})
 

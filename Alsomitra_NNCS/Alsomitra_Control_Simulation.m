@@ -1,7 +1,4 @@
-
-
-
-function Alsomitra_Control_simulation(network1)
+function Alsomitra_Control_Simulation(network1)
 
     % Colin Kessler 4.8.2024 - colinkessler00@gmail.com
     % clear; clc;
@@ -24,7 +21,7 @@ function Alsomitra_Control_simulation(network1)
     % Ss = data2(2,:);
     
     % NN or PID controller
-    nnc =  false;
+    nnc =  true;
     
     ObjectiveFunction = @Alsomitra_nondim;
     
