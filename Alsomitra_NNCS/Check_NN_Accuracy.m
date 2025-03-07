@@ -125,7 +125,7 @@ function plot_results(nn,name)
     
     for i = 1:length(data)
         % ex_nn2 = [ex_nn2; (nn.predict(data(i,1:7))* (0.012)) + 0.181];
-        ex_nn2 = [ex_nn2; (nn.predict(data(i,1:7)))];
+        ex_nn2 = [ex_nn2; (nn.predict(data(i,1:7) .* [1 1 1 1 0 0 1]))];
         err2 = [err2;abs(ex_true(i) - ex_nn2)];
     end
     
