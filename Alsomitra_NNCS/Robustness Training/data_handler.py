@@ -61,17 +61,17 @@ class DataHandler:
         Raises:
             ValueError: If the target column is not found in the dataframe.
         """
-        if target_column in self.df.columns:
-            min_val = self.df[target_column].min()
-            max_val = self.df[target_column].max()
-            self.df[target_column] = (self.df[target_column] - min_val) / (
-                max_val - min_val
-            )
-            print(
-                f"Min-max scaling applied to {target_column}: min={min_val}, max={max_val}"
-            )
-        else:
-            print(f"Column '{target_column}' not found in the DataFrame.")
+        # if target_column in self.df.columns:
+        #     min_val = self.df[target_column].min()
+        #     max_val = self.df[target_column].max()
+        #     self.df[target_column] = (self.df[target_column] - min_val) / (
+        #         max_val - min_val
+        #     )
+        #     print(
+        #         f"Min-max scaling applied to {target_column}: min={min_val}, max={max_val}"
+        #     )
+        # else:
+        #     print(f"Column '{target_column}' not found in the DataFrame.")
         return self.df
 
     def prepare_datasets(
