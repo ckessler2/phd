@@ -10,7 +10,7 @@ class ModelBuilder:
     A class for constructing, compiling, and training a TensorFlow Keras model.
     """
 
-    def __init__(self, input_size, learning_rate=0.001):
+    def __init__(self, input_size, learning_rate=0.005):
         """
         Initialises the ModelBuilder with the model's input size and training hyperparameters.
 

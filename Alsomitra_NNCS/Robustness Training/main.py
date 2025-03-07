@@ -16,7 +16,7 @@ import onnx
 import tensorflow as tf
 import tf2onnx
 
-def main(epsilon,basetraining,name,filepath="Training_Data.csv"):
+def main(epsilon,basetraining):
     """
     Main function to set up parameters, build and train a model, 
     evaluate the model's performance, apply adversarial training, 
@@ -25,11 +25,10 @@ def main(epsilon,basetraining,name,filepath="Training_Data.csv"):
     
     # Parameters
     filepath = "Training_Data.csv"  # Path to the dataset file
-    # filepath = "Training_Data_Normalised.csv"  # Path to the dataset file
     target_column = "target"  # Column name for the labels in the dataset
     input_size = 7  # Number of input features for the model
-    batch_size = 50  # Batch size for training
-    epochs = 1000  # Number of epochs for training
+    batch_size = 100  # Batch size for training
+    epochs = 3000  # Number of epochs for training
     # epsilon = 0.000  # Epsilon for adversarial robustness (small perturbations)
 
     # Step 1: Data Handling
@@ -102,7 +101,7 @@ def main(epsilon,basetraining,name,filepath="Training_Data.csv"):
     # Export network as onnx
     input_signature = [tf.TensorSpec([1,7], tf.float32, name='x')]
     onnx_model2, _ = tf2onnx.convert.from_keras(adversarial_model, input_signature, opset=13)
-    onnx.save(onnx_model2, "adversarial_model_" + str(epsilon) + name + ".onnx")
+    onnx.save(onnx_model2, "adversarial_model_" + str(epsilon) + ".onnx")
     
     np.savetxt("adversarial_data_"+str(epsilon)+".csv", np.squeeze(np.array(adversarial_data)), delimiter=",", fmt="%.6f")
 
@@ -112,22 +111,9 @@ def main(epsilon,basetraining,name,filepath="Training_Data.csv"):
 
 # Entry point of the script
 if __name__ == "__main__":
-    main(0.005,True,"_no_x")
-    # main(0.01,True,"_no_x")
-    # main(0.02,True,"_no_x")
-    # main(0.04,True,"_no_x")
-    # main(0.08,True,"_no_x")
-    # main(0.0005,True,"_Norm","Training_Data_Normalised.csv")
-    # main(0.005,True,"_Norm","Training_Data_Normalised.csv")
-    # main(0.005,True,"_Norm2","Training_Data_Normalised.csv")
-    # main(0.005,True,"_Norm3","Training_Data_Normalised.csv")
-    # main(0.005,True,"_Norm4","Training_Data_Normalised.csv")
-    # main(0.005,True,"_Norm5","Training_Data_Normalised.csv")
-    # # main(0.002,True,"_Norm","Training_Data_Normalised.csv")
-    # # main(0.005,True,"_Norm","Training_Data_Normalised.csv")
-    # # main(0.01,True,"_Norm","Training_Data_Normalised.csv")
-    # # main(0.02,True,"_Norm","Training_Data_Normalised.csv")
-    # # main(0.04,True,"_Norm","Training_Data_Normalised.csv")
-    # # main(0.08,True,"_Norm","Training_Data_Normalised.csv")
-    # # main(0.16,True,"_Norm","Training_Data_Normalised.csv")
+    # main(0.005,True)
+    # main(0.01,True)
+    # main(0.02,True)
+    # main(0.04,True)
+    main(0.001,True)
 # 
