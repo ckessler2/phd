@@ -27,8 +27,8 @@ def main(epsilon,basetraining):
     filepath = "Training_Data.csv"  # Path to the dataset file
     target_column = "target"  # Column name for the labels in the dataset
     input_size = 7  # Number of input features for the model
-    batch_size = 100  # Batch size for training
-    epochs = 2000  # Number of epochs for training
+    batch_size = 50  # Batch size for training
+    epochs = 1000  # Number of epochs for training
     # epsilon = 0.000  # Epsilon for adversarial robustness (small perturbations)
 
     # Step 1: Data Handling
