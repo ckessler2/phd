@@ -89,8 +89,8 @@ function Alsomitra_Control_Simulation(network1)
     
         if nnc == true
             % NN CONTROLLER
-            ex = nn.predict(([v_xp0 v_yp0 omega0 theta0 x0 y0 error2]));
-            ex = (ex * (0.012)) + 0.181;
+            ex = nn.predict(([v_xp0 v_yp0 omega0 theta0 0 0 error2]));
+            % ex = (ex * (0.012)) + 0.181;
         else
             tic
             integral  = sum(errors);
@@ -127,8 +127,8 @@ function Alsomitra_Control_Simulation(network1)
             if nnc == true
                 % NN CONTROLLER
                 % ex = nn.predict([v_xp0 v_yp0 omega0 theta0 x0 y0 error2] - rot90(Cs) ./ rot90(Ss));
-                ex = nn.predict(([v_xp0 v_yp0 omega0 theta0 x0 y0 error2]));
-                ex = (ex * (0.012)) + 0.181;
+                ex = nn.predict(([v_xp0 v_yp0 omega0 theta0 0 0 error2]));
+                % ex = (ex * (0.012)) + 0.181;
             else
                 % % PID CONTROLLER
                 integral  = sum(errors);
