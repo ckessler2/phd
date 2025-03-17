@@ -24,7 +24,7 @@ def main(epsilon,basetraining):
     """
     
     # Parameters
-    filepath = "Training_Data.csv"  # Path to the dataset file
+    filepath = "Training_Data_Normalised.csv"  # Path to the dataset file
     target_column = "target"  # Column name for the labels in the dataset
     input_size = 7  # Number of input features for the model
     batch_size = 50  # Batch size for training
@@ -65,8 +65,8 @@ def main(epsilon,basetraining):
         # Export network as onnx
         input_signature = [tf.TensorSpec([1,7], tf.float32, name='x')]
         onnx_model, _ = tf2onnx.convert.from_keras(model, input_signature, opset=13)
-        onnx.save(onnx_model, 'base_model.onnx')
-        print("saved as base_model.onnx")
+        onnx.save(onnx_model, 'base_model_norm.onnx')
+        print("saved as base_model_norm.onnx")
         
     else:
         print("Base model already trained, skipping")
