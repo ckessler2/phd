@@ -1,0 +1,21 @@
+P3: Studies were also prone to bias because of the small sample size and imbalanced class
+size - cant really solve that can we
+
+Need to improve the current wearable technology - maybe? Wireless method? (P1: PFG)
+
+Need for a standardized assessment protocol that could account for swallowing, dry swallowing, and non-swallowing tasks
+	
+P4: Algorithmic detection of swallowing from electromyographic signal
+
+Demand for an autodetection program that identifies the swallowing patterns frommultiple sensors?
+
+
+
+
+My concern: PESs are sensitive to many things: pressure, acceleration, temperature, strain, and force
+	How to filter out unwanted signals?
+Other variables 
+	Tensing/relaxing neck muscles
+	Tilting head
+
+Could use FT to visualise swallow signal, maybe ML to recognise it?

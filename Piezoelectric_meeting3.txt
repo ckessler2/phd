@@ -1,0 +1,11 @@
+Creating dataset, I think it will propbably work
+
+Main issues are:
+	Number of images (64 swallow, 300ish other)
+	Noise (used matlab denoise, but still not great)
+
+I think it shouldn't be too hard or impressive to train since dataset is small
+Hyoid results look clearer to my eye - maybe we should stick to that?
+
+
+If it doesn't immediately work, I will play with image processing, more classes

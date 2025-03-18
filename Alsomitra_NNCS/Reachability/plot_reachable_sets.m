@@ -45,8 +45,7 @@ y_c1 = -1 * x_c1;
 h4 = plot([x_c1] * 1000/70, [y_c1]* 1000/70, '--black');
 
 % lgd = legend([h1 h3 h4], {"Reachable set 1",'Reachable set 3', 'Desired Trajectory'});
-lgd = legend([h1 h2 h4], {"$y_0 \in [1.429, 4.286]$",'$y_0 \in [-1.429, 7.143]$', 'Desired Trajectory'});
-lgd.Layout.Tile = 3;
+
 xlabel('$x$ [m]'); ylabel('$y$ [m]');
 title("$x$ vs $y$")
 axis square; grid on
@@ -68,9 +67,15 @@ end
 % plotOverTime(simRes1, 7, 'DisplayName', 'Simulations','color', [0.9883    0.6523    0.2114]);
 plot([0 20],[0 0],'--black');
 
+plot([0 20],[0.05 0.05],':black');
+h7 = plot([0 20],[-0.05 -0.05],':black');
+
+lgd = legend([h1 h2 h4 h7], {"$y_0 \in [1.429, 4.286]$",'$y_0 \in [-1.429, 7.143]$', 'Desired Trajectory', 'Desired Trajectory \pm 0.05'});
+lgd.Layout.Tile = 3;
+
 xlabel('$t$ [s]');
 ylabel('$y$ error [m]');
-title("$y$ error vs time")
+title("$y_{\textnormal{error}}$ vs time")
 axis square; grid on
 xlim([0 20])
 
