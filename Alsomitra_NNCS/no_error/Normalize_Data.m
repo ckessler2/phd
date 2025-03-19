@@ -10,16 +10,16 @@ load('Training_Data.mat')
 Cs = [];
 Ss = [];
 data_true = data;
+data_norm = data;
 
 % NORMALIZATION (gets Cs and Ss)
 for i = 1:7
     [N,C,S] = normalize(data(:,i),"range") ;
-    data(:,i) = N;
+    data_norm(:,i) = N;
     Cs = [Cs,C];
     Ss = [Ss,S];
 end
 
-data_norm = data;
 
 writematrix(data_norm,'Training_Data_Normalised.csv') 
 save('Training_Data_Normalised','data_norm')
