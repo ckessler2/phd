@@ -71,16 +71,13 @@ normalise x = foreach i .  x ! i
 
 -- Inputs are not normalised, as required for CORA
 norm_alsomitra : UnnormalisedInputVector -> OutputVector
-norm_alsomitra x = alsomitra (normalise x)
+norm_alsomitra x = alsomitra x
 
 
 -----------
 
 @parameter
 epsilon: Rat
-
-@parameter
-LipschitzConstant: Rat
 
 -- NONLINEAR SPECIFICATION 
 -- Calculate square of euclidean distance in input space- to be compared to epsilon and used for Lipschitz
@@ -130,21 +127,38 @@ LInfinityDistance7 x = max (x ! error - x ! error2) (x ! error2 - x ! error)
 
 -- Check if input point distance is within epsilon cube (L infinity)
 boundedByEpsilonLInfinity: UnnormalisedInputVector -> Bool
-boundedByEpsilonLInfinity x  = LInfinityDistance  x <= epsilon 
---	LInfinityDistance2  x <= epsilon and
---	LInfinityDistance3  x <= epsilon and
---	LInfinityDistance4  x <= epsilon and
---	LInfinityDistance5  x <= epsilon and
---	LInfinityDistance6  x <= epsilon and
---	LInfinityDistance7  x <= epsilon
+boundedByEpsilonLInfinity x  = 0< LInfinityDistance  x <= epsilon  and
+	0< LInfinityDistance2  x <= epsilon and
+	0< LInfinityDistance3  x <= epsilon and
+	0< LInfinityDistance4  x <= epsilon and
+	0< LInfinityDistance5  x <= epsilon and
+	0< LInfinityDistance6  x <= epsilon and
+	0< LInfinityDistance7  x <= epsilon
+	
+-- Check if inputs are the same
+equivalentInputs: UnnormalisedInputVector -> Bool
+equivalentInputs x  = x ! dv_x ==  x ! dv_x2  or
+	x ! dv_y==  x ! dv_y2  or
+	x ! d_omega ==  x ! d_omega2  or
+	x ! d_theta  ==  x ! d_theta2  or
+	x ! d_x ==  x ! dv_x2  or
+	x ! d_y ==  x ! dv_x2  or
+	x ! error ==  x ! error2
 	
 -- Check that output points are within epsilon cube
-LInfinityDistanceOutput : UnnormalisedInputVector -> Rat
-LInfinityDistanceOutput x = max(norm_alsomitra x ! e_x - norm_alsomitra x ! e_x2) (norm_alsomitra x ! e_x2 - norm_alsomitra x ! e_x)
+--LInfinityDistanceOutput : UnnormalisedInputVector -> Rat
+--LInfinityDistanceOutput x = max (norm_alsomitra x ! e_x - norm_alsomitra x ! e_x2) (norm_alsomitra x ! e_x2 - norm_alsomitra x ! e_x)
+
+L1: UnnormalisedInputVector -> Rat
+L1 x = norm_alsomitra x ! e_x - norm_alsomitra x ! e_x2
+
+L2: UnnormalisedInputVector -> Rat
+L2 x =  norm_alsomitra x ! e_x2 - norm_alsomitra x ! e_x
+
 
 -- Calculate gradient according to Lipschitz definition, defined linearly
 checkGradient: UnnormalisedInputVector -> Bool
-checkGradient x  = (LInfinityDistanceOutput x)  <= LipschitzConstant * (LInfinityDistance  x)
+checkGradient x  = L1 x  <= 1000 * LInfinityDistance  x and L2 x   <= 1000 * LInfinityDistance  x 
 --	(LInfinityDistanceOutput x)  <= LipschitzConstant * (LInfinityDistance2  x) and
 --	(LInfinityDistanceOutput x) <= LipschitzConstant * (LInfinityDistance3 x) and
 --	(LInfinityDistanceOutput x) <= LipschitzConstant * (LInfinityDistance4 x) and

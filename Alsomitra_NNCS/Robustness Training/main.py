@@ -28,7 +28,7 @@ def main(epsilon,basetraining):
     target_column = "target"  # Column name for the labels in the dataset
     input_size = 7  # Number of input features for the model
     batch_size = 50  # Batch size for training
-    epochs = 1000  # Number of epochs for training
+    epochs = 1000 # Number of epochs for training
     # epsilon = 0.000  # Epsilon for adversarial robustness (small perturbations)
 
     # Step 1: Data Handling
@@ -79,9 +79,7 @@ def main(epsilon,basetraining):
     
 # %%
     adversarial_trainer = AdversarialTrainer(model2, epsilon=epsilon)  # Sets up adversarial trainer
-    adversarial_model, history2, adversarial_data= adversarial_trainer.train_with_adversarial_examples(
-        train_dataset, epochs=epochs, callbacks=[progress_bar]
-    )  # Trains the model with adversarial examples for robustness
+    adversarial_model, history2, adversarial_data= adversarial_trainer.train_with_adversarial_examples(train_dataset, epochs=epochs, callbacks=[progress_bar])  # Trains the model with adversarial examples for robustness
 
     # %%
     # Step 5: Evaluate the Adversarially Trained Model
