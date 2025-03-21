@@ -37,13 +37,13 @@ class ModelBuilder:
             [
                 tf.keras.layers.Input(shape=(self.input_size,), name="input_features"),
                 tf.keras.layers.Dense(
-                    16,
+                    4,
                     activation="relu",
                     kernel_initializer=initializer,
                     name="dense_1",
                 ),
                 tf.keras.layers.Dense(
-                    8,
+                    4,
                     activation="relu",
                     kernel_initializer=initializer,
                     name="dense_2",

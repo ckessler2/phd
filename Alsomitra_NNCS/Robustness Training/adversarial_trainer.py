@@ -82,7 +82,7 @@ class AdversarialTrainer:
         #     adversarial_x, 0, 1
         # )  # Ensure values stay within [0, 1] bounds
 
-    def train_with_adversarial_examples(self, train_dataset, epochs=1, callbacks=None, alpha=5):
+    def train_with_adversarial_examples(self, train_dataset, epochs=1, callbacks=None, alpha=1):
         """
         Trains the model on both normal and adversarial examples to enforce robustness within an epsilon-ball.
 
@@ -107,6 +107,14 @@ class AdversarialTrainer:
         for epoch in range(epochs):
             for callback in callbacks:
                 callback.on_epoch_begin(epoch)
+            
+            combined_x = tf.zeros((0, 7), dtype=tf.float64)
+            combined_y = tf.zeros((0, ), dtype=tf.float64)
+            
+            combined_x2 = tf.zeros((0, 7), dtype=tf.float64)
+            combined_y2 = tf.zeros((0, ), dtype=tf.float64)
+            
+            
 
             for x_batch, y_batch in train_dataset:
                 # Generate adversarial examples for the batch within the epsilon-ball
@@ -115,9 +123,13 @@ class AdversarialTrainer:
                 )
 
                 # Concatenate original and adversarial examples
-                combined_x = tf.concat([x_batch, adversarial_x_batch], axis=0)
+                combined_x = tf.concat([ x_batch, adversarial_x_batch], axis=0)
                 combined_y = tf.concat([y_batch, y_batch], axis=0)
-
+                
+                combined_x2 = tf.concat([combined_x, x_batch], axis=0)
+                combined_y2 = tf.concat([combined_y, y_batch], axis=0)
+    
+    
                 # Train on combined data
                 # history = self.model.train_on_batch(x_batch,y_batch)
                 history = self.model.train_on_batch(combined_x,combined_y)
@@ -139,7 +151,7 @@ class AdversarialTrainer:
                         tf.keras.optimizers.Adam().apply_gradients(zip(grads, self.model.trainable_weights))
                         
                     del tape
-                    
+                        
             for callback in callbacks:
                 callback.on_epoch_end(epoch)
 

@@ -36,7 +36,9 @@ def double_network(orig_model):
     last_output_name = 'x'
     # 0 = 0
     
+# %%
     for idx, node in enumerate(orig_model.graph.node):
+
         if node.op_type == 'Gemm':
             weight_tensor = next(t for t in orig_model.graph.initializer if t.name == node.input[1])
             bias_tensor = next(t for t in orig_model.graph.initializer if t.name == node.input[2])

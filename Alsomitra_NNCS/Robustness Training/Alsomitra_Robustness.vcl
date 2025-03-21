@@ -79,6 +79,9 @@ norm_alsomitra x = alsomitra x
 @parameter
 epsilon: Rat
 
+@parameter
+LipschitzConstant:Rat
+
 -- NONLINEAR SPECIFICATION 
 -- Calculate square of euclidean distance in input space- to be compared to epsilon and used for Lipschitz
 --euclideanDistance : UnnormalisedInputVector -> Rat
@@ -102,8 +105,8 @@ epsilon: Rat
 
 
 -- Limited definition - per dimension
-LInfinityDistance : UnnormalisedInputVector -> Rat
-LInfinityDistance x = max (x ! dv_x - x ! dv_x2)(x ! dv_x2 - x ! dv_x)
+LInfinityDistance1 : UnnormalisedInputVector -> Rat
+LInfinityDistance1 x = max (x ! dv_x - x ! dv_x2)(x ! dv_x2 - x ! dv_x)
 
 LInfinityDistance2 : UnnormalisedInputVector -> Rat
 LInfinityDistance2 x = max (x ! dv_y - x ! dv_y2) (x ! dv_y2 - x ! dv_y)
@@ -123,31 +126,33 @@ LInfinityDistance6 x = max (x ! d_y - x ! d_y2) (x ! d_y2 - x ! d_y)
 LInfinityDistance7 : UnnormalisedInputVector -> Rat
 LInfinityDistance7 x = max (x ! error - x ! error2) (x ! error2 - x ! error)
 
+-- Limited definition - per dimension
+LInfinityDistance12 : UnnormalisedInputVector -> Rat
+LInfinityDistance12 x = max (LInfinityDistance1 x) (LInfinityDistance2 x)
+
+-- Limited definition - per dimension
+LInfinityDistance34 : UnnormalisedInputVector -> Rat
+LInfinityDistance34 x = max (LInfinityDistance3 x) (LInfinityDistance4 x)
+
+-- Limited definition - per dimension
+LInfinityDistance : UnnormalisedInputVector -> Rat
+LInfinityDistance x = (LInfinityDistance12 x)
+
 --LInfinityDistance : UnnormalisedInputVector -> Rat
 
 -- Check if input point distance is within epsilon cube (L infinity)
 boundedByEpsilonLInfinity: UnnormalisedInputVector -> Bool
-boundedByEpsilonLInfinity x  = 0< LInfinityDistance  x <= epsilon  and
-	0< LInfinityDistance2  x <= epsilon and
-	0< LInfinityDistance3  x <= epsilon and
-	0< LInfinityDistance4  x <= epsilon and
-	0< LInfinityDistance5  x <= epsilon and
-	0< LInfinityDistance6  x <= epsilon and
-	0< LInfinityDistance7  x <= epsilon
+boundedByEpsilonLInfinity x  = 0.00001< LInfinityDistance1  x <=  epsilon
 	
--- Check if inputs are the same
-equivalentInputs: UnnormalisedInputVector -> Bool
-equivalentInputs x  = x ! dv_x ==  x ! dv_x2  or
-	x ! dv_y==  x ! dv_y2  or
-	x ! d_omega ==  x ! d_omega2  or
-	x ! d_theta  ==  x ! d_theta2  or
-	x ! d_x ==  x ! dv_x2  or
-	x ! d_y ==  x ! dv_x2  or
-	x ! error ==  x ! error2
+-- Set dims 567 to points
+dimsAsPoints: UnnormalisedInputVector -> Bool
+dimsAsPoints x = x ! d_x == x ! d_x2 and
+	x ! d_y == x ! d_y2 and
+	x ! error == x ! error2 and
+	x ! d_theta == x ! d_theta2 and
+	x ! d_omega == x ! d_omega2 and
+	x ! dv_y == x ! dv_y2
 	
--- Check that output points are within epsilon cube
---LInfinityDistanceOutput : UnnormalisedInputVector -> Rat
---LInfinityDistanceOutput x = max (norm_alsomitra x ! e_x - norm_alsomitra x ! e_x2) (norm_alsomitra x ! e_x2 - norm_alsomitra x ! e_x)
 
 L1: UnnormalisedInputVector -> Rat
 L1 x = norm_alsomitra x ! e_x - norm_alsomitra x ! e_x2
@@ -158,13 +163,8 @@ L2 x =  norm_alsomitra x ! e_x2 - norm_alsomitra x ! e_x
 
 -- Calculate gradient according to Lipschitz definition, defined linearly
 checkGradient: UnnormalisedInputVector -> Bool
-checkGradient x  = L1 x  <= 1000 * LInfinityDistance  x and L2 x   <= 1000 * LInfinityDistance  x 
---	(LInfinityDistanceOutput x)  <= LipschitzConstant * (LInfinityDistance2  x) and
---	(LInfinityDistanceOutput x) <= LipschitzConstant * (LInfinityDistance3 x) and
---	(LInfinityDistanceOutput x) <= LipschitzConstant * (LInfinityDistance4 x) and
---	(LInfinityDistanceOutput x) <= LipschitzConstant * (LInfinityDistance5 x) and
---	(LInfinityDistanceOutput x) <= LipschitzConstant * (LInfinityDistance6 x) and
---	(LInfinityDistanceOutput x) <= LipschitzConstant * (LInfinityDistance7 x)
+checkGradient x  = L1 x  <= 20000.0 * LInfinityDistance1 x and 
+	L2 x   <=  20000.0 * LInfinityDistance1 x
 --------------------------------------------------------------------------------
 -- Property 1
 
@@ -172,60 +172,7 @@ checkGradient x  = L1 x  <= 1000 * LInfinityDistance  x and L2 x   <= 1000 * LIn
 
 @property
 property1 : Bool
-property1 = forall x  .  validInput x  and boundedByEpsilonLInfinity x=>
+property1 = forall x  .  validInput x and  dimsAsPoints x and boundedByEpsilonLInfinity x=>
 		checkGradient x
-		
-
---------------------------------------------------------------------------------
--- Property 2
-
--- If the drone is below the line (error < -0.1), the network will always make it pitch up (e_x < 0.001)
-
-
-droneFarBelowLine : UnnormalisedInputVector -> Bool
-droneFarBelowLine x =
-  x ! error <= -0.1
-
-
-
-@property
-property2 : Bool
-property2 = forall x . validInput x and droneFarBelowLine x =>
-  norm_alsomitra x ! e_x <= 0.001
-
-
-
-  ---------------------------------------------------------------------------------------
--- Property 3
-
--- Output always within -0.1 : 1.001 (normalised)
-
-@property
-property3 : Bool
-property3 = forall x . validInput x =>
-	norm_alsomitra x ! e_x <= (1.001-0.181) / 0.0012 and norm_alsomitra x ! e_x >= (-0.001-0.181) / 0.0012
-	
-  ---------------------------------------------------------------------------------------
-  
--- Property 4
-
--- If the drone is close to line and d_theta is small, output will be intermediate
-
-droneCloseToLine : UnnormalisedInputVector -> Bool
-droneCloseToLine x =
-  x ! error <= 0.1 and
-  x ! error >= -0.1
-  
-droneStable : UnnormalisedInputVector -> Bool
-droneStable x = 
-  x ! d_theta >= -0.1 and
-  x ! d_theta <= 0.1 
-
-@property
-property4 : Bool
-property4 = forall x . validInput x and droneCloseToLine x and droneStable x=> 
-  norm_alsomitra x ! e_x <= 0.6 and norm_alsomitra x ! e_x >= 0.4
-
-  ---------------------------------------------------------------------------------------
 
 

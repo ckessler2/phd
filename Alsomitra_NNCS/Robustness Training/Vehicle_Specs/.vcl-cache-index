@@ -1,0 +1,37 @@
+{
+  "resourcesIntegrityInfo": {
+    "specificationSummary": {
+      "name": "specification",
+      "filePath": "Alsomitra_Robustness.vcl",
+      "fileHash": -2429080179508514681
+    },
+    "parameterSummaries": {
+      "epsilon": "0.00005",
+      "LipschitzConstant": "10"
+    },
+    "networkSummaries": [
+      {
+        "name": "alsomitra",
+        "filePath": "base_model_merged.onnx",
+        "fileHash": -6749058317476817111
+      }
+    ],
+    "datasetSummaries": []
+  },
+  "properties": [
+    [
+      "property1",
+      {
+        "tag": "SingleProperty",
+        "contents": [
+          {
+            "propertyName": "property1",
+            "propertyIndices": [],
+            "propertyID": 0
+          },
+          []
+        ]
+      }
+    ]
+  ]
+}
