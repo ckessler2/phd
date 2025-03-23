@@ -142,7 +142,7 @@ LInfinityDistance x = (LInfinityDistance12 x)
 
 -- Check if input point distance is within epsilon cube (L infinity)
 boundedByEpsilonLInfinity: UnnormalisedInputVector -> Bool
-boundedByEpsilonLInfinity x  = 0.00001< LInfinityDistance1  x <=  epsilon
+boundedByEpsilonLInfinity x  =  0.00001 <= LInfinityDistance1  x <=  epsilon
 	
 -- Set dims 567 to points
 dimsAsPoints: UnnormalisedInputVector -> Bool
@@ -154,17 +154,21 @@ dimsAsPoints x = x ! d_x == x ! d_x2 and
 	x ! dv_y == x ! dv_y2
 	
 
+
 L1: UnnormalisedInputVector -> Rat
 L1 x = norm_alsomitra x ! e_x - norm_alsomitra x ! e_x2
 
 L2: UnnormalisedInputVector -> Rat
 L2 x =  norm_alsomitra x ! e_x2 - norm_alsomitra x ! e_x
 
+L3: UnnormalisedInputVector -> Rat
+L3 x = max (L1 x) (L2 x)
+
 
 -- Calculate gradient according to Lipschitz definition, defined linearly
 checkGradient: UnnormalisedInputVector -> Bool
-checkGradient x  = L1 x  <= 20000.0 * LInfinityDistance1 x and 
-	L2 x   <=  20000.0 * LInfinityDistance1 x
+checkGradient x  = L3 x  <= 4.0 * LInfinityDistance1 x 
+
 --------------------------------------------------------------------------------
 -- Property 1
 
