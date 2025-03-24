@@ -4,7 +4,7 @@
   "metadata": {
     "colab": {
       "provenance": [],
-      "authorship_tag": "ABX9TyP0UrSv5Y0Mgi0AhFb+56MG",
+      "authorship_tag": "ABX9TyN4whUw0qmS8BqsM4B514Ya",
       "include_colab_link": true
     },
     "kernelspec": {
@@ -28,13 +28,13 @@
     },
     {
       "cell_type": "code",
-      "execution_count": 31,
+      "execution_count": 38,
       "metadata": {
         "colab": {
           "base_uri": "https://localhost:8080/"
         },
         "id": "rU7U-ju7zfX4",
-        "outputId": "9a01ed51-832d-48d8-850c-66cddad40e46",
+        "outputId": "946230e3-dfb1-4c41-bfe9-b57fb8769fc5",
         "collapsed": true
       },
       "outputs": [
@@ -79,7 +79,7 @@
         "id": "zJM4uXGg4iV7",
         "outputId": "c4696a7f-0f40-4cd4-d1c3-06fef12a2dd0"
       },
-      "execution_count": 32,
+      "execution_count": null,
       "outputs": [
         {
           "output_type": "stream",
@@ -112,9 +112,9 @@
           "base_uri": "https://localhost:8080/"
         },
         "id": "hgTH1in85loC",
-        "outputId": "4df7aed3-4ccc-450d-c13a-668690feb3db"
+        "outputId": "7e4916ac-13dd-4c2a-b723-74920a11b5f8"
       },
-      "execution_count": 37,
+      "execution_count": 39,
       "outputs": [
         {
           "output_type": "stream",
@@ -139,6 +139,7 @@
       "cell_type": "code",
       "source": [
         "# Check if counterexample violates p1 and/or p2\n",
+        "# It should violate property 1 but it doesn't\n",
         "import onnxruntime as ort\n",
         "import numpy as np\n",
         "\n",
@@ -165,9 +166,9 @@
         },
         "collapsed": true,
         "id": "Gqarc0XF0YuM",
-        "outputId": "80ba263d-d61f-4846-e2a4-0e0b35a274df"
+        "outputId": "38c1f6ba-5645-4e37-d6f5-6a1b629e4d90"
       },
-      "execution_count": 35,
+      "execution_count": 40,
       "outputs": [
         {
           "output_type": "stream",
