@@ -15,9 +15,9 @@ Reviewer 1 mainly wishes it was written and structured better. Review 2 has the 
 
 **General weaknesses with original submission according to Reviewers**
 1. How do sub-problems relate to the overall problem?
-2. Hard to follow because of a lack of sufficient details.
+2. Hard to follow because of a lack of sufficient details:
  * Table 1 (equations, too small) and figure 7 (reachability) are hard to understand, captions unhelpful.
  * Lack of elaboration on how tools cannot express specification (following a trajectory). In other words, how was it challenging to encode properties
  * More detail on Lipschitz training implementation - how is the worst-case adversarial example found in each training iteration?
- * Figure 8: How is Lipschitz robustness measured?
+ * Figure 8 (Lipschitz robustness vs training epsilon) - How is Lipschitz robustness measured?
  * Hard to understand if system/reachability is continuous or discrete
