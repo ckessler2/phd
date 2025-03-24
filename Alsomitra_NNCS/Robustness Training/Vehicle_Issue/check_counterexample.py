@@ -16,7 +16,7 @@ onnx_model3 = onnx.load('base_model_merged.onnx')
 k_model3 = onnx_to_keras(onnx_model3,['x'], name_policy='short')
 
 # Property 1 counterexample from marabou
-counterexample = [ 5.0e-4, 0.534515, 0.396457, 0.0, 0.33818, 0.284731, 0.0, 0.0, 0.534515, 0.396457, 0.0, 0.33818, 0.284731, 0.0 ]
+counterexample = [ 0.0, 0.655366, 0.670123, 6.9287e-2, 0.0, 0.0, 0.0, 0.0, 0.653285, 0.672391, 7.0226e-2, 0.0, 0.0, 0.0 ]
 
 # Property 2 counterexample from marabou
 # counterexample = [ 0.0, 0.653285, 0.672391, 7.0226e-2, 0.0, 0.0, 0.0, 0.0, 0.653285, 0.672391, 7.0226e-2, 0.0, 0.0, 0.0 ]
