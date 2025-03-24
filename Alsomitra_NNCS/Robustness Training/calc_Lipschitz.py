@@ -50,11 +50,7 @@ k_model2 = onnx_to_keras(onnx_model2,['x'], name_policy='short')
 onnx_model3 = onnx.load('base_model_merged.onnx')
 k_model3 = onnx_to_keras(onnx_model3,['x'], name_policy='short')
 
-counterexample = [ 1.0e-5, 0.649507, 0.653223, 8.025e-2, 0.0, 0.0, 0.0, 0.0, 0.649507, 0.653223, 8.025e-2, 0.0, 0.0, 0.0 ]
-
-# y5 = k_model3.predict(np.expand_dims(counterexample_vehicle, axis=0))
-
-# generate_adversarial_example(k_model3, counterexample_vehicle, y5, 0.00005)
+counterexample =[ 5.0e-4, 0.534515, 0.396457, 0.0, 0.33818, 0.284731, 0.0, 0.0, 0.534515, 0.396457, 0.0, 0.33818, 0.284731, 0.0 ]
 
 
 x = np.float32(np.array(counterexample))
@@ -62,29 +58,26 @@ x = np.float32(np.array(counterexample))
 x1 = x[0:7]
 x2 = x[7:14]
 
-# eps = max((abs(x1-x2))[0],(abs(x1-x2))[1],(abs(x1-x2))[2],(abs(x1-x2))[3])
-
 eps = abs(x1-x2)[0]
 
-print("Epsilon (dim 1) = " + str(eps))
+# print("Epsilon (dim 1) = " + str(eps))
 
-y1 = k_model1.predict(np.expand_dims(x1, axis=0))
-y2 = k_model1.predict(np.expand_dims(x2, axis=0))
-
-
-L1 = abs(y2-y1)[0][0]/(eps)
-print("L (base model) = " + str(L1))
-
-y3 = k_model2.predict(np.expand_dims(x1, axis=0))
-y4 = k_model2.predict(np.expand_dims(x2, axis=0))
-
-L2 = abs(y3-y4)[0][0]/(eps)
-print("L (adversarial model) = " + str(L2))
-
-# y5 = k_model3.predict(np.expand_dims(counterexample, axis=0))
-
-# generate_adversarial_example(k_model1, (np.expand_dims(x1, axis=0)), y5, 0.00005)
+# y1 = k_model1.predict(np.expand_dims(x1, axis=0))
+# y2 = k_model1.predict(np.expand_dims(x2, axis=0))
 
 
-# L2 = abs(y5.flat[0]-y5.flat[1])/(eps)
-# print("L (base model merged) = " + str(L2))
+# L1 = abs(y2-y1)[0][0]/(eps)
+# print("L (base model) = " + str(L1))
+
+# y3 = k_model2.predict(np.expand_dims(x1, axis=0))
+# y4 = k_model2.predict(np.expand_dims(x2, axis=0))
+
+# L2 = abs(y3-y4)[0][0]/(eps)
+# print("L (adversarial model) = " + str(L2))
+
+y5 = k_model3.predict(np.expand_dims(counterexample, axis=0))
+
+# %%
+print("[ex, ex2] = " + str(y5[0]))
+
+print("ex - ex2 = " + str(y5[0][0] - y5[0][1]))

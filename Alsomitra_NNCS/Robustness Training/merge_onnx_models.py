@@ -133,3 +133,7 @@ def deeply_adjust_model_dtypes(model):
 # Example Usage: Merge an ONNX model and save the output
 merge_onnx_models("adversarial_model_0.001.onnx", "adversarial_model_0.001_merged.onnx")
 merge_onnx_models("base_model_norm.onnx", "base_model_merged.onnx")
+
+
+0.1 = -0.0005033016
+
