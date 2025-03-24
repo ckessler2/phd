@@ -4,7 +4,7 @@
   "metadata": {
     "colab": {
       "provenance": [],
-      "authorship_tag": "ABX9TyMqZOP5ZT4gTCDK1Y3ecaf9",
+      "authorship_tag": "ABX9TyN4whUw0qmS8BqsM4B514Ya",
       "include_colab_link": true
     },
     "kernelspec": {
@@ -28,49 +28,118 @@
     },
     {
       "cell_type": "code",
-      "execution_count": 1,
+      "execution_count": 38,
       "metadata": {
         "colab": {
           "base_uri": "https://localhost:8080/"
         },
         "id": "rU7U-ju7zfX4",
-        "outputId": "f8543d02-6675-420d-ffbb-29bad83a6f42"
+        "outputId": "946230e3-dfb1-4c41-bfe9-b57fb8769fc5",
+        "collapsed": true
       },
       "outputs": [
         {
           "output_type": "stream",
           "name": "stdout",
           "text": [
-            "Collecting maraboupy\n",
-            "  Downloading maraboupy-2.0.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (15 kB)\n",
-            "Downloading maraboupy-2.0.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (1.6 MB)\n",
-            "\u001b[2K   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m1.6/1.6 MB\u001b[0m \u001b[31m9.2 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n",
-            "\u001b[?25hInstalling collected packages: maraboupy\n",
-            "Successfully installed maraboupy-2.0.0\n",
-            "Collecting vehicle-lang\n",
-            "  Downloading vehicle_lang-0.16.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (7.1 kB)\n",
+            "Requirement already satisfied: maraboupy in /usr/local/lib/python3.11/dist-packages (2.0.0)\n",
+            "Requirement already satisfied: vehicle-lang in /usr/local/lib/python3.11/dist-packages (0.16.1)\n",
             "Requirement already satisfied: typing_extensions<5,>=4.6 in /usr/local/lib/python3.11/dist-packages (from vehicle-lang) (4.12.2)\n",
-            "Collecting jaxtyping<0.3,>=0.2 (from vehicle-lang)\n",
-            "  Downloading jaxtyping-0.2.38-py3-none-any.whl.metadata (6.6 kB)\n",
-            "Collecting wadler-lindig>=0.1.3 (from jaxtyping<0.3,>=0.2->vehicle-lang)\n",
-            "  Downloading wadler_lindig-0.1.4-py3-none-any.whl.metadata (17 kB)\n",
-            "Downloading vehicle_lang-0.16.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (20.3 MB)\n",
-            "\u001b[2K   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m20.3/20.3 MB\u001b[0m \u001b[31m11.6 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n",
-            "\u001b[?25hDownloading jaxtyping-0.2.38-py3-none-any.whl (56 kB)\n",
-            "\u001b[2K   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m56.4/56.4 kB\u001b[0m \u001b[31m2.6 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n",
-            "\u001b[?25hDownloading wadler_lindig-0.1.4-py3-none-any.whl (20 kB)\n",
-            "Installing collected packages: wadler-lindig, jaxtyping, vehicle-lang\n",
-            "Successfully installed jaxtyping-0.2.38 vehicle-lang-0.16.1 wadler-lindig-0.1.4\n"
+            "Requirement already satisfied: jaxtyping<0.3,>=0.2 in /usr/local/lib/python3.11/dist-packages (from vehicle-lang) (0.2.38)\n",
+            "Requirement already satisfied: wadler-lindig>=0.1.3 in /usr/local/lib/python3.11/dist-packages (from jaxtyping<0.3,>=0.2->vehicle-lang) (0.1.4)\n",
+            "Requirement already satisfied: onnxruntime in /usr/local/lib/python3.11/dist-packages (1.21.0)\n",
+            "Requirement already satisfied: coloredlogs in /usr/local/lib/python3.11/dist-packages (from onnxruntime) (15.0.1)\n",
+            "Requirement already satisfied: flatbuffers in /usr/local/lib/python3.11/dist-packages (from onnxruntime) (25.2.10)\n",
+            "Requirement already satisfied: numpy>=1.21.6 in /usr/local/lib/python3.11/dist-packages (from onnxruntime) (2.0.2)\n",
+            "Requirement already satisfied: packaging in /usr/local/lib/python3.11/dist-packages (from onnxruntime) (24.2)\n",
+            "Requirement already satisfied: protobuf in /usr/local/lib/python3.11/dist-packages (from onnxruntime) (5.29.3)\n",
+            "Requirement already satisfied: sympy in /usr/local/lib/python3.11/dist-packages (from onnxruntime) (1.13.1)\n",
+            "Requirement already satisfied: humanfriendly>=9.1 in /usr/local/lib/python3.11/dist-packages (from coloredlogs->onnxruntime) (10.0)\n",
+            "Requirement already satisfied: mpmath<1.4,>=1.1.0 in /usr/local/lib/python3.11/dist-packages (from sympy->onnxruntime) (1.3.0)\n"
           ]
         }
       ],
       "source": [
-        "pip install maraboupy; pip install vehicle-lang; pip install onnxruntime"
+        "# Install dependencies\n",
+        "!pip install maraboupy; pip install vehicle-lang; pip install onnxruntime"
       ]
     },
     {
       "cell_type": "code",
       "source": [
+        "# Download vehicle spec and onnx - they to be downloaded uploaded manually otherwise it won't run\n",
+        "# https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Robustness%20Training/Vehicle_Issue/Alsomitra_Robustness2.vcl\n",
+        "# https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Robustness%20Training/Vehicle_Issue/base_model_merged.onnx\n"
+      ],
+      "metadata": {
+        "collapsed": true,
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "zJM4uXGg4iV7",
+        "outputId": "c4696a7f-0f40-4cd4-d1c3-06fef12a2dd0"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "--2025-03-24 16:06:38--  https://github.com/ckessler2/phd/blob/main/Alsomitra_NNCS/Robustness%20Training/Vehicle_Issue/Alsomitra_Robustness2.vcl\n",
+            "Resolving github.com (github.com)... 140.82.121.4\n",
+            "Connecting to github.com (github.com)|140.82.121.4|:443... connected.\n",
+            "HTTP request sent, awaiting response... 200 OK\n",
+            "Length: unspecified [text/html]\n",
+            "Saving to: ‘Alsomitra_Robustness2.vcl’\n",
+            "\n",
+            "Alsomitra_Robustnes     [ <=>                ] 248.65K  --.-KB/s    in 0.04s   \n",
+            "\n",
+            "2025-03-24 16:06:39 (6.70 MB/s) - ‘Alsomitra_Robustness2.vcl’ saved [254620]\n",
+            "\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# Run vehicle spec for property1\n",
+        "!vehicle verify --specification Alsomitra_Robustness2.vcl --property property1  --verifier Marabou   --network alsomitra:base_model_merged.onnx"
+      ],
+      "metadata": {
+        "collapsed": true,
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "hgTH1in85loC",
+        "outputId": "7e4916ac-13dd-4c2a-b723-74920a11b5f8"
+      },
+      "execution_count": 39,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "\u001b[93m\n",
+            "Warning: In property 'property1', at least one of the generated queries were found to contain a strict inequality (i.e. constraints of the form 'x < y'). Unfortunately the Marabou query format only supports non-strict inequalities (i.e. constraints of the form 'x <= y').\n",
+            "\n",
+            "In order to provide support, Vehicle has automatically converted the strict inequalities to non-strict inequalites. This is not sound, but errors will be at most the floating point epsilon used by the verifier, which is usually very small (e.g. 1e-9). However, this may lead to unexpected behaviour (e.g. loss of the law of excluded middle).\n",
+            "\n",
+            "See https://github.com/vehicle-lang/vehicle/issues/74 for further details.\n",
+            "\u001b[m\n",
+            "Verifying properties:\n",
+            "  property1 [......................................................] 0/1 queries\r  property1 [======================================================] 1/1 queries\n",
+            "    result: \u001b[91m✗\u001b[m - Marabou found a counterexample\n",
+            "      x: [ 5.0e-4, 0.534515, 0.396457, 0.0, 0.33818, 0.284731, 0.0, 0.0, 0.534515, 0.396457, 0.0, 0.33818, 0.284731, 0.0 ]\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# Check if counterexample violates p1 and/or p2\n",
+        "# It should violate property 1 but it doesn't\n",
         "import onnxruntime as ort\n",
         "import numpy as np\n",
         "\n",
@@ -97,9 +166,9 @@
         },
         "collapsed": true,
         "id": "Gqarc0XF0YuM",
-        "outputId": "55c6b031-dfee-4144-a49b-95ae6d0ce354"
+        "outputId": "38c1f6ba-5645-4e37-d6f5-6a1b629e4d90"
       },
-      "execution_count": 49,
+      "execution_count": 40,
       "outputs": [
         {
           "output_type": "stream",
@@ -109,35 +178,6 @@
             "ex - ex2 = 0.0005033761\n",
             "Property 1 not violated\n",
             "Property 2 violated\n"
-          ]
-        }
-      ]
-    },
-    {
-      "cell_type": "code",
-      "source": [],
-      "metadata": {
-        "colab": {
-          "base_uri": "https://localhost:8080/"
-        },
-        "id": "5BNRBKuN1ryT",
-        "outputId": "c369f572-399a-4d89-9732-c8d3b412e87e"
-      },
-      "execution_count": 50,
-      "outputs": [
-        {
-          "output_type": "stream",
-          "name": "stdout",
-          "text": [
-            "Requirement already satisfied: onnxruntime in /usr/local/lib/python3.11/dist-packages (1.21.0)\n",
-            "Requirement already satisfied: coloredlogs in /usr/local/lib/python3.11/dist-packages (from onnxruntime) (15.0.1)\n",
-            "Requirement already satisfied: flatbuffers in /usr/local/lib/python3.11/dist-packages (from onnxruntime) (25.2.10)\n",
-            "Requirement already satisfied: numpy>=1.21.6 in /usr/local/lib/python3.11/dist-packages (from onnxruntime) (2.0.2)\n",
-            "Requirement already satisfied: packaging in /usr/local/lib/python3.11/dist-packages (from onnxruntime) (24.2)\n",
-            "Requirement already satisfied: protobuf in /usr/local/lib/python3.11/dist-packages (from onnxruntime) (5.29.3)\n",
-            "Requirement already satisfied: sympy in /usr/local/lib/python3.11/dist-packages (from onnxruntime) (1.13.1)\n",
-            "Requirement already satisfied: humanfriendly>=9.1 in /usr/local/lib/python3.11/dist-packages (from coloredlogs->onnxruntime) (10.0)\n",
-            "Requirement already satisfied: mpmath<1.4,>=1.1.0 in /usr/local/lib/python3.11/dist-packages (from sympy->onnxruntime) (1.3.0)\n"
           ]
         }
       ]
