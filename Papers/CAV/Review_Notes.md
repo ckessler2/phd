@@ -7,6 +7,10 @@ Review 2 has the same criticism and is unhappy with overall formulation of the v
 Review 3 points out that the properties are so easy they do not really need Vehicle -- I agree, they actually do not make use of much of Vehicle's functionality that can declare unit conversions, functions, operations over arrays, etc. We need more interesting properties to show that Vehicle, and not standard Marabou, is really needed.
 
 Changes for SAIV submission:
-* Remove error dimension - NNs now have 6 inputs. Vehicle specification will include line equation in x and y
-* Verify Lipschitz robustness properly - it seems I cannot compare network outputs, have posted issue
-* Smaller networks with relu activation - makes verification much faster
+1. Remove error dimension - NNs now have 6 inputs. Vehicle specification will include line equation in x and y
+2. Verify Lipschitz robustness properly
+ * Onnx merging script works, vehicle specification is written
+ * It currently seems that I cannot compare network outputs, have posted issue on GH
+ * Otherwise I can verify with respect to a dataset - as with MNIST example
+ * Or try another verification language like PyRAT
+3 Smaller networks with relu activation - makes verification much faster
