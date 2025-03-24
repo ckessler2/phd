@@ -10,6 +10,7 @@ Reviewer 1 mainly wishes it was written and structured better. Review 2 has the 
  * Otherwise I can verify with respect to a dataset - as with MNIST example
  * Or try another verification language (PyRAT?)
 3. Smaller networks with relu activation - makes verification much faster, might make CORA behave better
+ * Still have issue that we cannot use the same networks for vehicle and CORA (normalised v unnormalised)
 4. Consider TaxiNet case study, verification of regression networks (?)
 
 
