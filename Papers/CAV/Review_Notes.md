@@ -6,7 +6,7 @@ Reviewer 1 mainly wishes it was written and structured better. Review 2 has the 
 1. Remove error dimension - NNs now have 6 inputs. Vehicle specification will include line equation in x and y
 2. Verify Lipschitz robustness properly
  * Onnx merging script works, vehicle specification is written
- * It currently seems that I cannot compare network outputs, have posted issue on GH
+ * It currently seems that I cannot compare network outputs, have posted issue on GH - reply from Matt asking for clarification, I gave him my commands
  * Otherwise I can verify with respect to a dataset - as with MNIST example
  * Or try another verification language (PyRAT?)
 3. Smaller networks with relu activation - makes verification much faster, might make CORA behave better
