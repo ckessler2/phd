@@ -50,7 +50,7 @@ validInput x = forall i . 0.0 <= x ! i <= 1.0 and
 @property
 property1 : Bool
 property1 = forall x  .  validInput x =>
-	alsomitra x ! e_x - alsomitra x ! e_x2 <= 0.01
+	alsomitra x ! e_x2 >= alsomitra x ! e_x
 
 -- Property 2 
 -- for valid inputs, dim 1 bounded by epsilon, and dims 2-7 as points, the second output should be less than 0.01
