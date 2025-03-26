@@ -17,7 +17,7 @@ def merge_onnx_models(model_path, output_path):
     model = onnx.load(model_path)
    
     new_model = double_network(model)
-    new_model = deeply_adjust_model_dtypes(new_model)
+    # new_model = deeply_adjust_model_dtypes(new_model)
     for tensor_dtype in helper.get_all_tensor_dtypes():
         # print(helper.tensor_dtype_to_string(tensor_dtype))
         helper.tensor_dtype_to_np_dtype(1)
@@ -36,7 +36,9 @@ def double_network(orig_model):
     last_output_name = 'x'
     # 0 = 0
     
+# %%
     for idx, node in enumerate(orig_model.graph.node):
+
         if node.op_type == 'Gemm':
             weight_tensor = next(t for t in orig_model.graph.initializer if t.name == node.input[1])
             bias_tensor = next(t for t in orig_model.graph.initializer if t.name == node.input[2])
@@ -129,4 +131,6 @@ def deeply_adjust_model_dtypes(model):
     return model
 
 # Example Usage: Merge an ONNX model and save the output
-merge_onnx_models("base_model_norm.onnx", "merged_model2.onnx")
+merge_onnx_models("adversarial_model_0.001.onnx", "adversarial_model_0.001_merged.onnx")
+merge_onnx_models("base_model_norm.onnx", "base_model_merged.onnx")
+

@@ -5,7 +5,7 @@ import numpy as np
 # Load ONNX model
 onnx_model1 = onnx.load('base_model_norm.onnx')
 # %%
-onnx_model2 = onnx.load('merged_model2.onnx')
+onnx_model2 = onnx.load('base_model_merged.onnx')
 
 
 # Print model graph for debugging

@@ -10,7 +10,7 @@ class ModelBuilder:
     A class for constructing, compiling, and training a TensorFlow Keras model.
     """
 
-    def __init__(self, input_size, learning_rate=0.005):
+    def __init__(self, input_size, learning_rate=0.002):
         """
         Initialises the ModelBuilder with the model's input size and training hyperparameters.
 
@@ -27,7 +27,7 @@ class ModelBuilder:
     def build_model(self):
         """
         Builds a feedforward neural network with an input layer, two hidden layers,
-        and an output layer. The layers use the sigmoid activation function.
+        and an output layer. The layers use the relu activation function.
 
         Returns:
             tf.keras.Model: The constructed Keras sequential model.
@@ -37,20 +37,20 @@ class ModelBuilder:
             [
                 tf.keras.layers.Input(shape=(self.input_size,), name="input_features"),
                 tf.keras.layers.Dense(
-                    64,
-                    activation="sigmoid",
+                    4,
+                    activation="relu",
                     kernel_initializer=initializer,
                     name="dense_1",
                 ),
                 tf.keras.layers.Dense(
-                    32,
-                    activation="sigmoid",
+                    4,
+                    activation="relu",
                     kernel_initializer=initializer,
                     name="dense_2",
                 ),
                 tf.keras.layers.Dense(
                     1,
-                    activation="sigmoid",
+                    activation="relu",
                     kernel_initializer=initializer,
                     name="output_layer",
                 ),

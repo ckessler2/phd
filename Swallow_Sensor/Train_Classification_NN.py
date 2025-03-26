@@ -23,6 +23,7 @@ from sklearn.model_selection import train_test_split
 import tensorflow as tf
 import onnx
 import tf2onnx
+import keras
 
 
 def load_data(data_dir, test_size=0.2):
@@ -66,7 +67,7 @@ def load_data(data_dir, test_size=0.2):
 
 # # Split the data into training and testing
 # (trainX, trainy), (testX, testy) = fashion_mnist.load_data()
-data_directory = 'F:\matlab_stuff\phd\Swallow_Sensor\Dataset_1'
+data_directory = 'Dataset_1'
 (trainX, trainy), (testX, testy) = load_data(data_directory)
 
 # repeat_factor = 2
@@ -101,40 +102,39 @@ def model_arch():
      
     # We are learning 64 
     # filters with a kernel size of 5x5
-    models.add(Conv2D(64, (5, 5),
+    models.add(Conv2D(32, (5, 5),
                       padding="same",
                       activation="relu", 
                       input_shape=(28, 28, 1)))
-     
-    # Max pooling will reduce the
-    # size with a kernel size of 2x2
+    
+    
     models.add(MaxPooling2D(pool_size=(2, 2)))
-    models.add(Conv2D(128, (5, 5), padding="same",
+    models.add(Conv2D(32, (5, 5), padding="same",
                       activation="relu"))
+    
+    
      
     models.add(MaxPooling2D(pool_size=(2, 2)))
-    models.add(Conv2D(256, (5, 5), padding="same", 
-                      activation="relu"))
-     
-    models.add(MaxPooling2D(pool_size=(2, 2)))
+    
+    
      
     # Once the convolutional and pooling 
     # operations are done the layer
     # is flattened and fully connected layers
     # are added
     models.add(Flatten())
-    models.add(Dense(256, activation="relu"))
+    models.add(Dense(8, activation="relu"))
      
     # Finally as there are total 10
     # classes to be added a FCC layer of
     # 10 is created with a softmax activation
     # function
-    models.add(Dense(2, activation="softmax"))
+    models.add(Dense(2, activation="sigmoid"))
     return models
 
 model = model_arch()
  
-model.compile(optimizer=Adam(learning_rate=1e-4),
+model.compile(optimizer=keras.optimizers.Adam(learning_rate=1e-4),
               loss='sparse_categorical_crossentropy',
               metrics=['sparse_categorical_accuracy'])
  
@@ -144,14 +144,13 @@ history = model.fit(
     trainX.astype(np.float32), trainy.astype(np.float32),
     epochs=20,
     steps_per_epoch=100,
-    validation_split=0.2
+    validation_split=0
 )
-
 
 
 # Accuracy vs Epoch plot
 plt.plot(history.history['sparse_categorical_accuracy'])
-plt.plot(history.history['val_sparse_categorical_accuracy'])
+# plt.plot(history.history['val_sparse_categorical_accuracy'])
 plt.title('Model Accuracy')
 plt.ylabel('Accuracy')
 plt.xlabel('epoch')
@@ -162,7 +161,7 @@ plt.show()
 
 # Loss vs Epoch plot
 plt.plot(history.history['loss'])
-plt.plot(history.history['val_loss'])
+# plt.plot(history.history['val_loss'])
 plt.title('Model Accuracy')
 plt.ylabel('loss')
 plt.xlabel('epoch')
@@ -187,3 +186,5 @@ onnx_model, _ = tf2onnx.convert.from_keras(model)
 onnx.save(onnx_model, 'Swallow_NN_Classifier.onnx')
 
 model.save("Swallow_NN_Classifier.keras")
+
+%runfile Plot_ROC.py
