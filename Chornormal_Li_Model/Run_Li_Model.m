@@ -1,4 +1,4 @@
-clear all; clc
+clear all; clc; close all;
 set(0, 'defaultFigureRenderer', 'painters')
 set(0,'DefaultFigureWindowStyle','docked')
 font=12;
@@ -11,22 +11,77 @@ set(0, 'defaultAxesFontName', 'Times New Roman');
 set(0, 'defaultLegendFontName', 'Times New Roman');
 set(0, 'DefaultLineLineWidth', 0.5);
 
-Y0 = [0; 0; 0; pi/3; 0.; 0.];
-% Y0 = [v_xp0, v_yp0, omega0, theta0, x0, y0, error, alpha];
-t = 0:0.001:30;
-
 e_x = 0.0;
-e_y = .2;
+e_y = 0;
+f = figure;
+hold on;
+[tSol1,ySol1] = test_gust(0);
+[tSol2,ySol2] = test_gust(0.25);
+[tSol3,ySol3] = test_gust(0.5);
 
-tic
-[tSol, ySol] = ode45(@(t, y) nondimfreelyfallingplate(y,e_x), t, Y0); 
-toc
-plot_results(tSol, ySol,"chordwise only model ($e_x = "+string(e_x)+", e_y = 0$)")
+plot_results(tSol1, ySol1,"chordwise only model ($e_x = "+string(e_x)+", e_y = 0$)")
 
-tic
-[tSol, ySol] = ode45(@(t, y) nondimfreelyfallingplate_chordnormal(y,[e_x,e_y]), t, Y0); 
-toc
-plot_results(tSol, ySol,"chordwise \& chordnormal model ($e_x = "+string(e_x)+", e_y = "+string(e_y)+"$)")
+plot_results(tSol2, ySol2,"chordwise only model ($e_x = "+string(e_x)+", e_y = 0$)")
+
+plot_results(tSol3, ySol3,"chordwise only model ($e_x = "+string(e_x)+", e_y = 0$)")
+
+t = 0:0.1:30;
+Y0 = [0; 0; 0; 0; 0.; 0.];
+
+function [tSol2,ySol2] = test_gust(ratio)
+
+    e_x = 0.0;
+    e_y = .2;
+    tSol_total = [];
+    ySol_total = [];
+    
+    Y0 = [0; 0; 0; 0; 0.; 0.]; 
+    toc
+    
+    t_start = 0;
+    t_end = 30;
+    dt = 0.1; % assuming this is the desired timestep
+    
+    t_current = t_start;
+    y_current = transpose(Y0);
+    tSol = t_start;
+    ySol = transpose(Y0);
+    gust = true;
+    
+    while t_current < t_end
+        t_span = [t_current, min(t_current + dt, t_end)];
+        [T, Y] = ode45(@(t,y) nondimfreelyfallingplate(y,e_x), t_span, y_current, odeset('MaxStep',dt, 'InitialStep', dt, 'Refine', 1));
+        t_current = T(end);
+        if gust
+            added_accel = ratio* (cos((2*pi*t_current)/1)+1).*heaviside(t_current-9.5).*heaviside(-t_current+10.5);
+            Y(end, 1) = Y(end, 1) + added_accel;
+        end
+        
+        y_current = Y(end, :);
+        % Append the results
+        tSol = [tSol; T(end)];
+        ySol = [ySol; Y(end, :)];
+    
+    % Modify your system here, for example:
+    % Check if you need to introduce a gust or change parameters
+    
+    end
+    
+    
+    tSol2 = [tSol];
+    ySol2 = [ySol];
+end
+
+% Append last points if required
+% tSol2 = [tSol; t_Current];
+% ySol2 = [ySol; y_Current];
+
+% tic
+% [tSol, ySol] = ode45(@(t, y) nondimfreelyfallingplate_chordnormal(y,[e_x,e_y]), t, Y0); 
+% toc
+% plot_results(tSol, ySol,"chordwise \& chordnormal model ($e_x = "+string(e_x)+", e_y = "+string(e_y)+"$)")
+
+% compare_results(tSol, ySol,tSol1, ySol1)
 
 function plot_results(tSol, ySol, plot_title)
     t = tSol();
@@ -37,26 +92,58 @@ function plot_results(tSol, ySol, plot_title)
     x_ = ySol(:,5);
     y_ = ySol(:,6);
     
-    f = figure;
-    f = tiledlayout('flow'); nexttile
+    % f = figure;
+    % f = tiledlayout('flow'); nexttile
     
-    plot(x_,y_); daspect([1 1 1])
-    xlabel("x [-]"); ylabel("y [-]"); nexttile
+    % plot(t,[0;diff(y_)]);
+    plot(t,y_)
+    xlabel("t [-]"); ylabel("y"); 
+    % nexttile
     
-    plot(t,v_xp);
-    xlabel("t [s]"); ylabel("plate x velocity [-]"); nexttile
-    
-    plot(t,v_yp);
-    xlabel("t [s]"); ylabel("plate y velocity [-]"); nexttile
-    
-    plot(t,omega);
-    xlabel("t [s]"); ylabel("omega [-]"); nexttile
-    
-    plot(t,theta);
-    xlabel("t [s]"); ylabel("theta [-]")
-
-    title(f,plot_title,'interpreter','latex')
+    % plot(t,v_xp);
+    % xlabel("t [s]"); ylabel("plate x velocity [-]"); nexttile
+    % 
+    % plot(t,v_yp);
+    % xlabel("t [s]"); ylabel("plate y velocity [-]"); nexttile
+    % 
+    % plot(t,omega);
+    % xlabel("t [s]"); ylabel("omega [-]"); nexttile
+    % 
+    % plot(t,theta);
+    % xlabel("t [s]"); ylabel("theta [-]")
+    % 
+    % title(f,plot_title,'interpreter','latex')
 end
+
+function compare_results(tSol, ySol,tSol2, ySol2)
+    t = tSol(1:51);
+    v_xp = ySol(1:51,1);
+    v_yp = ySol(1:51,2);
+    omega = ySol(1:51,3);
+    theta = ySol(1:51,4);
+    x_ = ySol(1:51,5);
+    y_ = ySol(1:51,6);
+
+    v_xp2 = ySol2(1:51,1);
+    v_yp2 = ySol2(1:51,2);
+    omega2 = ySol2(1:51,3);
+    theta2 = ySol2(1:51,4);
+    x_2 = ySol2(1:51,5);
+    y_2 = ySol2(1:51,6);
+
+    f = figure;
+    tiledlayout(6,1);nexttile
+    
+    plot(t,abs(v_xp-v_xp2));ylim([0 1e-5]);xlim([0 5]);nexttile
+    plot(t,abs(v_yp-v_yp2));ylim([0 1e-5]);xlim([0 5]);nexttile
+    plot(t,abs(omega-omega2));ylim([0 1e-5]);xlim([0 5]);nexttile
+    plot(t,abs(theta-theta2));ylim([0 1e-5]);xlim([0 5]);nexttile
+    plot(t,abs(x_-x_2));ylim([0 1e-5]);xlim([0 5]);nexttile
+    plot(t,abs(y_-y_2));ylim([0 1e-5]);xlim([0 5])
+
+
+end
+
 
 function dydt = nondimfreelyfallingplate(y,u)
     
