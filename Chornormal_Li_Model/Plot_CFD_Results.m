@@ -7,7 +7,7 @@ clc; clear all; close all;
 [t4, courant4, x4, y4, z4, ux4, uy4, uz4] = get_data('GR_4.dat');
 [t5, courant5, x5, y5, z5, ux5, uy5, uz5] = get_data('GR_5.dat');
 
-figure; tiledlayout("flow"); ax(1) = nexttile;
+figure; f = tiledlayout("flow"); ax(1) = nexttile;
 
 % plot_for_all_gusts(t0, t1, t2, t3, t4, t5, courant0, courant1, courant2, courant3, courant4, courant5, "courant [-]"); nexttile;
 plot_for_all_gusts(t0, t1, t2, t3, t4, t5, x0, x1, x2, x3, x4, x5, "x [-]"); nexttile;
@@ -20,6 +20,8 @@ plot_for_all_gusts(t0, t1, t2, t3, t4, t5, uz0, uz1, uz2, uz3, uz4, uz5, "uz [-]
 leg = legend(ax(1), "GR-0", "GR-1", "GR-2", "GR-3", "GR-4", "GR-5",'Orientation','Horizontal');
 leg.Layout.Tile = 'north';
 
+exportgraphics(f,'CFD_Gust.png','Resolution',300)
+
 function plot_for_all_gusts(t0, t1, t2, t3, t4, t5, y0, y1, y2, y3, y4, y5, var)
 
     plot(t0, y0, 'Color', [0.267004, 0.004874, 0.329415],'LineWidth', 2)
@@ -29,7 +31,7 @@ function plot_for_all_gusts(t0, t1, t2, t3, t4, t5, y0, y1, y2, y3, y4, y5, var)
     plot(t3, y3, 'Color', [0.369214, 0.788888, 0.382914],'LineWidth', 2)  
     plot(t4, y4, 'Color', [0.678489, 0.863742, 0.189503],'LineWidth', 2) 
     plot(t5, y5, 'Color', [0.993248, 0.906157, 0.143936],'LineWidth', 2)  
-    xlabel("time [-]")
+    xlabel("t [-]")
     ylabel(var)
     pbaspect([1 1 1])
 

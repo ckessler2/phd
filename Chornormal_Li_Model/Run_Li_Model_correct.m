@@ -17,13 +17,13 @@ e_y = 0;
 figure; f = tiledlayout("flow"); ax(1) = nexttile;
 
 % f = figure; 
-hold on;
+hold on; box on;
 [tSol1,ySol1] = test_gust(0);
-[tSol2,ySol2] = test_gust(0.1);
-[tSol3,ySol3] = test_gust(0.2);
-[tSol4,ySol4] = test_gust(0.3);
-[tSol5,ySol5] = test_gust(0.4);
-[tSol6,ySol6] = test_gust(0.5);
+[tSol2,ySol2] = test_gust(1);
+[tSol3,ySol3] = test_gust(2);
+[tSol4,ySol4] = test_gust(3);
+[tSol5,ySol5] = test_gust(4);
+[tSol6,ySol6] = test_gust(5);
 
 plot_x(tSol1, ySol1,"chordwise only model ($e_x = "+string(e_x)+", e_y = 0$)",[0.267004, 0.004874, 0.329415])
 plot_x(tSol2, ySol2,"chordwise only model ($e_x = "+string(e_x)+", e_y = 0$)", [0.229739, 0.322361, 0.545706])
@@ -31,31 +31,31 @@ plot_x(tSol3, ySol3,"chordwise only model ($e_x = "+string(e_x)+", e_y = 0$)",[0
 plot_x(tSol4, ySol4,"chordwise only model ($e_x = "+string(e_x)+", e_y = 0$)", [0.369214, 0.788888, 0.382914])
 plot_x(tSol5, ySol5,"chordwise only model ($e_x = "+string(e_x)+", e_y = 0$)",[0.678489, 0.863742, 0.189503])
 plot_x(tSol6, ySol6,"chordwise only model ($e_x = "+string(e_x)+", e_y = 0$)", [0.993248, 0.906157, 0.143936])
-
-nexttile; hold on;
+pbaspect([1 1 1])
+nexttile; hold on;box on;
 plot_z(tSol1, ySol1,"chordwise only model ($e_x = "+string(e_x)+", e_y = 0$)",[0.267004, 0.004874, 0.329415])
 plot_z(tSol2, ySol2,"chordwise only model ($e_x = "+string(e_x)+", e_y = 0$)", [0.229739, 0.322361, 0.545706])
 plot_z(tSol3, ySol3,"chordwise only model ($e_x = "+string(e_x)+", e_y = 0$)",[0.127568, 0.566949, 0.550556])
 plot_z(tSol4, ySol4,"chordwise only model ($e_x = "+string(e_x)+", e_y = 0$)", [0.369214, 0.788888, 0.382914])
 plot_z(tSol5, ySol5,"chordwise only model ($e_x = "+string(e_x)+", e_y = 0$)",[0.678489, 0.863742, 0.189503])
 plot_z(tSol6, ySol6,"chordwise only model ($e_x = "+string(e_x)+", e_y = 0$)", [0.993248, 0.906157, 0.143936])
-
-nexttile; hold on;
+pbaspect([1 1 1])
+nexttile; hold on;box on;
 plot_ux(tSol1, ySol1,"chordwise only model ($e_x = "+string(e_x)+", e_y = 0$)",[0.267004, 0.004874, 0.329415])
 plot_ux(tSol2, ySol2,"chordwise only model ($e_x = "+string(e_x)+", e_y = 0$)", [0.229739, 0.322361, 0.545706])
 plot_ux(tSol3, ySol3,"chordwise only model ($e_x = "+string(e_x)+", e_y = 0$)",[0.127568, 0.566949, 0.550556])
 plot_ux(tSol4, ySol4,"chordwise only model ($e_x = "+string(e_x)+", e_y = 0$)", [0.369214, 0.788888, 0.382914])
 plot_ux(tSol5, ySol5,"chordwise only model ($e_x = "+string(e_x)+", e_y = 0$)",[0.678489, 0.863742, 0.189503])
 plot_ux(tSol6, ySol6,"chordwise only model ($e_x = "+string(e_x)+", e_y = 0$)", [0.993248, 0.906157, 0.143936])
-
-nexttile; hold on;
+pbaspect([1 1 1])
+nexttile; hold on;box on;
 plot_uz(tSol1, ySol1,"chordwise only model ($e_x = "+string(e_x)+", e_y = 0$)",[0.267004, 0.004874, 0.329415])
 plot_uz(tSol2, ySol2,"chordwise only model ($e_x = "+string(e_x)+", e_y = 0$)", [0.229739, 0.322361, 0.545706])
 plot_uz(tSol3, ySol3,"chordwise only model ($e_x = "+string(e_x)+", e_y = 0$)",[0.127568, 0.566949, 0.550556])
 plot_uz(tSol4, ySol4,"chordwise only model ($e_x = "+string(e_x)+", e_y = 0$)", [0.369214, 0.788888, 0.382914])
 plot_uz(tSol5, ySol5,"chordwise only model ($e_x = "+string(e_x)+", e_y = 0$)",[0.678489, 0.863742, 0.189503])
 plot_uz(tSol6, ySol6,"chordwise only model ($e_x = "+string(e_x)+", e_y = 0$)", [0.993248, 0.906157, 0.143936])
-
+pbaspect([1 1 1])
 
 exportgraphics(f,'Li_grid.png','Resolution',300)
 
@@ -88,7 +88,9 @@ function [tSol2,ySol2] = test_gust(ratio)
         [T, Y] = ode45(@(t,y) nondimfreelyfallingplate(y,e_x), t_span, y_current, odeset('MaxStep',dt, 'InitialStep', dt, 'Refine', 1));
         t_current = T(end);
         if gust
-            added_accel = ratio* (cos((2*pi*t_current)/1)+1).*heaviside(t_current-14.5).*heaviside(-t_current+15.5);
+            added_accel = -ratio * 0.5 * (cos((2*pi*t_current))+1).*heaviside(t_current-14.5).*heaviside(-t_current+15.5);
+            % added_accel = -ratio * 0.5 * max( (cos((2*pi*t_current)/1)+1).*heaviside(t_current-14.5),2*heaviside(t_current-15));
+
             Y(end, 1) = Y(end, 1) + added_accel;
         end
         
@@ -134,7 +136,7 @@ function plot_x(tSol, ySol, plot_title, color)
     plot(t,(x_(t1:t2)), 'Color', color,'LineWidth', 2)
     xlabel("t [-]"); ylabel("${\textnormal{x}}$ [-]"); 
     xlim([10 30])
-    % ylim([-6 1])
+    ylim([-6 1])
 end
 
 function plot_z(tSol, ySol, plot_title, color)
@@ -153,7 +155,7 @@ function plot_z(tSol, ySol, plot_title, color)
     plot(t,(y_(t1:t2) + (1.023 * t)), 'Color', color,'LineWidth', 2)
     xlabel("t [-]"); ylabel("${\textnormal{z}}$ [-]"); 
     xlim([10 30])
-    % ylim([-6 1])
+    ylim([0 6])
 end
 
 function plot_ux(tSol, ySol, plot_title, color)
