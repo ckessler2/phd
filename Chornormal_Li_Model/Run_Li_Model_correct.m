@@ -88,10 +88,11 @@ function [tSol2,ySol2] = test_gust(ratio)
         [T, Y] = ode45(@(t,y) nondimfreelyfallingplate(y,e_x), t_span, y_current, odeset('MaxStep',dt, 'InitialStep', dt, 'Refine', 1));
         t_current = T(end);
         if gust
-            added_accel = -ratio * 0.5 * (cos((2*pi*t_current))+1).*heaviside(t_current-14.5).*heaviside(-t_current+15.5);
+            % added_vel = -ratio * 0.5 * (cos((2*pi*t_current))+1).*heaviside(t_current-14.5).*heaviside(-t_current+15.5);
+            added_vel = -ratio * ((1/(2*pi)*sin(2*pi*t_current)+t_current-14.5).*(heaviside(t_current-14.5)).*(heaviside(-t_current+15.5))+(heaviside(t_current-15.5)));
             % added_accel = -ratio * 0.5 * max( (cos((2*pi*t_current)/1)+1).*heaviside(t_current-14.5),2*heaviside(t_current-15));
 
-            Y(end, 1) = Y(end, 1) + added_accel;
+            Y(end, 1) = Y(end, 1) + added_vel;
         end
         
         y_current = Y(end, :);
@@ -241,7 +242,7 @@ function dydt = nondimfreelyfallingplate(y,u)
     y_ = y(6);
 
     p = [0.070000000000000;3.247200000000000e-04;1.225000000000000;0.033750000000000;5.000000000000000e-04;0.174500000000000];
-    l = 1;
+    l = 0.1;
     m = p(2);
     rho_f = p(3);
     a = p(4);
