@@ -6,6 +6,7 @@ clc; clear
 
 % NOT NORMALIZED
 load('Training_Data.mat')
+data = data3;
 
 Cs = [];
 Ss = [];
@@ -23,6 +24,9 @@ end
 
 writematrix(data_norm,'Training_Data_Normalised.csv') 
 save('Training_Data_Normalised','data_norm')
+constants = [Cs; Ss];
+save('Normalisation_Constants','constants')
+
 
 data_true_2 = data_norm;
 

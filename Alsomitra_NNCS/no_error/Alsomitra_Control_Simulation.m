@@ -1,7 +1,7 @@
 function Alsomitra_Control_Simulation(network1)
 
     % Colin Kessler 4.8.2024 - colinkessler00@gmail.com
-    clear; clc;
+    % clear; clc;
     
     % Plot preamble.
     set(0, 'defaultFigureRenderer', 'painters')
@@ -16,12 +16,12 @@ function Alsomitra_Control_Simulation(network1)
     set(0, 'defaultLegendFontName', 'Times New Roman');
     set(0, 'DefaultLineLineWidth', 0.5);
     
-    % load("Normalisation_Constants.mat")
-    % Cs = data2(1,:);
-    % Ss = data2(2,:);
+    constants = load("Normalisation_Constants.mat");
+    Cs = constants.constants(1,:);
+    Ss = constants.constants(2,:);
     
     % NN or PID controller
-    nnc =  false;
+    nnc =  true;
     
     ObjectiveFunction = @Alsomitra_nondim;
     
@@ -29,8 +29,8 @@ function Alsomitra_Control_Simulation(network1)
     epochs = 1;
     obj_f = [];
     
-    % nn = importNetworkFromONNX(network1,InputDataFormats='BC');
-    nn = 1;
+    nn = importNetworkFromONNX(network1,InputDataFormats='BC');
+    % nn = 1;
     
     parameters = [5.18218452125279	0.807506506794260	0.105977518471870	4.93681162104530	1.49958010664229	0.238565281050545	2.85289007725274	0.368933365279324	1.73001889433847];
     
@@ -41,7 +41,7 @@ function Alsomitra_Control_Simulation(network1)
     
     % figure
     nexttile
-    title(nn)
+    title(network1)
     
     data = [];
     
@@ -61,17 +61,20 @@ function Alsomitra_Control_Simulation(network1)
         Cs = [];
         Ss = [];
         data3 = data;
-        % for i = 1:7
-        %     [N,C,S] = normalize(data(:,i));
-        %     data(:,i) = N;
-        %     Cs = [Cs,C];
-        %     Ss = [Ss,S];
-        % end
+        data_n = [];
+        for i = 1:7
+            [N,C,S] = normalize(data(:,i));
+            data_n(:,i) = N;
+            Cs = [Cs,C];
+            Ss = [Ss,S];
+        end
         % 
-        writematrix(data,'Training_Data.csv') 
-        save('Training_Data','data')
-        data2 = [Cs; Ss];
-        save('Normalisation_Constants','data2')
+        writematrix(data3,'Training_Data.csv') 
+        save('Training_Data','data3')
+        % writematrix(data_n,'Training_Data_Normalised.csv') 
+        % save('Training_Data_Normalised','data_n')
+        % data2 = [Cs; Ss];
+        % save('Normalisation_Constants','data2')
     end
     
     
@@ -90,7 +93,10 @@ function Alsomitra_Control_Simulation(network1)
     
         if nnc == true
             % NN CONTROLLER
-            ex = nn.predict(([v_xp0 v_yp0 omega0 theta0 0 0 error2]));
+            % ex = nn.predict(([v_xp0 v_yp0 omega0 theta0 0 0]));
+            input = ([v_xp0 v_yp0 omega0 theta0 0 0] .* Ss(1:6))+ Cs(1:6);
+            ex = nn.predict(input);
+            ex = (ex * Ss(7))+Cs(7);
             % ex = (ex * (0.012)) + 0.181;
         else
             tic
@@ -128,8 +134,9 @@ function Alsomitra_Control_Simulation(network1)
             if nnc == true
                 % NN CONTROLLER
                 % ex = nn.predict([v_xp0 v_yp0 omega0 theta0 x0 y0 error2] - rot90(Cs) ./ rot90(Ss));
-                ex = nn.predict(([v_xp0 v_yp0 omega0 theta0 0 0 error2]));
-                % ex = (ex * (0.012)) + 0.181;
+                input = ([v_xp0 v_yp0 omega0 theta0 0 0] .* Ss(1:6))+ Cs(1:6);
+                ex = nn.predict(input);
+                ex = (ex * Ss(7))+Cs(7);
             else
                 % % PID CONTROLLER
                 integral  = sum(errors);
