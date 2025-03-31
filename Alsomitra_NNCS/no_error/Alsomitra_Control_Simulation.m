@@ -236,8 +236,8 @@ function Alsomitra_Control_Simulation(network1,plot_title)
         % ylim([-100 10])
 
     
-        % xlabel('time')
-        % ylabel('relative error')
+        xlabel('x [-]')
+        ylabel('y [-]')
         % legend("Simulated trajectories","Desired trajectory")
         daspect([1 1 1])
     
