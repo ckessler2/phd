@@ -43,11 +43,8 @@ plot_results(nn,{"Adversarial Model ($\epsilon=0.04$)"})
 
 figure; t = tiledlayout("flow"); nexttile;
 Alsomitra_Control_Simulation('base_model_norm.onnx',{"Naive Model ($\epsilon=0$)"}); nexttile;
-Alsomitra_Control_Simulation('adversarial_model_0.0025.onnx',{"Adversarial Model ($\epsilon=0.0025$)"}); nexttile;
-Alsomitra_Control_Simulation('adversarial_model_0.005.onnx',{"Adversarial Model ($\epsilon=0.005$)"}); nexttile;
-Alsomitra_Control_Simulation('adversarial_model_0.01.onnx',{"Adversarial Model ($\epsilon=0.01$)"}); nexttile;
-Alsomitra_Control_Simulation('adversarial_model_0.02.onnx',{"Adversarial Model ($\epsilon=0.02$)"}); nexttile;
-Alsomitra_Control_Simulation('adversarial_model_0.04.onnx',{"Adversarial Model ($\epsilon=0.04$)"})
+
+
 
 function L = lipschitz_robustness(nn,datafile)
 

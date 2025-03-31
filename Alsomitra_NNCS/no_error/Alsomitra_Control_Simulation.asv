@@ -45,8 +45,8 @@ function Alsomitra_Control_Simulation(network1,plot_title)
     
     % Plot simulations over a range of starting y values
     
-    for n = 0.1:0.025:0.3
-    % for n = -0.3:0.1:0.7
+    % for n = 0.1:0.025:0.3
+    for n = -0.3:0.1:0.7
         disp(n)
         hold on
         [data1,errors1,ex_all1] = simulate(n/0.07,parameters,ObjectiveFunction,nn,nnc);
@@ -229,8 +229,8 @@ function Alsomitra_Control_Simulation(network1,plot_title)
         % xlim([0 25])
         % ylim([-25 5])
         
-        xlim([0 45])
-        ylim([-50 5])
+        xlim([25 45])
+        ylim([-50 -20])
 
         % xlim([0 100])
         % ylim([-100 10])
