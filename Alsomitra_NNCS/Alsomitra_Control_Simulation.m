@@ -38,7 +38,7 @@ function Alsomitra_Control_Simulation(network1)
     p3 = [-0.3311	0.37305935	18.62325016];
     p4 = [-0.4493	0.685756098	7.797849674];
     
-    % figure
+    figure
     nexttile
     title(network1)
     

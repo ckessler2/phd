@@ -20,10 +20,10 @@ f1 = figure
 tiledlayout('flow');
 nexttile
 
-datafile = 'adversarial_data_0.005.csv';
+% datafile = 'adversarial_data_0.005.csv';
 
-nn = importNetworkFromONNX('base_model.onnx',InputDataFormats='BC');
-L0 = lipschitz_robustness(nn,datafile);
+nn = importNetworkFromONNX('adversarial_model_0.001.onnx',InputDataFormats='BC');
+% L0 = lipschitz_robustness(nn,datafile);
 plot_results(nn,{"Naive model ($\epsilon=0$)"})
 
 % nexttile
@@ -75,6 +75,7 @@ plot_results(nn,{"Naive model ($\epsilon=0$)"})
 function L = lipschitz_robustness(nn,datafile)
 
     load('Training_Data.mat') 
+    data = data3;
     % T1 = readtable('adversarial_data_0.005.csv');
     % T2 = readtable('adversarial_data_0.01.csv');
     % T3 = readtable('adversarial_data_0.02.csv');
@@ -91,13 +92,13 @@ function L = lipschitz_robustness(nn,datafile)
     for i = 1:length(data)
         eucs = [];
         for j = 1:length(T)
-            euc = sqrt(sum((data(i,1:7) - T(j,1:7)) .^ 2));
+            euc = sqrt(sum((data(i,1:6) - T(j,1:6)) .^ 2));
             eucs = [eucs;euc];
         end
         [dist,index] = min(eucs);
 
-        x = T(index,1:7); 
-        y = data(i,1:7);
+        x = T(index,1:6); 
+        y = data(i,1:6);
         fx = nn.predict(x);
         fy= nn.predict(y);
 
@@ -110,22 +111,27 @@ end
 
 
 function plot_results(nn,name)
-    load('Training_Data.mat')
+    load('Training_Data_Normalised.mat')
+    data = data_norm;
     % load('Normalised_Data.mat')
     % data = normalized_matrix;
-    ex_true = data(:,8);
+    ex_true = data(:,7);
     ex_nn1 = [];
     ex_nn2 = [];
     err1 = [];
     err2 = [];
     
-    load("Normalisation_Constants.mat")
-    % Cs = data2(1,:);
-    % Ss = data2(2,:);
-    
+    constants = load("Normalisation_Constants.mat");
+    Cs = constants.constants(1,:);
+    Ss = constants.constants(2,:);
+
     for i = 1:length(data)
-        % ex_nn2 = [ex_nn2; (nn.predict(data(i,1:7))* (0.012)) + 0.181];
-        ex_nn2 = [ex_nn2; (nn.predict(data(i,1:7) .* [1 1 1 1 0 0 1]))];
+        % ex_nn2 = [ex_nn2; (nn.predict(data(i,1:6))* (0.012)) + 0.181];
+        % ex_nn2 = [ex_nn2; (nn.predict(data(i,1:6) .* [1 1 1 1 0 0]))];
+
+        input = data(i,1:6);
+        ex_nn = nn.predict(input);
+        ex_nn2 = [ex_nn2; ex_nn]
         err2 = [err2;abs(ex_true(i) - ex_nn2)];
     end
     

@@ -22,14 +22,14 @@ nexttile
 
 datafile = 'adversarial_data_0.005.csv';
 
-nn = importNetworkFromONNX('base_model.onnx',InputDataFormats='BC');
+nn = importNetworkFromONNX('base_model_norm.onnx',InputDataFormats='BC');
 L0 = lipschitz_robustness(nn,datafile);
 plot_results(nn,{"Naive model ($\epsilon=0$)"})
 
-% nexttile
-% nn = importNetworkFromONNX('adversarial_model_0.0005_Norm.onnx',InputDataFormats='BC');
-% L1 = lipschitz_robustness(nn,datafile);
-% plot_results(nn,"$\epsilon=0.0005$")
+nexttile
+nn = importNetworkFromONNX('adversarial_model_0.001.onnx',InputDataFormats='BC');
+L1 = lipschitz_robustness(nn,datafile);
+plot_results(nn,"$\epsilon=0.001$")
 % 
 % nexttile
 % nn = importNetworkFromONNX('adversarial_model_0.001_Norm.onnx',InputDataFormats='BC');
@@ -110,9 +110,9 @@ end
 
 
 function plot_results(nn,name)
-    load('Training_Data.mat')
-    % load('Normalised_Data.mat')
-    % data = normalized_matrix;
+    % load('Training_Data.mat')
+    load('Normalised_Data.mat')
+    data = normalized_matrix;
     ex_true = data(:,8);
     ex_nn1 = [];
     ex_nn2 = [];
@@ -135,15 +135,19 @@ function plot_results(nn,name)
     scatter(ex_true,ex_nn2,4,'filled','MarkerFaceColor',[0.0504    0.0298    0.5280],'MarkerEdgeColor',[0.0504    0.0298    0.5280]);hold on;
     plot([-10,10],[-10,10]);
     colororder(["#721f81","black"])
-    xlim([0.181 0.193])
-    ylim([0.181 0.193])
+    % xlim([0.181 0.193])
+    % ylim([0.181 0.193])
+    xlim([0 1])
+    ylim([0 1])
+
+
     
     % % title(name + ' R = ' + string(round(b,6)) + ',  RMSE = ' + string(round(mean(err2),6)))
     title(name)
     
     pbaspect([1 1 1])
-    xlim([min(ex_true),max(ex_true)])
-    ylim([min(ex_true),max(ex_true)])
+    % xlim([min(ex_true),max(ex_true)])
+    % ylim([min(ex_true),max(ex_true)])
     ylabel("NN output")
     xlabel("True value")
 end
