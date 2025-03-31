@@ -82,7 +82,7 @@ class AdversarialTrainer:
         #     adversarial_x, 0, 1
         # )  # Ensure values stay within [0, 1] bounds
 
-    def train_with_adversarial_examples(self, train_dataset, epochs=1, callbacks=None, alpha=0):
+    def train_with_adversarial_examples(self, train_dataset, epochs=1, callbacks=None, alpha=0.5):
         """
         Trains the model on both normal and adversarial examples to enforce robustness within an epsilon-ball.
 
@@ -139,6 +139,7 @@ class AdversarialTrainer:
                 # history2["history"]["loss"].append(np.float32(history[0]))
                 # history2["history"]["val_loss"].append(val_loss)
                 history2.add_entry(loss, val_loss)
+            
                 
                 with tf.GradientTape(persistent=True) as tape:
                     adversarial_y_batch = self.model(adversarial_x_batch, training=True)
