@@ -191,7 +191,7 @@ function plot_uz(tSol, ySol, plot_title, color)
     [ d2, t2 ] = min( abs( t-(30) ) );
     t = t(t1:t2);
     
-    plot(t,[0;diff(y_(t1:t2))]+0.1, 'Color', color,'LineWidth', 2)
+    plot(t,[0;diff(y_(t1:t2))]-1, 'Color', color,'LineWidth', 2)
     xlabel("t [-]"); ylabel("$u_{\textnormal{z}}$ [-]"); 
     xlim([10 30])
     ylim([-1 2])

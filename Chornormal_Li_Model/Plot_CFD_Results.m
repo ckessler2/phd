@@ -42,7 +42,7 @@ function [t, courant, x, y, z, ux, uy, uz] = get_data(filename)
     data = readmatrix(filename); 
     t = data(:,1);
     [ d1, t1 ] = min( abs( t-(10) ) );
-    [ d2, t2 ] = min( abs( t-(30) ) );
+    [ d2, t2 ] = min( abs( t-(100) ) );
     t = t(t1:t2);
 
     courant = data(t1:t2,2);
