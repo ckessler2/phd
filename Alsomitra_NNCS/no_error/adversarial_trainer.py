@@ -40,7 +40,7 @@ class AdversarialTrainer:
     against adversarial attacks within an epsilon-ball (L-infinity norm).
     """
 
-    def __init__(self, model, epsilon=0.1):
+    def __init__(self, model, epsilon=0.005):
         """
         Initialises the AdversarialTrainer with a model and a perturbation factor (epsilon).
 
@@ -82,7 +82,7 @@ class AdversarialTrainer:
         #     adversarial_x, 0, 1
         # )  # Ensure values stay within [0, 1] bounds
 
-    def train_with_adversarial_examples(self, train_dataset, epochs=10, callbacks=None, alpha=2):
+    def train_with_adversarial_examples(self, train_dataset, epochs=10, callbacks=None, alpha=1):
         """
         Trains the model on both normal and adversarial examples to enforce robustness within an epsilon-ball.
 
@@ -119,7 +119,6 @@ class AdversarialTrainer:
                 combined_y = tf.concat([y_batch, y_batch], axis=0)
 
                 # Train on combined data
-                # history = self.model.train_on_batch(x_batch,y_batch)
                 history = self.model.train_on_batch(combined_x,combined_y)
                 loss = np.float32(history[0])
                 val_loss = np.float32(history[1])
@@ -128,6 +127,7 @@ class AdversarialTrainer:
                 # history2["history"]["val_loss"].append(val_loss)
                 history2.add_entry(loss, val_loss)
                 
+                
                 with tf.GradientTape() as tape:
                     adversarial_y_batch = self.model(adversarial_x_batch, training=True)
                 
@@ -135,13 +135,56 @@ class AdversarialTrainer:
                     
                     grads = tape.gradient(loss, self.model.trainable_weights)
     
-                    tf.keras.optimizers.Adam().apply_gradients(zip(grads, self.model.trainable_weights))
+                    # tf.keras.optimizers.Adam().apply_gradients(zip(grads, self.model.trainable_weights))
 
-            for callback in callbacks:
-                callback.on_epoch_end(epoch)
+            # for callback in callbacks:
+            #     callback.on_epoch_end(epoch)
 
         print("Adversarial training with epsilon-ball robustness completed.")
         a = np.array(adversarial_x_batch)
         b = np.array(y_batch)
         
         return self.model, history2, np.c_[a,b]
+    
+    def train(self, train_dataset, epochs=10, callbacks=None, alpha=0):
+        """
+        Trains the model on both normal and adversarial examples to enforce robustness within an epsilon-ball.
+
+        Args:
+            train_dataset (tf.data.Dataset): The training dataset providing input-output pairs (x, y).
+            epochs (int): The number of epochs for training.
+            callbacks (list): A list of callbacks to be invoked during the training process.
+                              Defaults to None.
+
+        Returns:
+            tf.keras.Model: The trained model after adversarial training.
+
+        Raises:
+            ValueError: If the training dataset is not properly formatted.
+        """
+        if callbacks is None:
+            callbacks = []
+            
+        history2 = TrainingHistory()
+        # adversarial_data = []
+
+        for epoch in range(epochs):
+            for callback in callbacks:
+                callback.on_epoch_begin(epoch)
+
+            for x_batch, y_batch in train_dataset:
+
+                # Train on combined data
+                history = self.model.train_on_batch(x_batch,y_batch)
+                
+                loss = np.float32(history[0])
+                val_loss = np.float32(history[1])
+                
+                history2.add_entry(loss, val_loss)
+                
+            # for callback in callbacks:
+            #     callback.on_epoch_end(epoch)
+
+        print("Adversarial training with epsilon-ball robustness completed.")
+        
+        return self.model, history2

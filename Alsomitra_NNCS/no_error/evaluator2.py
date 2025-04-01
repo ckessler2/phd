@@ -40,6 +40,7 @@ class Evaluator2:
         plt.yscale("log")
         plt.legend(loc="upper right")
         plt.grid(True, which="both", linestyle="--", linewidth=0.5)
+        plt.ylim(1e-4,1)
         plt.show()
 
     @staticmethod

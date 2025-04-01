@@ -28,7 +28,8 @@ def main(epsilon,basetraining):
     target_column = "target"  # Column name for the labels in the dataset
     input_size = 6  # Number of input features for the model
     batch_size = 50  # Batch size for training
-    epochs = 1000  # Number of epochs for training
+    epochs = 200  # Number of epochs for training
+    learning_rate = 0.08
     # epsilon = 0.000  # Epsilon for adversarial robustness (small perturbations)
 
     # Step 1: Data Handling
@@ -40,47 +41,49 @@ def main(epsilon,basetraining):
 
     # Step 2: Model Building
     progress_bar = ProgressBar()  # Custom progress bar for training
-    model_builder = ModelBuilder(input_size=input_size)  # Initialises model builder with input size
+    progress_bar2 = ProgressBar()  
+    model_builder = ModelBuilder(input_size=input_size, learning_rate=learning_rate)  # Initialises model builder with input size
     model = model_builder.build_model()  # Constructs the model structure
     model_builder.compile_model()  # Compiles the model with specified loss and optimizer
-    # model2 = model
     
-    if basetraining:
-        history = model_builder.train_model(
-            train_dataset,
-            test_dataset,
-            epochs=epochs,
-            verbose=0,  # Suppresses Keras verbose output
-            callbacks=[progress_bar],  # Integrates custom progress bar
-        )  # Trains the model with training and validation data
+    # history = model_builder.train_model(
+    #     train_dataset,
+    #     test_dataset,
+    #     epochs=epochs,
+    #     verbose=0,  # Suppresses Keras verbose output
+    #     callbacks=[progress_bar],  # Integrates custom progress bar
+    # )  # Trains the model with training and validation data
     
-        # Step 3: Evaluate the Base Model
-        evaluator = Evaluator()  # Initialises evaluator for performance metrics
-        print("\nEvaluating the base model:")
-        base_metrics = evaluator.evaluate(history, model, X_test, y_test)  # Evaluates base model
-        
-        saver = OnnxModelSaver()  # Initialises the model saver
-        # saver.save(model, "base_model")  # Saves base model as ONNX
-        
-        # Export network as onnx
-        input_signature = [tf.TensorSpec([1,6], tf.float32, name='x')]
-        onnx_model, _ = tf2onnx.convert.from_keras(model, input_signature, opset=13)
-        onnx.save(onnx_model, 'base_model_norm.onnx')
-        print("saved as base_model_norm.onnx")
-        
-    else:
-        print("Base model already trained, skipping")
+    # %%
+    naive_trainer = AdversarialTrainer(model, epsilon=epsilon)  # Sets up adversarial trainer
+    model, history = naive_trainer.train(
+        train_dataset, epochs=epochs, callbacks=[progress_bar]
+    )  # Trains the model with adversarial examples for robustness
 
+    # Step 3: Evaluate the Base Model
+    evaluator = Evaluator()  # Initialises evaluator for performance metrics
+    print("\nEvaluating the base model:")
+    base_metrics = evaluator.evaluate(history, model, X_test, y_test)  # Evaluates base model
+    
+    saver = OnnxModelSaver()  # Initialises the model saver
+    # saver.save(model, "base_model")  # Saves base model as ONNX
+    
+    # Export network as onnx
+    input_signature = [tf.TensorSpec([1,6], tf.float32, name='x')]
+    onnx_model, _ = tf2onnx.convert.from_keras(model, input_signature, opset=13)
+    onnx.save(onnx_model, 'base_model_norm.onnx')
+    print("saved as base_model_norm.onnx")
+        
     # Step 4: Adversarial Training for Robustness
     print("\nStarting adversarial training with epsilon-ball robustness...")
-    model_builder2 = ModelBuilder(input_size=input_size)  # Initialises model builder with input size
+    model_builder2 = ModelBuilder(input_size=input_size, learning_rate=learning_rate)  # Initialises model builder with input size
     model2 = model_builder2.build_model()  # Constructs the model structure
     model_builder2.compile_model()  # Compiles the model with specified loss and optimizer
     
 # %%
     adversarial_trainer = AdversarialTrainer(model2, epsilon=epsilon)  # Sets up adversarial trainer
     adversarial_model, history2, adversarial_data= adversarial_trainer.train_with_adversarial_examples(
-        train_dataset, epochs=epochs, callbacks=[progress_bar]
+        train_dataset, epochs=epochs, alpha=1
     )  # Trains the model with adversarial examples for robustness
 
     # %%
@@ -111,9 +114,9 @@ def main(epsilon,basetraining):
 
 # Entry point of the script
 if __name__ == "__main__":
-    # main(0.005,True)
-    main(0.01,True)
-    main(0.02,True)
-    main(0.04,True)
-    main(0.0025,True)
+    main(0.005,True)
+    # main(0.01,True)
+    # main(0.02,True)
+    # main(0.04,True)
+    # main(0.0025,True)
 # 
