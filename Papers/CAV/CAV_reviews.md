@@ -127,7 +127,7 @@ Reviewer expertise
 
 Paper summary
 -------------
-This is a case study paper on the formal verification of a new kind of drones, inspired by biological seeds (dandelion or "Alsomitra"). The drones are built using neural network control. The formal verification is performed with Marabou (for the neural network) and CORA (for system-level verification). --Agree
+This is a case study paper on the formal verification of a new kind of drones, inspired by biological seeds (dandelion or "Alsomitra"). The drones are built using neural network control. The formal verification is performed with Marabou (for the neural network) and CORA (for system-level verification). <mark>Agree</mark>
 
 Comments for authors
 --------------------
