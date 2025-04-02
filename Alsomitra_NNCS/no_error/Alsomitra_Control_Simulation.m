@@ -93,7 +93,7 @@ function Alsomitra_Control_Simulation(network1,plot_title)
         if nnc == true
             % NN CONTROLLER
             % ex = nn.predict(([v_xp0 v_yp0 omega0 theta0 0 0]));
-            input = ([v_xp0 v_yp0 omega0 theta0 0 0]- Cs(1:6))./Ss(1:6);
+            input = ([v_xp0 v_yp0 omega0 theta0 x0 y0]- Cs(1:6))./Ss(1:6);
             ex = nn.predict(input);
             ex = (ex * Ss(7))+Cs(7);
             % ex = (ex * (0.012)) + 0.181;
@@ -134,7 +134,7 @@ function Alsomitra_Control_Simulation(network1,plot_title)
             if nnc == true
                 % NN CONTROLLER
                 % ex = nn.predict([v_xp0 v_yp0 omega0 theta0 x0 y0 error2] - rot90(Cs) ./ rot90(Ss));
-                input = ([v_xp0 v_yp0 omega0 theta0 0 0]- Cs(1:6))./Ss(1:6);
+                input = ([v_xp0 v_yp0 omega0 theta0 x0 y0]- Cs(1:6))./Ss(1:6);
                 ex = nn.predict(input);
                 ex = (ex * Ss(7))+Cs(7);
             else
@@ -162,7 +162,7 @@ function Alsomitra_Control_Simulation(network1,plot_title)
             
     
     
-            [v_xp, v_yp, omega, theta, x, y, error2, alpha] = ObjectiveFunction([parameters,ex],v_xp0, v_yp0, omega0, theta0, x0, y0,num_sims,error2, alpha0);
+            [v_xp, v_yp, omega, theta, x, y] = ObjectiveFunction([parameters,ex],v_xp0, v_yp0, omega0, theta0, x0, y0,num_sims,error2, alpha0);
             
             x_all = [x_all;x];
             y_all = [y_all;y];
@@ -173,8 +173,8 @@ function Alsomitra_Control_Simulation(network1,plot_title)
             theta0 = theta(end);
             x0 = x(end);
             y0 = y(end);
-            error2 = error2(end);
-            alpha0 = alpha(end);
+            % error2 = error2(end);
+            % alpha0 = alpha(end);
         
             x_scatter = [x_scatter;x0];
             y_scatter = [y_scatter;y0];
@@ -196,12 +196,12 @@ function Alsomitra_Control_Simulation(network1,plot_title)
             vy_all =[vy_all;v_yp0];
             x_all =[x_all;x(end)];
             y_all =[y_all;y(end)];
-            alpha_all = [alpha_all;alpha0];
+            % alpha_all = [alpha_all;alpha0];
     
            
     
-            errors = [errors; error];
-            errors2 = [errors2; error2];
+            % errors = [errors; error];
+            % errors2 = [errors2; error2];
        
         
         end
@@ -250,7 +250,7 @@ function Alsomitra_Control_Simulation(network1,plot_title)
 
 end
 
-function [v_xp, v_yp, omega, theta, x_, y_, error, alpha] = Alsomitra_nondim(opt,v_xp0, v_yp0, omega0, theta0, x0, y0,num_sims,error, alpha)
+function [v_xp, v_yp, omega, theta, x_, y_] = Alsomitra_nondim(opt,v_xp0, v_yp0, omega0, theta0, x0, y0,num_sims,error, alpha)
     
     % display(opt)
     
@@ -271,7 +271,7 @@ function [v_xp, v_yp, omega, theta, x_, y_, error, alpha] = Alsomitra_nondim(opt
     % initial conditions for v_xp, v_yp, omega, theta, x, y
     % eps in Matlab gives a value close to  0
     % Y0 = [0; 0; 0; 0; 0.; 0.]; % Cathal's % Y0 = [0.1; 0.1; 0.1; 0.1; 0.1; 0.1]; % mine
-    Y0 = [v_xp0, v_yp0, omega0, theta0, x0, y0, error, alpha];
+    Y0 = [v_xp0, v_yp0, omega0, theta0, x0, y0];
 
     % Using SI units, instead of the units in LiJFM2022, is not a problem since
     % the code is non dimensional 
@@ -302,7 +302,7 @@ function [v_xp, v_yp, omega, theta, x_, y_, error, alpha] = Alsomitra_nondim(opt
     % global p 
     p = [l m rho_f a b s]';
     
-    [tSol, ySol] = ode45(@(t, y) nondimfreelyfallingplate3(y,opt(10)), t, Y0);
+    [tSol, ySol] = ode45(@(t, y) nondimfreelyfallingplate3_reduced(y,opt(10)), t, Y0);
     
     % extract the single variables from the vector with the solutions
     % x component of velocity in the reference system of the body
@@ -323,8 +323,8 @@ function [v_xp, v_yp, omega, theta, x_, y_, error, alpha] = Alsomitra_nondim(opt
     % y, horizontal coordinate in reference system linked to the lab
     y_ = ySol(:,6);
 
-    error = ySol(:,7);
+    % error = ySol(:,7);
 
-    alpha = ySol(:,8);
+    alpha = 1;
 
 end
