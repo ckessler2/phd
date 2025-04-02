@@ -11,9 +11,7 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Dense, Flatten
 
 # Adam optimizer for better LR and less loss
-from tensorflow.keras.optimizers import Adam
-import matplotlib.pyplot as plt
-import numpy as np
+ 
 
 import os
 import numpy as np
@@ -181,7 +179,10 @@ np.save("trainY.npy",trainy)
 
 # Export network as onnx
 # input_signature = [tf.TensorSpec([28,28,1], tf.uint8, name='x')]
+
+model.output_names=['output']
 onnx_model, _ = tf2onnx.convert.from_keras(model)
+
 
 onnx.save(onnx_model, 'Swallow_NN_Classifier.onnx')
 

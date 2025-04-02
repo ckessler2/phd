@@ -26,20 +26,22 @@ nn = importNetworkFromONNX('base_model_norm.onnx',InputDataFormats='BC');
 % L0 = lipschitz_robustness(nn,datafile);
 plot_results(nn,{"Naive Model ($\epsilon=0$)"}); nexttile;
 
-nn = importNetworkFromONNX('adversarial_model_0.0025.onnx',InputDataFormats='BC');
-plot_results(nn,{"Adversarial Model ($\epsilon=0.0025$)"}); nexttile;
+% nexttile;
+% nn = importNetworkFromONNX('adversarial_model_0.0025.onnx',InputDataFormats='BC');
+% plot_results(nn,{"Adversarial Model ($\epsilon=0.0025$)"}); 
 
 nn = importNetworkFromONNX('adversarial_model_0.005.onnx',InputDataFormats='BC');
-plot_results(nn,{"Adversarial Model ($\epsilon=0.005$)"}); nexttile;
+plot_results(nn,{"Adversarial Model ($\epsilon=0.005$)"}); 
 
-nn = importNetworkFromONNX('adversarial_model_0.01.onnx',InputDataFormats='BC');
-plot_results(nn,{"Adversarial Model ($\epsilon=0.01$)"});
+% nexttile;
+% nn = importNetworkFromONNX('adversarial_model_0.01.onnx',InputDataFormats='BC');
+% plot_results(nn,{"Adversarial Model ($\epsilon=0.01$)"});
 
 figure; t = tiledlayout("flow"); nexttile;
 Alsomitra_Control_Simulation('base_model_norm.onnx',{"Naive Model ($\epsilon=0$)"}); nexttile;
-Alsomitra_Control_Simulation('adversarial_model_0.0025.onnx',{"Adversarial Model ($\epsilon=0.0025$)"}); nexttile;
-Alsomitra_Control_Simulation('adversarial_model_0.005.onnx',{"Adversarial Model ($\epsilon=0.005$)"}); nexttile;
-Alsomitra_Control_Simulation('adversarial_model_0.01.onnx',{"Adversarial Model ($\epsilon=0.01$)"});
+% Alsomitra_Control_Simulation('adversarial_model_0.0025.onnx',{"Adversarial Model ($\epsilon=0.0025$)"}); nexttile;
+Alsomitra_Control_Simulation('adversarial_model_0.005.onnx',{"Adversarial Model ($\epsilon=0.005$)"});
+% Alsomitra_Control_Simulation('adversarial_model_0.01.onnx',{"Adversarial Model ($\epsilon=0.01$)"});
 
 function L = lipschitz_robustness(nn,datafile)
 
@@ -85,6 +87,7 @@ function plot_results(nn,name)
     % load('Normalised_Data.mat')
     % data = normalized_matrix;
     ex_true = data(:,7);
+    %% 
     ex_nn1 = [];
     ex_nn2 = [];
     err1 = [];
