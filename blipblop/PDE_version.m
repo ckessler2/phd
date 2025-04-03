@@ -11,11 +11,11 @@ set(0, 'defaultAxesFontName', 'Times New Roman');
 set(0, 'defaultLegendFontName', 'Times New Roman');
 set(0, 'DefaultLineLineWidth', 0.5);
 
-endTime = 10;
+endTime = 800;
 timeStep = 0.001;
 tspan = linspace(0,endTime,endTime/timeStep);
 
-x0 = [0.0150000000000000; 1; 0; 0.0150000000000000; 0; 0; 20325; -0.0639; -0.2005; 0; 0; 0; 0];
+x0 = [0.0150000000000000; 0; 0; 0.0150000000000000; 0; 0; 20325; 0; 0; 0; 0; 0; 0];
 
 % Solve ODE
 [t, x] = ode45(@(t, x) system_eqns(x), tspan, x0);
@@ -46,7 +46,7 @@ plot(t, states)
 ylim([1 4]); title("State vs Time")
 
 nexttile;
-plot(t,PVacI*1e-3)
+plot(t,PVacI*1e-3); hold on
 yline(20325*1e-3)
 yline(101325*1e-3)
 xlabel('Time [s]'); ylabel('Intermediate pressure [kPa]')
@@ -56,6 +56,23 @@ nexttile;
 plot(t,fExt1); hold on 
 plot(t,fExt1)
 legend('first','second'); title("Fext vs Time")
+
+% Plot fourier transform of displacements
+ fig2 = tiledlayout(fig,"flow"); 
+fig2.Layout.Tile = 6;
+nexttile(fig2);
+y1 = fft(x1*1000);
+y4 = fft(x4*1000);
+Fs = 50;
+clear length
+f = (0:length(x1)-1)*Fs/length(x1); 
+plot(f,abs(y1),'linewidth',2);title("Displacement Frequency vs Magnitude")
+legend('first'); 
+ylabel('Magnitude'); nexttile(fig2);
+plot(f,abs(y4),'linewidth',2,"Color","#D95319");
+xlabel('Frequency (Hz)')
+ylabel('Magnitude')
+legend('second'); 
 
 function dxdt = system_eqns(x)
 
@@ -78,26 +95,26 @@ function dxdt = system_eqns(x)
     holeDiam = [0.002 0.0035 0.001]; 
     stage = 0.2;
 
-    k = [1 1.2]./length; % Stiffness [N/m] % 0.365 for actual
-    zeta = [0.7 0.7]; % Damping ratio [-]
+    k = [400 100]./length; % Stiffness [N/m] % 0.365 for actual
+    zeta = [0 0]; % Damping ratio [-]
     wn = sqrt(k./mass); % natural frequency [rad/s]
     
     % Control logic to determine state and update forces and pressures
     % Check conditions and update force/pressure appropriately
     if x4 > length(2) * stage && x1 > length(1) * stage % Both extended
-        dPVacI  = PVAC + (8 * MDOTVAC^2) / (RHO * (pi * holeDiam(1)^2)^2) - 0.5 * RHO * ((diam(2) / holeDiam(2))^2 * x5^2);
-        dfExt1 = -(pi*holeDiam(1)^2)/4*PVAC - (pi*holeDiam(2)^2)/4*PVacI;
-        dfExt2 = -(pi*holeDiam(2)^2)/4*PVacI + (pi*holeDiam(3)^2)/4*PATM;
+        dPVacI = (8 * MDOTVAC^2) / (RHO * (pi * holeDiam(1)^2)^2) - 0.5 * RHO *((diam(2)/holeDiam(2))^2*x5)^2;
+        dfExt1 = (pi*holeDiam(2)^2)/4*dPVacI;
+        dfExt2 = (pi*holeDiam(3)^2)/4*PATM;
     elseif x4 < length(2) * stage && x1 > length(1) * stage % 2nd collapsed and 1st still extending
-        dPVacI = PVAC + (8*MDOTVAC^2)/(RHO*(pi*holeDiam(1)^2)^2) - 0.5*RHO*((diam(2)/holeDiam(2))^2*x5)^2;
+        dPVacI = (8*MDOTVAC^2)/(RHO*(pi*holeDiam(1)^2)^2) - 0.5*RHO*((diam(2)/holeDiam(2))^2*x5)^2;
         dfExt1 = -(pi*holeDiam(1)^2)/4*PVAC - (pi*holeDiam(2)^2)/4*PVacI;
         dfExt2 = -(pi*holeDiam(2)^2)/4*PVacI;
     elseif x4 < length(2) * stage && x1 < length(1) * stage % Both collapsed
         dPVacI = 0;
         dfExt1 = -(pi*holeDiam(1)^2)/4*PVacI;
-        dfExt2 = -(pi*holeDiam(2)^2)/4*PVacI + 1.2000; % Adjust this constant based on actual parameters
+        dfExt2 = -(pi*holeDiam(2)^2)/4*PVacI; % Adjust this constant based on actual parameters
     elseif x4 > length(2) * stage && x1 < length(1) * stage % 2nd fully extended and 1st still collapsed
-        dPVacI = PATM + 0.5*RHO*((diam(2)/holeDiam(2))^2*x5)^2;
+        dPVacI = 0.5*RHO*((diam(2)/holeDiam(2))^2*x5)^2;
         dfExt1 = (pi*holeDiam(1)^2)/4*PVacI;
         dfExt2 = -(pi*holeDiam(2)^2)/4*PVacI + (pi*holeDiam(3)^2)/4*PATM;
     end
