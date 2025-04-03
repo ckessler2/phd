@@ -23,9 +23,9 @@ wn = sqrt(k./mass); % natural frequency [rad/s]
 c = zeta.*2.*mass.*wn;
 
 endTime = 2;
-delT = 0.001;
-nT = endTime/delT;
-timeStep = linspace(0,endTime,endTime/delT);
+timeStep = 0.001;
+nT = endTime/timeStep;
+tspan = linspace(0,endTime,nT);
 
 statStat = zeros(1,nT);
 PVacI = zeros(1,nT);
@@ -65,19 +65,19 @@ for iterCount = 2:nT % initial conditions are iterCount = 1
         fExt(2,iterCount) = -(pi*holeDiam(2)^2)/4*PVacI(iterCount) + (pi*holeDiam(3)^2)/4*PATM;    
     end
 
-    alpha(1,iterCount) = alpha(1,iterCount-1) + delT*alpha(2,iterCount-1); 
-    alpha(2,iterCount) = alpha(2,iterCount-1) + delT*(-2*zeta(1)*wn(1)*alpha(2,iterCount-1) - wn(1)^2*alpha(1,iterCount-1) + fExt(1,iterCount)); 
-    alpha(3,iterCount) = alpha(3,iterCount-1) + delT*alpha(4,iterCount-1); 
-    alpha(4,iterCount) = alpha(4,iterCount-1) + delT*(-2*zeta(2)*wn(2)*alpha(4,iterCount-1) - wn(2)^2*alpha(3,iterCount-1) + fExt(2,iterCount)); 
+    alpha(1,iterCount) = alpha(1,iterCount-1) + timeStep*alpha(2,iterCount-1); 
+    alpha(2,iterCount) = alpha(2,iterCount-1) + timeStep*(-2*zeta(1)*wn(1)*alpha(2,iterCount-1) - wn(1)^2*alpha(1,iterCount-1) + fExt(1,iterCount)); 
+    alpha(3,iterCount) = alpha(3,iterCount-1) + timeStep*alpha(4,iterCount-1); 
+    alpha(4,iterCount) = alpha(4,iterCount-1) + timeStep*(-2*zeta(2)*wn(2)*alpha(4,iterCount-1) - wn(2)^2*alpha(3,iterCount-1) + fExt(2,iterCount)); 
 
     x(1,iterCount) = x(1,iterCount-1) + alpha(1,iterCount);
     x(2,iterCount) = alpha(2,iterCount);
-    x(3,iterCount) = (alpha(2,iterCount) - alpha(2,iterCount-1))/delT;
+    x(3,iterCount) = (alpha(2,iterCount) - alpha(2,iterCount-1))/timeStep;
     x(4,iterCount) = x(4,iterCount-1) + alpha(3,iterCount);
     x(5,iterCount) = alpha(4,iterCount);
-    x(6,iterCount) = (alpha(4,iterCount) - alpha(4,iterCount-1))/delT;
+    x(6,iterCount) = (alpha(4,iterCount) - alpha(4,iterCount-1))/timeStep;
 
-    currT = currT + delT;
+    currT = currT + timeStep;
     iterCount = iterCount+1;
 end
 
@@ -85,13 +85,13 @@ end
 figure
 tiledlayout("flow"); nexttile;
 
-plot(timeStep,x(2,:)*1000,'linewidth',2)
+plot(tspan,x(2,:)*1000,'linewidth',2)
 title("x2 vs Time")
 
 nexttile;
-plot(timeStep,x(1,:)*1000,'linewidth',2)
+plot(tspan,x(1,:)*1000,'linewidth',2)
 hold on 
-plot(timeStep,x(4,:)*1000,'linewidth',2)
+plot(tspan,x(4,:)*1000,'linewidth',2)
 ylim([0 1.1*length(1)*1000])
 xlabel('Time [s]')
 ylabel('Displacement [mm]')
@@ -99,11 +99,11 @@ legend('first','second')
 title("Displacement vs Time")
 
 nexttile;
-plot(timeStep,statStat)
+plot(tspan,statStat)
 ylim([1 4]); title("State vs Time")
 
 nexttile;
-plot(timeStep,PVacI*1e-3)
+plot(tspan,PVacI*1e-3)
 yline(PVAC*1e-3)
 yline(PATM*1e-3)
 xlabel('Time [s]')
@@ -111,8 +111,8 @@ ylabel('Intermediate pressure [kPa]')
 title("Intermediate pressure vs Time")
 
 nexttile;
-plot(timeStep,fExt(1,:))
+plot(tspan,fExt(1,:))
 hold on 
-plot(timeStep,fExt(2,:))
+plot(tspan,fExt(2,:))
 legend('first','second')
 title("Fext vs Time")

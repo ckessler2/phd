@@ -12,14 +12,13 @@ set(0, 'defaultLegendFontName', 'Times New Roman');
 set(0, 'DefaultLineLineWidth', 0.5);
 
 endTime = 10;
-timestep = 0.001;
-tspan = linspace(0,endTime,endTime/timestep);
+timeStep = 0.001;
+tspan = linspace(0,endTime,endTime/timeStep);
 
-% Initial conditions and parameters
-x0 = [0.0150000000000000; 1; 0; 0.0150000000000000; 0; 0; 0; 0; 0; 0; 0; 0; 0];
+x0 = [0.0150000000000000; 1; 0; 0.0150000000000000; 0; 0; 20325; -0.0639; -0.2005; 0; 0; 0; 0];
 
 % Solve ODE
-[t, x] = ode45(@(t, x) system_eqns(t, x), tspan, x0);
+[t, x] = ode45(@(t, x) system_eqns(x), tspan, x0);
 
 % get result
 x1 = x(:,1);
@@ -58,7 +57,7 @@ plot(t,fExt1); hold on
 plot(t,fExt1)
 legend('first','second'); title("Fext vs Time")
 
-function dxdt = system_eqns(t, x)
+function dxdt = system_eqns(x)
 
     % Unpack variables and constants
     x1 = x(1); x2 = x(2); x3 = x(3); x4 = x(4); x5 = x(5); x6 = x(6);
@@ -127,6 +126,7 @@ function dxdt = system_eqns(t, x)
 end
 
 function states = get_states(t, x1, x4, length1, length2, stage)
+    states = zeros(1,length(t));
     for iterCount = 2:length(t)+1 % initial conditions are iterCount = 1
 
         if x4(iterCount-1) > length2*stage && x1(iterCount-1) > length1*stage % both extended: vac & atm
