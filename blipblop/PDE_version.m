@@ -87,21 +87,20 @@ function dxdt = system_eqns(t, x)
     % Check conditions and update force/pressure appropriately
     if x4 > length(2) * stage && x1 > length(1) * stage % Both extended
         dPVacI  = PVAC + (8 * MDOTVAC^2) / (RHO * (pi * holeDiam(1)^2)^2) - 0.5 * RHO * ((diam(2) / holeDiam(2))^2 * x5^2);
-
-        dfExt1 = -(pi*holeDiam(1)^2)/4*PVAC - (pi*holeDiam(2)^2)/4*dPVacI;
-        dfExt2 = -(pi*holeDiam(2)^2)/4*dPVacI + (pi*holeDiam(3)^2)/4*PATM;
+        dfExt1 = -(pi*holeDiam(1)^2)/4*PVAC - (pi*holeDiam(2)^2)/4*PVacI;
+        dfExt2 = -(pi*holeDiam(2)^2)/4*PVacI + (pi*holeDiam(3)^2)/4*PATM;
     elseif x4 < length(2) * stage && x1 > length(1) * stage % 2nd collapsed and 1st still extending
         dPVacI = PVAC + (8*MDOTVAC^2)/(RHO*(pi*holeDiam(1)^2)^2) - 0.5*RHO*((diam(2)/holeDiam(2))^2*x5)^2;
-        dfExt1 = -(pi*holeDiam(1)^2)/4*PVAC - (pi*holeDiam(2)^2)/4*dPVacI;
-        dfExt2 = -(pi*holeDiam(2)^2)/4*dPVacI;
+        dfExt1 = -(pi*holeDiam(1)^2)/4*PVAC - (pi*holeDiam(2)^2)/4*PVacI;
+        dfExt2 = -(pi*holeDiam(2)^2)/4*PVacI;
     elseif x4 < length(2) * stage && x1 < length(1) * stage % Both collapsed
         dPVacI = 0;
-        dfExt1 = -(pi*holeDiam(1)^2)/4*dPVacI;
-        dfExt2 = -(pi*holeDiam(2)^2)/4*dPVacI + 1.2000; % Adjust this constant based on actual parameters
+        dfExt1 = -(pi*holeDiam(1)^2)/4*PVacI;
+        dfExt2 = -(pi*holeDiam(2)^2)/4*PVacI + 1.2000; % Adjust this constant based on actual parameters
     elseif x4 > length(2) * stage && x1 < length(1) * stage % 2nd fully extended and 1st still collapsed
         dPVacI = PATM + 0.5*RHO*((diam(2)/holeDiam(2))^2*x5)^2;
-        dfExt1 = (pi*holeDiam(1)^2)/4*dPVacI;
-        dfExt2 = -(pi*holeDiam(2)^2)/4*dPVacI + (pi*holeDiam(3)^2)/4*PATM;
+        dfExt1 = (pi*holeDiam(1)^2)/4*PVacI;
+        dfExt2 = -(pi*holeDiam(2)^2)/4*PVacI + (pi*holeDiam(3)^2)/4*PATM;
     end
 
     % Updating equation for alpha1

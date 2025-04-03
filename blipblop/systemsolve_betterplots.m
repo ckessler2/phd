@@ -7,7 +7,7 @@ PATM = 101325; % Atmospheric pressure [Pa]
 PVAC = PATM-0.81e+05; % Vacuum pressure [Pa]
 RHO = 1.293; % Density of air [kg/m^3]
 MDOTVAC = RHO*6e-05/0.675; % Mass flow rate of vacuum [kg/s]
-TOL = 1e-3;
+% TOL = 1e-2;
 
 % variable
 mass = [3.3e-03 3.3e-03]; % Mass of zigzag [kg]
@@ -22,10 +22,10 @@ zeta = [0.7 0.7]; % Damping ratio [-]
 wn = sqrt(k./mass); % natural frequency [rad/s]
 c = zeta.*2.*mass.*wn;
 
-endTime = 10;
-nT = 10000;
-delT = endTime/nT;
-timeStep = linspace(0,endTime,nT);
+endTime = 2;
+delT = 0.001;
+nT = endTime/delT;
+timeStep = linspace(0,endTime,endTime/delT);
 
 statStat = zeros(1,nT);
 PVacI = zeros(1,nT);
