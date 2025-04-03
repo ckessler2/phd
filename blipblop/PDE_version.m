@@ -12,7 +12,7 @@ set(0, 'defaultLegendFontName', 'Times New Roman');
 set(0, 'DefaultLineLineWidth', 0.5);
 
 endTime = 10;
-timestep = 0.01;
+timestep = 0.001;
 tspan = linspace(0,endTime,endTime/timestep);
 
 % Initial conditions and parameters
@@ -56,7 +56,7 @@ title("Intermediate pressure vs Time")
 nexttile;
 plot(t,fExt1); hold on 
 plot(t,fExt1)
-legend('first','second')
+legend('first','second'); title("Fext vs Time")
 
 function dxdt = system_eqns(t, x)
 
@@ -86,7 +86,8 @@ function dxdt = system_eqns(t, x)
     % Control logic to determine state and update forces and pressures
     % Check conditions and update force/pressure appropriately
     if x4 > length(2) * stage && x1 > length(1) * stage % Both extended
-        dPVacI = PVAC + (8*MDOTVAC^2)/(RHO*(pi*holeDiam(1)^2)^2) - 0.5*RHO*((diam(2)/holeDiam(2))^2*x5)^2;
+        dPVacI  = PVAC + (8 * MDOTVAC^2) / (RHO * (pi * holeDiam(1)^2)^2) - 0.5 * RHO * ((diam(2) / holeDiam(2))^2 * x5^2);
+
         dfExt1 = -(pi*holeDiam(1)^2)/4*PVAC - (pi*holeDiam(2)^2)/4*dPVacI;
         dfExt2 = -(pi*holeDiam(2)^2)/4*dPVacI + (pi*holeDiam(3)^2)/4*PATM;
     elseif x4 < length(2) * stage && x1 > length(1) * stage % 2nd collapsed and 1st still extending
