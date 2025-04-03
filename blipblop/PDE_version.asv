@@ -23,12 +23,18 @@ x0 = [0.0150000000000000; 1; 0; 0.0150000000000000; 0; 0; 0; 0; 0; 0; 0; 0; 0];
 
 % get result
 x1 = x(:,1);
+x2 = x(:,2);
 x4 = x(:,4);
 PVacI = x(:,7);
 fExt1 = x(:,8); fExt2 = x(:,9);
 
+states = get_states(t, x4);
+
 % Plots
-tiledlayout("flow"); nexttile;
+fig = tiledlayout("flow"); nexttile;
+
+plot(t,x2*1000,'linewidth',2)
+title("X2 vs time"); nexttile;
 
 plot(t,x1*1000,'linewidth',2); hold on
 plot(t,x4*1000,'linewidth',2)
@@ -43,6 +49,7 @@ plot(t,PVacI*1e-3)
 yline(20325*1e-3)
 yline(101325*1e-3)
 xlabel('Time [s]'); ylabel('Intermediate pressure [kPa]')
+title("Intermediate pressure vs Time")
 
 nexttile;
 plot(t,fExt1); hold on 
@@ -115,4 +122,22 @@ function dxdt = system_eqns(t, x)
     dxdt(11) = dalpha2;
     dxdt(12) = dalpha3;
     dxdt(13) = dalpha4;
+end
+
+function states = get_states(t, x4)
+    for iterCount = 1:length(t) % initial conditions are iterCount = 1
+
+        if x(4,iterCount-1) > length(2)*stage && x(1,iterCount-1) > length(1)*stage % both extended: vac & atm
+            states(iterCount-1) = 1;
+    
+        elseif x(4,iterCount-1) < length(2)*stage && x(1,iterCount-1) > length(1)*stage % 2nd collapsed and 1st still collapsing: vac 
+            states(iterCount-1) = 2;
+    
+        elseif x(4,iterCount-1) < length(2)*stage && x(1,iterCount-1) < length(1)*stage % both collapsed: intermediate pressure
+            states(iterCount-1) = 3;
+    
+        elseif x(4,iterCount-1) > length(2)*stage && x(1,iterCount-1) < length(1)*stage % 2nd fully extended and 1st still collapsed
+            states(iterCount-1) = 4;
+        end
+    end
 end

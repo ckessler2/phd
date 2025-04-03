@@ -1,5 +1,5 @@
 clear
-% close all
+close all
 clc
 
 % constants
@@ -82,13 +82,11 @@ for iterCount = 2:nT % initial conditions are iterCount = 1
 end
 
 % Plots
-figure
 tiledlayout("flow"); nexttile;
 
 plot(timeStep,x(2,:)*1000,'linewidth',2)
-title("x2 vs Time")
 
-nexttile;
+figure()
 plot(timeStep,x(1,:)*1000,'linewidth',2)
 hold on 
 plot(timeStep,x(4,:)*1000,'linewidth',2)
@@ -96,23 +94,20 @@ ylim([0 1.1*length(1)*1000])
 xlabel('Time [s]')
 ylabel('Displacement [mm]')
 legend('first','second')
-title("Displacement vs Time")
 
-nexttile;
+figure()
 plot(timeStep,statStat)
-ylim([1 4]); title("State vs Time")
+ylim([1 4])
 
-nexttile;
+figure()
 plot(timeStep,PVacI*1e-3)
 yline(PVAC*1e-3)
 yline(PATM*1e-3)
 xlabel('Time [s]')
 ylabel('Intermediate pressure [kPa]')
-title("Intermediate pressure vs Time")
 
-nexttile;
+figure()
 plot(timeStep,fExt(1,:))
 hold on 
 plot(timeStep,fExt(2,:))
 legend('first','second')
-title("Fext vs Time")
