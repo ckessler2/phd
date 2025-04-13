@@ -1,4 +1,7 @@
-rgb for position (figure 5)
+
+WHAT IS A SMT SOLVER, MARKOV CHAIN
+
+
 same size subplot figures for vel / acceleration
 missing mean + error bars shaded
 y labels in scientific notation
@@ -8,9 +11,9 @@ remove redundant time ticks
 
 adress comments in coefficients optimisation
 
-1 more than x trajectories
+
 add more references
-2 list coefficients
+
 3 plot lijfm 9 (li, ranges, final)
 justify range of CR
 add references relevant to heuristic search
@@ -31,12 +34,11 @@ comparison
 	list inputs  of heuristic search used to calculate nondimensionals
 	describe results in fig 9
 
-figure 8 
-	axis labels similar to text
-	get rid of redundant tick marks (axes are all the same)
-	fix z symbol (same as before)
 
-figure 9
-	flip around to make axes p+ ltr
-	Put legend separate to plot - ALL TEXT SIMILAR SIZE TO TEXT
-	make color scheme similar (rgbk)
+speed is in supplementary
+
+DND
+
+trivia section (monty python)
+island in the sky
+three islands - illusion of choice

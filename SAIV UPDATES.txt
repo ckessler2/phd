@@ -1,0 +1,45 @@
+DONE
+removed unnecesary authors, signed up to openreview
+fixed captions font, fig 1/2 captions updates
+rotated equations, equation caption + alpha approx
+Tidied up intro
+
+
+LEFT TO DO
+
+Authors?
+
+INTRO
+
+FORMALISATION SECTION
+	Reachable sets need to be explained. Explain how normalisation is not available in CORA
+
+
+New Vehicle Specs
+
+NEW RESULTS
+
+	New vehicle results
+	New Reachability plots 	Bare minimum already
+	New Lipschitz Plots
+	
+Clarify Contributions Somewhere
+	strengthen use of equations + snippets as contribution
+	emphasize difficulty in formalisation 
+
+Fix normalisation stuff, still an issue but solved for my results
+
+Note that alsomitra application is basically quad, but more complex
+
+From engineering perspective, what does NNCS do and why is it interesting?
+How is it different to verification perspective
+
+
+
+MAYBE?
+
+Redo trajectories in Overview (Fig 2)
+
+Supplementary video?
+
+Li model implemented in website would be sick, could be supplementary

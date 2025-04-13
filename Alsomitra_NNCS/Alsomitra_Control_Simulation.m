@@ -21,7 +21,7 @@ function Alsomitra_Control_Simulation(network1)
     % Ss = data2(2,:);
     
     % NN or PID controller
-    nnc =  true;
+    nnc =  false;
     
     ObjectiveFunction = @Alsomitra_nondim;
     
