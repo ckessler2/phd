@@ -32,7 +32,7 @@ I found the paper structure to be confusing. For example, it mixes and jumps bet
 
 I also found the use of figures rather confusing. Most figures are referenced in the text without essentially any explanation at all, some figures (e.g. Fig 1 & 2) are not explained enough to be of much use (at least to me) even with the caption. It would make the text easier to read if the important explanations from the captions were moved to the main text. The ordering and placing of figures is also rather confusing (e.g. Fig 6 comes before Fig 5). 
 Table 2: U is explained, but what does Yes/No mean?
-**Fig 2 caption: Explain better for people who aren't engineers(approximation _of Alsomitra_).**
+<mark>**Fig 2 caption: Explain better for people who aren't engineers(approximation _of Alsomitra_).**</mark>
 
 The paper provides many low-level details that are not accessible to people who are non-expertsn, but that don’t seem to be actually necessary for the high-level picture.  Table 1, for example, could be moved to the appendix and the most important aspects summarized in the body of the paper (e.g. What makes this system more complex than previous ones? Number of variables, constraints etc.).
 Section 3 suddenly talks about a PID controller, without introducing it or explaining its role. It is also not (explicitly) part of Fig 5.
@@ -87,7 +87,7 @@ Comments for authors
 Following is a list of detailed comments and questions:
 
 1. Fig 1 and 2: These figures are hard to follow and the captions are not very helpful.
-<mark>Same as review 1. Maybe there is a better way of conceptualising</mark>
+<mark>**Same as review 1. Maybe there is a better way of conceptualising**</mark>
 
 2. Table 1: Its extremely hard to make sense of what's going on this table. While I understand that not all details can be provided, I would at least hope for some high-level explaination to guide the reader.
 <mark>Same as review 1. We should strengthen use of equations + snippets as contribution instead of in appendix</mark>
