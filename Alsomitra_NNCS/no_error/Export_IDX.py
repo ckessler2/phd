@@ -27,6 +27,10 @@ data.columns = [
 X = data.drop(target_column, axis=1)
 y = data[target_column]
 
+# Double data to match doubled networks
+X = pd.concat([X, X], axis=1)
+y = pd.concat([y, y], axis=1)
+
 X_numpy = X.to_numpy().astype("float32")
 y_numpy = y.to_numpy().astype("float32")
 
