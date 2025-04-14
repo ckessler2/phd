@@ -118,7 +118,7 @@ closeToLine x =
 @property
 property3 : Bool
 
-property3 = forall x . validInput x=>
+property3 = forall x . validInput x and intermediatePitch x and closeToLine x =>
   -0.1 <= norm_alsomitra x ! e_x <= 1.1
 
 
