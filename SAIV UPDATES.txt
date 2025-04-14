@@ -51,11 +51,6 @@ Li model implemented in website would be sick, could be supplementary
 Demonstrate complexity of equations compared to quad
 
 
-
-
-
-
-
 Easter weekend
 
 Parents + CeliaJoe arrive on thursday, spend night at Jason's
@@ -63,3 +58,13 @@ Parents + CeliaJoe arrive on thursday, spend night at Jason's
 	Also get stanage book, maybe rope?
 
 Leave Friday morning, back when?
+
+
+
+! vehicle \
+  verify \
+  --specification acasXu2.vcl \
+  --verifier Marabou \
+  --verifier-location /content/Marabou/build/Marabou  \
+  --network acasXu:base_model.onnx \
+  --property property3
