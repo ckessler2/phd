@@ -54,6 +54,9 @@ boundedByEpsilon x = -epsilon <= x ! dv_x - x ! dv_x2 <= epsilon and
 	-epsilon <= x ! d_theta - x ! d_theta2 <= epsilon and
 	-epsilon <= x ! d_x - x ! d_x2 <= epsilon and
 	-epsilon <= x ! d_y - x ! d_y2 <= epsilon
+	
+maxInputDistance : InputVector -> Rat
+maxInputDistance x = max (- x ! d_x2 ) ( x ! d_x2 ) 
 
 validPerturbation : InputVector -> Bool
 validPerturbation x = x ! dv_x == 0.0 and
@@ -67,8 +70,9 @@ validPerturbation x = x ! dv_x == 0.0 and
 robustAround : InputVector -> OutputVector -> Bool
 robustAround input output = forall pertubation .
   	let perturbedInput = input - pertubation in validPerturbation pertubation and 
-	validInput 	perturbedInput and  boundedByEpsilon perturbedInput=>
-	output ! e_x - alsomitra perturbedInput ! e_x2 <= Lipschitz / epsilon
+	validInput perturbedInput and boundedByEpsilon perturbedInput =>
+	(output ! e_x - alsomitra perturbedInput ! e_x2) <= Lipschitz / (maxInputDistance perturbedInput) and 
+	alsomitra perturbedInput ! e_x2 - output ! e_x <= Lipschitz / (epsilon) 
 
 -- Property 1 
 @property

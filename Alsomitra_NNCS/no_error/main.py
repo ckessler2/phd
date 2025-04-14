@@ -106,7 +106,7 @@ def main(epsilon,basetraining):
     onnx_model2, _ = tf2onnx.convert.from_keras(adversarial_model, input_signature, opset=13)
     onnx.save(onnx_model2, "adversarial_model_" + str(epsilon) + ".onnx")
     
-    np.savetxt("adversarial_data_"+str(epsilon)+".csv", np.squeeze(np.array(adversarial_data)), delimiter=",", fmt="%.6f")
+    # np.savetxt("adversarial_data_"+str(epsilon)+".csv", np.squeeze(np.array(adversarial_data)), delimiter=",", fmt="%.6f")
 
 
     return base_metrics, adversarial_metrics  # Returns metrics for further analysis
