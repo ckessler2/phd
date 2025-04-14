@@ -67,14 +67,26 @@ validPerturbation x = x ! dv_x == 0.0 and
 	x ! d_y == 0.0
 
 -- Robustness definition
-robustAround : InputVector -> OutputVector -> Bool
-robustAround input output = forall pertubation .
+standardRobustness : InputVector -> OutputVector -> Bool
+standardRobustness input output = forall pertubation .
   	let perturbedInput = input - pertubation in validPerturbation pertubation and 
 	validInput perturbedInput and boundedByEpsilon perturbedInput =>
-	(output ! e_x - alsomitra perturbedInput ! e_x2) <= Lipschitz / (maxInputDistance perturbedInput) and 
-	alsomitra perturbedInput ! e_x2 - output ! e_x <= Lipschitz / (epsilon) 
+	(output ! e_x - alsomitra perturbedInput ! e_x2) <= Lipschitz / epsilon and 
+	alsomitra perturbedInput ! e_x2 - output ! e_x <= Lipschitz / epsilon 
+	
+-- Robustness definition
+LipschitzRobustness : InputVector -> OutputVector -> Bool
+LipschitzRobustness input output = forall pertubation .
+  	let perturbedInput = input - pertubation in validPerturbation pertubation and 
+	validInput perturbedInput and boundedByEpsilon perturbedInput =>
+	(alsomitra perturbedInput ! e_x - alsomitra perturbedInput ! e_x2) <= Lipschitz / epsilon and 
+	alsomitra perturbedInput ! e_x2 - alsomitra perturbedInput ! e_x <= Lipschitz / epsilon 
 
 -- Property 1 
 @property
 property1 : Vector Bool n
-property1 = foreach i . robustAround (trainingInputs ! i) (trainingOutputs ! i)
+property1 = foreach i . standardRobustness (trainingInputs ! i) (trainingOutputs ! i)
+
+@property
+property2 : Vector Bool n
+property2 = foreach i . LipschitzRobustness (trainingInputs ! i) (trainingOutputs ! i)
