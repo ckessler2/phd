@@ -35,7 +35,9 @@ From engineering perspective, what does NNCS do and why is it interesting?
 How is it different to verification perspective
 
 
-
+AUthors
+Check Figure, equation, table, section references
+Check equation symbols
 
 APPENDIX
 	onnx script 1	
@@ -68,3 +70,9 @@ Leave Friday morning, back when?
   --verifier-location /content/Marabou/build/Marabou  \
   --network acasXu:base_model.onnx \
   --property property3
+
+
+
+GET THOMAS' XY VALUES
+
+DO SWALLOW CLASSIFICATION

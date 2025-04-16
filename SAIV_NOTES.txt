@@ -9,33 +9,6 @@ daniele will send script + data monday/tuesday
 remove redundant time ticks
 
 
-adress comments in coefficients optimisation
-
-
-add more references
-
-3 plot lijfm 9 (li, ranges, final)
-justify range of CR
-add references relevant to heuristic search
-	check data processing to see idea
-	Matlab functions can be referred to
-
-maybe table 3 title could be better
-
-flip scatter plot
-
-optimised coefficients
-	explain parameters better
-	show andersen results - coefficients were not exact, but parameters were very similar
-	state how close they are
-	references (andersen for validation)
-
-comparison
-	list inputs  of heuristic search used to calculate nondimensionals
-	describe results in fig 9
-
-
-speed is in supplementary
 
 DND
 
