@@ -9,30 +9,30 @@
 f = waitbar(0, 'Starting');
 
 % CLASS 0
-tic
-for i = 1:length(class0)
-    waitbar(i/6256, f, sprintf('Processing Class 0: %d %%', floor(i/6256*100)));
-    voltage1 = squeeze(class0(i,1,:));
-    im1 = Extract_Image(voltage1);
-    filename = "Class0\Class0_"+string(i)+".png";
-    imwrite(im1,filename)
-end
-toc
+% tic
+% for i = 1:length(class0)
+%     waitbar(i/6256, f, sprintf('Processing Class 0: %d %%', floor(i/6256*100)));
+%     voltage1 = squeeze(class0(i,1,:));
+%     im1 = Extract_Image(voltage1);
+%     filename = "Class0\Class0_"+string(i)+".png";
+%     imwrite(im1,filename)
+% end
+% toc
 
 % CLASS 1
-tic
-for i = 1:length(class1)
-    waitbar((3197+i)/6256, f, sprintf('Processing Class 1: %d %%', floor((3197+i)/6256*100)));
-    voltage1 = squeeze(class1(i,1,:));
-    im1 = Extract_Image(voltage1);
-    filename = "Class1\Class1_"+string(i)+".png";
-    imwrite(im1,filename)
-end
-toc
+% tic
+% for i = 1:1986
+%     waitbar((3197+i)/6256, f, sprintf('Processing Class 1: %d %%', floor((3197+i)/6256*100)));
+%     voltage1 = squeeze(class1(i,1,:));
+%     im1 = Extract_Image(voltage1);
+%     filename = "Class1\Class1_"+string(i)+".png";
+%     imwrite(im1,filename)
+% end
+% toc
 
 % CLASS 2
 tic
-for i = 1:length(class2)
+for i = 1:1073
     waitbar((5183+i)/6256, f, sprintf('Processing Class 2: %d %%', floor((5183+i)/6256*100)));
     voltage1 = squeeze(class2(i,1,:));
     im1 = Extract_Image(voltage1);
