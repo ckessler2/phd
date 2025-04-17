@@ -1,0 +1,78 @@
+DONE
+removed unnecesary authors, signed up to openreview
+fixed captions font, fig 1/2 captions updates
+rotated equations, equation caption + alpha approx
+Tidied up intro
+
+
+LEFT TO DO
+
+Authors?
+
+INTRO
+
+FORMALISATION SECTION
+	Reachable sets need to be explained. Explain how normalisation is not available in CORA
+
+
+New Vehicle Specs
+
+NEW RESULTS
+
+	New vehicle results
+	New Reachability plots 	Bare minimum already
+	New Lipschitz Plots
+	
+Clarify Contributions Somewhere
+	strengthen use of equations + snippets as contribution
+	emphasize difficulty in formalisation 
+
+Fix normalisation stuff, still an issue but solved for my results
+
+Note that alsomitra application is basically quad, but more complex
+
+From engineering perspective, what does NNCS do and why is it interesting?
+How is it different to verification perspective
+
+
+AUthors
+Check Figure, equation, table, section references
+Check equation symbols
+
+APPENDIX
+	onnx script 1	
+	onnx script 2
+
+MAYBE?
+
+
+Supplementary video?
+
+Li model implemented in website would be sick, could be supplementary
+
+Demonstrate complexity of equations compared to quad
+
+
+Easter weekend
+
+Parents + CeliaJoe arrive on thursday, spend night at Jason's
+	Need keys from me, I need to ask stan
+	Also get stanage book, maybe rope?
+
+Leave Friday morning, back when?
+
+
+
+! vehicle \
+  verify \
+  --specification acasXu2.vcl \
+  --verifier Marabou \
+  --verifier-location /content/Marabou/build/Marabou  \
+  --network acasXu:base_model.onnx \
+  --property property3
+
+
+
+GET THOMAS' XY VALUES
+
+DO SWALLOW CLASSIFICATION

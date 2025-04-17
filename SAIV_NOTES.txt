@@ -1,0 +1,17 @@
+
+WHAT IS A SMT SOLVER, MARKOV CHAIN
+
+
+same size subplot figures for vel / acceleration
+missing mean + error bars shaded
+y labels in scientific notation
+daniele will send script + data monday/tuesday
+remove redundant time ticks
+
+
+
+DND
+
+trivia section (monty python)
+island in the sky
+three islands - illusion of choice

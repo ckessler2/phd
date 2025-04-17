@@ -22,25 +22,25 @@ nexttile;
 
 % datafile = 'adversarial_data_0.005.csv';
 
-nn = importNetworkFromONNX('base_model_norm.onnx',InputDataFormats='BC');
+nn = importNetworkFromONNX('Baseline.onnx',InputDataFormats='BC');
 % L0 = lipschitz_robustness(nn,datafile);
-plot_results(nn,{"Naive Model ($\epsilon=0$)"}); nexttile;
+plot_results(nn,{"Baseline Model ($\epsilon=0$)"}); nexttile;
 
 % nexttile;
 % nn = importNetworkFromONNX('adversarial_model_0.0025.onnx',InputDataFormats='BC');
 % plot_results(nn,{"Adversarial Model ($\epsilon=0.0025$)"}); 
 
-nn = importNetworkFromONNX('adversarial_model_0.005.onnx',InputDataFormats='BC');
-plot_results(nn,{"Adversarial Model ($\epsilon=0.005$)"}); 
+nn = importNetworkFromONNX('DL2.onnx',InputDataFormats='BC');
+plot_results(nn,{"DL2 Model ($\epsilon=0.005$)"}); 
 
 % nexttile;
 % nn = importNetworkFromONNX('adversarial_model_0.01.onnx',InputDataFormats='BC');
 % plot_results(nn,{"Adversarial Model ($\epsilon=0.01$)"});
 
 figure; t = tiledlayout("flow"); nexttile;
-Alsomitra_Control_Simulation('base_model_norm.onnx',{"Naive Model ($\epsilon=0$)"}); nexttile;
+Alsomitra_Control_Simulation('Baseline.onnx',{"Baseline Model ($\epsilon=0$)"}); nexttile;
 % Alsomitra_Control_Simulation('adversarial_model_0.0025.onnx',{"Adversarial Model ($\epsilon=0.0025$)"}); nexttile;
-Alsomitra_Control_Simulation('adversarial_model_0.005.onnx',{"Adversarial Model ($\epsilon=0.005$)"});
+Alsomitra_Control_Simulation('DL2.onnx',{"DL2 Model ($\epsilon=0.005$)"});
 % Alsomitra_Control_Simulation('adversarial_model_0.01.onnx',{"Adversarial Model ($\epsilon=0.01$)"});
 
 function L = lipschitz_robustness(nn,datafile)
