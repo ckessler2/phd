@@ -65,16 +65,16 @@ function [completed, R,simRes1, dims] = Alsomitra_Closed_Loop_Reachability(netwo
     % Reachability Analysis ---------------------------------------------------
     % toc
     % nexttile
-    % hold on
-    % plot(simRes1,[5,6],'Color',[0.6928    0.1651    0.5645])
-    % x_c1 = -2:1:30; y_c1 = -1 * x_c1;
-    % plot([x_c1] * 1000/70, [y_c1]* 1000/70, '--black')
-    % daspect([1 1 1])
-    % 
-    % xlim([0 50]); ylim([-55 5])
-    % xlim([0 45]); ylim([-50 5]);
-    % 
-    % title(network)
+    hold on
+    plot(simRes1,[5,6],'Color',[0.6928    0.1651    0.5645])
+    x_c1 = -2:1:30; y_c1 = -1 * x_c1;
+    plot([x_c1] * 1000/70, [y_c1]* 1000/70, '--black')
+    daspect([1 1 1])
+
+    xlim([0 50]); ylim([-55 5])
+    xlim([0 45]); ylim([-50 5]);
+
+    title(network)
     
     % t = tic;
     R = [];
