@@ -8,11 +8,11 @@ Created on Tue Mar 18 11:58:17 2025
 from tensorflow.keras.models import Sequential
 
 # importing various types of hidden layers
-from tensorflow.keras.layers import Conv2D, MaxPooling2D, Dense, Flatten
+from tensorflow.keras.layers import Conv2D, MaxPooling2D, Dense, Flatten, Dropout
 
 # Adam optimizer for better LR and less loss
  
-
+import matplotlib.pyplot as plt
 import os
 import numpy as np
 from PIL import Image
@@ -30,7 +30,7 @@ def load_data(data_dir, test_size=0.2):
     labels = []
 
     # Loop through each class directory
-    for label, class_dir in enumerate(['Other', 'Swallow']):
+    for label, class_dir in enumerate(['Class0', 'Class1', 'Class2']):
         # Get the path to the class directory
         class_path = os.path.join(data_dir, class_dir)
         
@@ -63,38 +63,6 @@ def load_data(data_dir, test_size=0.2):
     
     return (trainX, trainy), (testX, testy)
 
-# # Split the data into training and testing
-# (trainX, trainy), (testX, testy) = fashion_mnist.load_data()
-data_directory = 'Dataset_1'
-(trainX, trainy), (testX, testy) = load_data(data_directory)
-
-# repeat_factor = 2
-
-# # Repeating the features and labels
-# trainX = np.repeat(trainX, repeat_factor, axis=0)
-# trainy = np.repeat(trainy, repeat_factor, axis=0)
-
- 
-# # Print the dimensions of the dataset
-print('Train: X = ', trainX.shape)
-print('Test: X = ', testX.shape)
-
-for i in range(1, 10):
-    # Create a 3x3 grid and place the
-    # image in ith position of grid
-    plt.subplot(3, 3, i)
-    # Insert ith image with the color map 'grap'
-    plt.imshow(trainX[i], cmap=plt.get_cmap('gray'))
- 
-# # Display the entire plot
-plt.show()
-
-# trainX = np.expand_dims(trainX, -1)
-# testX = np.expand_dims(testX, -1)
- 
-print(trainX.shape)
-
-
 def model_arch():
     models = Sequential()
      
@@ -107,14 +75,15 @@ def model_arch():
     
     
     models.add(MaxPooling2D(pool_size=(2, 2)))
-    models.add(Conv2D(32, (5, 5), padding="same",
+    # Dropout(0.25),  # Dropout layer after max pooling
+    models.add(Conv2D(16, (5, 5), padding="same",
                       activation="relu"))
     
     
      
     models.add(MaxPooling2D(pool_size=(2, 2)))
     
-    
+    # Dropout(0.25),  # Dropout layer after max pooling
      
     # Once the convolutional and pooling 
     # operations are done the layer
@@ -127,65 +96,108 @@ def model_arch():
     # classes to be added a FCC layer of
     # 10 is created with a softmax activation
     # function
-    models.add(Dense(2, activation="sigmoid"))
+    models.add(Dense(3, activation="sigmoid"))
     return models
 
-model = model_arch()
- 
-model.compile(optimizer=keras.optimizers.Adam(learning_rate=1e-4),
-              loss='sparse_categorical_crossentropy',
-              metrics=['sparse_categorical_accuracy'])
- 
-model.summary()
-
-history = model.fit(
-    trainX.astype(np.float32), trainy.astype(np.float32),
-    epochs=20,
-    steps_per_epoch=100,
-    validation_split=0
-)
-
-
-# Accuracy vs Epoch plot
-plt.plot(history.history['sparse_categorical_accuracy'])
-# plt.plot(history.history['val_sparse_categorical_accuracy'])
-plt.title('Model Accuracy')
-plt.ylabel('Accuracy')
-plt.xlabel('epoch')
-plt.legend(['train', 'val'], loc='upper left')
-plt.show()
-
-
-
-# Loss vs Epoch plot
-plt.plot(history.history['loss'])
-# plt.plot(history.history['val_loss'])
-plt.title('Model Accuracy')
-plt.ylabel('loss')
-plt.xlabel('epoch')
-plt.legend(['train', 'val'], loc='upper left')
-plt.show()
-
-predictions = model.predict(testX)
-predicted_classes = np.argmax(predictions, axis=1)
-accuracy = np.mean(predicted_classes == testy)
-print(f'Accuracy: {accuracy * 100:.2f}%')
-
-np.save("testX.npy",testX)
-np.save("testY.npy",testy)
-
-np.save("trainX.npy",trainX)
-np.save("trainY.npy",trainy)
-
-# Export network as onnx
-# input_signature = [tf.TensorSpec([28,28,1], tf.uint8, name='x')]
-
-model.output_names=['output']
-onnx_model, _ = tf2onnx.convert.from_keras(model)
-
-
-onnx.save(onnx_model, 'Swallow_NN_Classifier.onnx')
-
-model.save("Swallow_NN_Classifier.keras")
-
-%runfile Plot_ROC.py
+if __name__ == "__main__":
+    # # Split the data into training and testing
+    # (trainX, trainy), (testX, testy) = fashion_mnist.load_data()
+    data_directory = 'C:/Users/ck2049/Desktop/Data_Files'
+    (trainX, trainy), (testX, testy) = load_data(data_directory)
+    
+    # repeat_factor = 2
+    
+    # # Repeating the features and labels
+    # trainX = np.repeat(trainX, repeat_factor, axis=0)
+    # trainy = np.repeat(trainy, repeat_factor, axis=0)
+    
+     
+    # # Print the dimensions of the dataset
+    print('Train: X = ', trainX.shape)
+    print('Test: X = ', testX.shape)
+    
+    for i in range(1, 10):
+        # Create a 3x3 grid and place the
+        # image in ith position of grid
+        plt.subplot(3, 3, i)
+        # Insert ith image with the color map 'grap'
+        plt.imshow(trainX[i], cmap=plt.get_cmap('gray'))
+     
+    # # Display the entire plot
+    plt.show()
+    
+    # trainX = np.expand_dims(trainX, -1)
+    # testX = np.expand_dims(testX, -1)
+     
+    print(trainX.shape)
+    
+    model = model_arch()
+     
+    model.compile(optimizer=keras.optimizers.Adam(learning_rate=0.5e-4),
+                  loss='sparse_categorical_crossentropy',
+                  metrics=['sparse_categorical_accuracy'])
+     
+    model.summary()
+    
+    # Dataset is imbalanced, so NN will tend to ignore class 2 (has the least datapoints)
+    # To solve this, I weight the classes based on their number of instances in trainy
+    class_weights = {0: 1.0, 1: 1.58, 2: 2.96}
+    
+    history = model.fit(
+        trainX.astype(np.float32), trainy.astype(np.float32),
+        epochs=200,
+        steps_per_epoch=100,
+        validation_split=0,
+        class_weight=class_weights
+    )
+    
+    
+    # Accuracy vs Epoch plot
+    plt.plot(history.history['sparse_categorical_accuracy'])
+    # plt.plot(history.history['val_sparse_categorical_accuracy'])
+    plt.title('Model Accuracy')
+    plt.ylabel('Accuracy')
+    plt.xlabel('epoch')
+    plt.legend(['train', 'val'], loc='upper left')
+    plt.yscale('log')
+    plt.show()
+    
+    
+    
+    # Loss vs Epoch plot
+    plt.plot(history.history['loss'])
+    # plt.plot(history.history['val_loss'])
+    plt.title('Model Accuracy')
+    plt.ylabel('loss')
+    plt.xlabel('epoch')
+    plt.legend(['train', 'val'], loc='upper left')
+    plt.yscale('log')
+    plt.show()
+    
+    predictions = model.predict(testX)
+    predicted_classes = np.argmax(predictions, axis=1)
+    accuracy = np.mean(predicted_classes == testy)
+    print(f'Accuracy: {accuracy * 100:.2f}%')
+    
+    np.save("testX.npy",testX)
+    np.save("testY.npy",testy)
+    
+    np.save("trainX.npy",trainX)
+    np.save("trainY.npy",trainy)
+    
+    # Export network as onnx
+    # input_signature = [tf.TensorSpec([28,28,1], tf.uint8, name='x')]
+    
+    model.output_names=['output']
+    input_signature = [tf.TensorSpec([None, 28, 28, 1], tf.float32, name='input')]
+    
+    onnx_model, _ = tf2onnx.convert.from_keras(model, input_signature, opset=13)
+    
+    # onnx_model, _ = tf2onnx.convert.from_keras(model)
+    
+    
+    onnx.save(onnx_model, 'NN_Classifier_dataset2.onnx')
+    
+    model.save("Swallow_NN_Classifier.keras")
+    
+    import inference
