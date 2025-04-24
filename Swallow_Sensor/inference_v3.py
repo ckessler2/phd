@@ -5,8 +5,8 @@ from sklearn.metrics import confusion_matrix
 import seaborn as sns  # For a nicer graphical representation
 import matplotlib.pyplot as plt
 
-# data_directory = 'A:/data'
-data_directory = 'F:\matlab_stuff\phd\Swallow_Sensor\Dataset_2'
+data_directory = 'A:/data'
+# data_directory = 'F:\matlab_stuff\phd\Swallow_Sensor\Dataset_2'
 (trainX, trainy), (testX, testy) = load_data(data_directory)
 
 ort_sess = ort.InferenceSession("NN_Classifier_dataset2.onnx")

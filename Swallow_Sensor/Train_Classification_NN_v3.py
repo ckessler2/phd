@@ -118,7 +118,7 @@ def model_arch():
     
     models.add(MaxPooling2D(pool_size=(2, 2)))
     # Dropout(0.25),  # Dropout layer after max pooling
-    models.add(Conv2D(16, (5, 5), padding="same",
+    models.add(Conv2D(32, (5, 5), padding="same",
                       activation="relu"))
     
     models.add(MaxPooling2D(pool_size=(2, 2)))
@@ -149,8 +149,8 @@ def model_arch():
 if __name__ == "__main__":
     # # Split the data into training and testing
     # (trainX, trainy), (testX, testy) = fashion_mnist.load_data()
-    # data_directory = 'A:/data'
-    data_directory = 'F:\matlab_stuff\phd\Swallow_Sensor\Dataset_2'
+    data_directory = 'A:/data'
+    # data_directory = 'F:\matlab_stuff\phd\Swallow_Sensor\Dataset_2'
     (trainX, trainy), (testX, testy) = load_data(data_directory)
     
     # repeat_factor = 2
@@ -181,7 +181,7 @@ if __name__ == "__main__":
     
     model = model_arch()
      
-    model.compile(optimizer=keras.optimizers.Adam(learning_rate=0.5e-4),
+    model.compile(optimizer=keras.optimizers.Adam(learning_rate=2e-5),
                    loss='sparse_categorical_crossentropy',
                   # loss='categorical_crossentropy',
                   # loss=tf.keras.losses.CategoricalCrossentropy(from_logits=True),
@@ -195,7 +195,7 @@ if __name__ == "__main__":
     
     history = model.fit(
         trainX.astype(np.float32), trainy.astype(np.float32),
-        epochs=800,
+        epochs=200,
         steps_per_epoch=150,
         validation_split=0,
         class_weight=class_weights
