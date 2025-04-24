@@ -1,7 +1,7 @@
 % clc; clear all
 
 % Load mat files
-% load("A:\Big_Downloads\male.mat");
+load("A:\Big_Downloads\male.mat");
 
 % Progress bar
 f = waitbar(0, 'Starting');
@@ -9,7 +9,7 @@ f = waitbar(0, 'Starting');
 % CLASS 0 test
 tic
 % for i = 1:length(class0test)
-for i = 312:411
+for i = 1:411
     waitbar(i/411, f, sprintf('Processing Class 0: %d %%', floor(i/411*100)));
     voltage1 = squeeze(class0test(i,1,:));
     im1 = Extract_Image(voltage1);
@@ -95,49 +95,49 @@ for i = 1:2291
 end
 toc
 
-% CLASS 3a test
-tic
-for i = 1:84
-    waitbar(i/84, f, sprintf('Processing Class 2: %d %%', floor(i/84*100)));
-    voltage1 = squeeze(class3atest(i,1,:));
-    im1 = Extract_Image(voltage1);
-    filename = "class3atest\class3atest_"+string(i)+".png";
-    imwrite(im1,filename)
-end
-toc
-
-% CLASS 3a train
-tic
-for i = 1:751
-    waitbar(i/751, f, sprintf('Processing Class 2: %d %%', floor(i/751*100)));
-    voltage1 = squeeze(class3atrain(i,1,:));
-    im1 = Extract_Image(voltage1);
-    filename = "class3atrain\class3atrain_"+string(i)+".png";
-    imwrite(im1,filename)
-end
-toc
-
-% CLASS 3b test
-tic
-for i = 1:38
-    waitbar(i/38, f, sprintf('Processing Class 2: %d %%', floor(i/38*100)));
-    voltage1 = squeeze(class3btest(i,1,:));
-    im1 = Extract_Image(voltage1);
-    filename = "class3btest\class3btest_"+string(i)+".png";
-    imwrite(im1,filename)
-end
-toc
-
-% CLASS 3b train
-tic
-for i = 1:339
-    waitbar(i/339, f, sprintf('Processing Class 2: %d %%', floor(i/339*100)));
-    voltage1 = squeeze(class3btrain(i,1,:));
-    im1 = Extract_Image(voltage1);
-    filename = "class3btrain\class3btrain_"+string(i)+".png";
-    imwrite(im1,filename)
-end
-toc
+% % CLASS 3a test
+% tic
+% for i = 1:84
+%     waitbar(i/84, f, sprintf('Processing Class 2: %d %%', floor(i/84*100)));
+%     voltage1 = squeeze(class3atest(i,1,:));
+%     im1 = Extract_Image(voltage1);
+%     filename = "class3atest\class3atest_"+string(i)+".png";
+%     imwrite(im1,filename)
+% end
+% toc
+% 
+% % CLASS 3a train
+% tic
+% for i = 1:751
+%     waitbar(i/751, f, sprintf('Processing Class 2: %d %%', floor(i/751*100)));
+%     voltage1 = squeeze(class3atrain(i,1,:));
+%     im1 = Extract_Image(voltage1);
+%     filename = "class3atrain\class3atrain_"+string(i)+".png";
+%     imwrite(im1,filename)
+% end
+% toc
+% 
+% % CLASS 3b test
+% tic
+% for i = 1:38
+%     waitbar(i/38, f, sprintf('Processing Class 2: %d %%', floor(i/38*100)));
+%     voltage1 = squeeze(class3btest(i,1,:));
+%     im1 = Extract_Image(voltage1);
+%     filename = "class3btest\class3btest_"+string(i)+".png";
+%     imwrite(im1,filename)
+% end
+% toc
+% 
+% % CLASS 3b train
+% tic
+% for i = 1:339
+%     waitbar(i/339, f, sprintf('Processing Class 2: %d %%', floor(i/339*100)));
+%     voltage1 = squeeze(class3btrain(i,1,:));
+%     im1 = Extract_Image(voltage1);
+%     filename = "class3btrain\class3btrain_"+string(i)+".png";
+%     imwrite(im1,filename)
+% end
+% toc
 
 
 
@@ -182,8 +182,8 @@ function Im1 = Extract_Image(voltage)
     I = imrotate(I,90);
     
 
-    net = denoisingNetwork("DnCNN");
-    I = denoiseImage(I,net);
+    % net = denoisingNetwork("DnCNN");
+    % I = denoiseImage(I,net);
 
     [val1,idx1]=min(abs(time));
     Im1 = I(:,idx1:idx1+27);

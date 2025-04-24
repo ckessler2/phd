@@ -121,6 +121,11 @@ def model_arch():
     models.add(Conv2D(16, (5, 5), padding="same",
                       activation="relu"))
     
+    models.add(MaxPooling2D(pool_size=(2, 2)))
+    # Dropout(0.25),  # Dropout layer after max pooling
+    models.add(Conv2D(16, (5, 5), padding="same",
+                      activation="relu"))
+    
     
      
     models.add(MaxPooling2D(pool_size=(2, 2)))
@@ -144,7 +149,8 @@ def model_arch():
 if __name__ == "__main__":
     # # Split the data into training and testing
     # (trainX, trainy), (testX, testy) = fashion_mnist.load_data()
-    data_directory = 'A:/data'
+    # data_directory = 'A:/data'
+    data_directory = 'F:\matlab_stuff\phd\Swallow_Sensor\Dataset_2'
     (trainX, trainy), (testX, testy) = load_data(data_directory)
     
     # repeat_factor = 2
@@ -176,19 +182,21 @@ if __name__ == "__main__":
     model = model_arch()
      
     model.compile(optimizer=keras.optimizers.Adam(learning_rate=0.5e-4),
-                  loss='sparse_categorical_crossentropy',
+                   loss='sparse_categorical_crossentropy',
+                  # loss='categorical_crossentropy',
+                  # loss=tf.keras.losses.CategoricalCrossentropy(from_logits=True),
                   metrics=['sparse_categorical_accuracy'])
      
     model.summary()
     
     # Dataset is imbalanced, so NN will tend to ignore class 2 (has the least datapoints)
-    # To solve this, I weight the classes based on their number of instances in trainy
+    # To solve this, I weight each classes inversely to the number of instances in trainy
     class_weights = {0: 1.0, 1: 1.19, 2: 1.81, 3: 1.61}
     
     history = model.fit(
         trainX.astype(np.float32), trainy.astype(np.float32),
-        epochs=200,
-        steps_per_epoch=100,
+        epochs=800,
+        steps_per_epoch=150,
         validation_split=0,
         class_weight=class_weights
     )
@@ -242,4 +250,4 @@ if __name__ == "__main__":
     
     model.save("Swallow_NN_Classifier.keras")
     
-    import inference
+    import inference_v3
