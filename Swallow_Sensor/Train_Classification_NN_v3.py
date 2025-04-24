@@ -7,7 +7,6 @@ Created on Tue Mar 18 11:58:17 2025
 
 from tensorflow.keras.models import Sequential
 
-# importing various types of hidden layers
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Dense, Flatten, Dropout
 
 # Adam optimizer for better LR and less loss
@@ -149,7 +148,7 @@ def model_arch():
 if __name__ == "__main__":
     # # Split the data into training and testing
     # (trainX, trainy), (testX, testy) = fashion_mnist.load_data()
-    data_directory = 'A:/data'
+    data_directory = 'D:\Data_Files\data'
     # data_directory = 'F:\matlab_stuff\phd\Swallow_Sensor\Dataset_2'
     (trainX, trainy), (testX, testy) = load_data(data_directory)
     
@@ -181,7 +180,7 @@ if __name__ == "__main__":
     
     model = model_arch()
      
-    model.compile(optimizer=keras.optimizers.Adam(learning_rate=2e-5),
+    model.compile(optimizer=keras.optimizers.Adam(learning_rate=1e-7),
                    loss='sparse_categorical_crossentropy',
                   # loss='categorical_crossentropy',
                   # loss=tf.keras.losses.CategoricalCrossentropy(from_logits=True),
@@ -195,9 +194,9 @@ if __name__ == "__main__":
     
     history = model.fit(
         trainX.astype(np.float32), trainy.astype(np.float32),
-        epochs=200,
-        steps_per_epoch=150,
-        validation_split=0,
+        epochs=20,
+        steps_per_epoch=3000,
+        validation_split=0.2,
         class_weight=class_weights
     )
     
@@ -216,7 +215,7 @@ if __name__ == "__main__":
     
     # Loss vs Epoch plot
     plt.plot(history.history['loss'])
-    # plt.plot(history.history['val_loss'])
+    plt.plot(history.history['val_loss'])
     plt.title('Model Accuracy')
     plt.ylabel('loss')
     plt.xlabel('epoch')
