@@ -126,4 +126,4 @@ def deeply_adjust_model_dtypes(model):
     return model
 
 # Example Usage: Merge an ONNX model and save the output
-merge_onnx_models("adversarial_model_0.005.onnx", "merged_model_adversarial.onnx")
+merge_onnx_models("Property Verification 2/DL2_Lipschitz.onnx", "Property Verification 2/merged_DL2_Lipschitz.onnx")

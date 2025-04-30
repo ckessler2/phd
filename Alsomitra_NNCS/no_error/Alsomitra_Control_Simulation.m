@@ -21,7 +21,7 @@ function Alsomitra_Control_Simulation(network1,plot_title,nnc)
     Ss = constants.constants(2,:);
     
     % NN or PID controller
-    % nnc =  false;
+    nnc =  false;
     
     ObjectiveFunction = @Alsomitra_nondim;
     
@@ -89,6 +89,7 @@ function Alsomitra_Control_Simulation(network1,plot_title,nnc)
         errors = 0;
         errors2 = [];
         error2 = 0;
+        nnc = false;
     
         if nnc == true
             % NN CONTROLLER
@@ -98,6 +99,11 @@ function Alsomitra_Control_Simulation(network1,plot_title,nnc)
             ex = nn.predict(input);
             % ex = (ex * Ss(7))+Cs(7);
             % ex = (ex * (0.012)) + 0.181;
+            if ex > 0.193
+                ex = 0.193;
+            elseif ex < 0.181
+                ex = 0.181;
+            end
         else
             tic
             integral  = sum(errors);
@@ -158,7 +164,13 @@ function Alsomitra_Control_Simulation(network1,plot_title,nnc)
                     ex = 0.181;
                 end
             end
-    
+
+            if ex > 0.193
+                ex = 0.193;
+            elseif ex < 0.181
+                ex = 0.181;
+            end
+
             
             
             

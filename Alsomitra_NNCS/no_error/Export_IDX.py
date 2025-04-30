@@ -28,14 +28,14 @@ X = data.drop(target_column, axis=1)
 y = data[target_column]
 
 # Double data to match doubled networks
-X = pd.concat([X, X], axis=1)
-y = pd.concat([y, y], axis=1)
+# X = pd.concat([X, X], axis=1)
+# y = pd.concat([y, y], axis=1)
 
 X_numpy = X.to_numpy().astype("float32")
 y_numpy = y.to_numpy().astype("float32")
 
-file_path1 = "dataset_inputs.idx"
-file_path2 = "dataset_outputs.idx"
+file_path1 = "dataset_inputs_norm.idx"
+file_path2 = "dataset_outputs_norm.idx"
 
 f_write = open(file_path1, "wb")  # Open file in write-binary mode
 idx2numpy.convert_to_file(f_write, X_numpy)

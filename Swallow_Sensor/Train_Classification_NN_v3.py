@@ -181,7 +181,7 @@ if __name__ == "__main__":
     
     model = model_arch()
      
-    model.compile(optimizer=keras.optimizers.Adam(learning_rate=2e-5),
+    model.compile(optimizer=keras.optimizers.Adam(learning_rate=1e-5),
                    loss='sparse_categorical_crossentropy',
                   # loss='categorical_crossentropy',
                   # loss=tf.keras.losses.CategoricalCrossentropy(from_logits=True),
@@ -195,7 +195,7 @@ if __name__ == "__main__":
     
     history = model.fit(
         trainX.astype(np.float32), trainy.astype(np.float32),
-        epochs=200,
+        epochs=3000,
         steps_per_epoch=150,
         validation_split=0,
         class_weight=class_weights
