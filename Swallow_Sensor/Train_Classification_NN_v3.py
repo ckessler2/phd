@@ -179,8 +179,14 @@ if __name__ == "__main__":
     print(trainX.shape)
     
     model = model_arch()
+    
+    # RESULTS
+    # 1e-4, 1000 epochs * 10 steps gets 35, 70 - definetely overfitted
+    # 1e-4, 50 epochs * 10 steps gets 36, 35 - not overfit but poor - only returns 1 class
+    # 1e-5, 50 epochs * 10 steps gets 26, 26 - "" 
+    # Needs to return results for all classes but not be overfit
      
-    model.compile(optimizer=keras.optimizers.Adam(learning_rate=1e-7),
+    model.compile(optimizer=keras.optimizers.Adam(learning_rate=1e-5),
                    loss='sparse_categorical_crossentropy',
                   # loss='categorical_crossentropy',
                   # loss=tf.keras.losses.CategoricalCrossentropy(from_logits=True),
@@ -194,9 +200,9 @@ if __name__ == "__main__":
     
     history = model.fit(
         trainX.astype(np.float32), trainy.astype(np.float32),
-        epochs=20,
-        steps_per_epoch=3000,
-        validation_split=0.2,
+        epochs=50,
+        steps_per_epoch=10,
+        validation_split=0.1,
         class_weight=class_weights
     )
     
@@ -208,7 +214,8 @@ if __name__ == "__main__":
     plt.ylabel('Accuracy')
     plt.xlabel('epoch')
     plt.legend(['train', 'val'], loc='upper left')
-    plt.yscale('log')
+    # plt.yscale('log')
+    plt.ylim(0,1)
     plt.show()
     
     
