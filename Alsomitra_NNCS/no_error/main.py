@@ -29,7 +29,7 @@ def main(epsilon,basetraining):
     input_size = 6  # Number of input features for the model
     batch_size = 50  # Batch size for training
     epochs = 1000  # Number of epochs for training
-    learning_rate = 0.08
+    learning_rate = 0.06
     # epsilon = 0.000  # Epsilon for adversarial robustness (small perturbations)
 
     # Step 1: Data Handling
@@ -71,8 +71,8 @@ def main(epsilon,basetraining):
     # Export network as onnx
     input_signature = [tf.TensorSpec([1,6], tf.float32, name='x')]
     onnx_model, _ = tf2onnx.convert.from_keras(model, input_signature, opset=13)
-    onnx.save(onnx_model, 'base_model_norm.onnx')
-    print("saved as base_model_norm.onnx")
+    onnx.save(onnx_model, 'final_base_model_norm.onnx')
+    print("saved as final_base_model_norm.onnx")
         
     # Step 4: Adversarial Training for Robustness
     print("\nStarting adversarial training with epsilon-ball robustness...")
@@ -104,7 +104,7 @@ def main(epsilon,basetraining):
     # Export network as onnx
     input_signature = [tf.TensorSpec([1,6], tf.float32, name='x')]
     onnx_model2, _ = tf2onnx.convert.from_keras(adversarial_model, input_signature, opset=13)
-    onnx.save(onnx_model2, "adversarial_model_" + str(epsilon) + ".onnx")
+    onnx.save(onnx_model2, "final_adversarial_model_" + str(epsilon) + ".onnx")
     
     # np.savetxt("adversarial_data_"+str(epsilon)+".csv", np.squeeze(np.array(adversarial_data)), delimiter=",", fmt="%.6f")
 
@@ -114,9 +114,9 @@ def main(epsilon,basetraining):
 
 # Entry point of the script
 if __name__ == "__main__":
-    # main(0.005,True)
-    main(0.01,True)
-    main(0.02,True)
-    main(0.04,True)
-    main(0.0025,True)
+    main(0.005,True)
+    # main(0.01,True)
+    # main(0.02,True)
+    # main(0.04,True)
+    # main(0.0025,True)
 # 
