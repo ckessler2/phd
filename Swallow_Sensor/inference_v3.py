@@ -5,7 +5,7 @@ from sklearn.metrics import confusion_matrix
 import seaborn as sns  # For a nicer graphical representation
 import matplotlib.pyplot as plt
 
-data_directory = 'D:\Data_Files\data'
+data_directory = 'A:/data'
 # data_directory = 'F:\matlab_stuff\phd\Swallow_Sensor\Dataset_2'
 (trainX, trainy), (testX, testy) = load_data(data_directory)
 
