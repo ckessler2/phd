@@ -276,10 +276,10 @@ if __name__ == "__main__":
     # (trainX, trainy), (testX, testy) = fashion_mnist.load_data()
     data_directory = 'A:/data'
     # data_directory = 'F:\matlab_stuff\phd\Swallow_Sensor\Dataset_2'
-    (trainX, trainy), (testX, testy) = load_data(data_directory)
+    (trainX, trainy), (testX, testy) = load_data_2(data_directory)
         
     epsilon = 0.0005
-    epochs = 150
+    epochs = 50
     batch_size = 100
     adversarial_train = False
     
@@ -300,34 +300,34 @@ if __name__ == "__main__":
     values_to_find = [0, 1, 2, 3]
     titles = ['No Swallow', 'Blank Swallow', 'Water Swallow', 'Food Swallow']
     
-    # Dictionary to store results:
-    indexes = {}
+    # # Dictionary to store results:
+    # indexes = {}
     
-    for value in values_to_find:
-        match = np.where(trainy == value)[0]
-        indexes[value] = match[0] if match.size > 0 else None
+    # for value in values_to_find:
+    #     match = np.where(trainy == value)[0]
+    #     indexes[value] = match[0] if match.size > 0 else None
     
-    for i in range(1, 5):
-        # Create a 3x3 grid and place the
-        # image in ith position of grid
-        plt.subplot(1, 4, i)
-        # Insert ith image with the color map 'grap'
-        plt.imshow(trainX[indexes[i-1]], cmap=plt.get_cmap('gray'))
-        plt.title(titles[i-1], fontdict={'fontname':'Times New Roman', 'fontsize':12})
-        plt.tick_params(axis='both',          # Changes apply to both x and y axis
-                which='both',         # both major and minor ticks are affected
-                bottom=False,         # ticks along the bottom edge are off
-                top=False,            # ticks along the top edge are off
-                left=False,           # ticks along the left edge are off
-                right=False,          # ticks along the right edge are off
-                labelbottom=False,    # labels along the bottom edge are off
-                labeltop=False,       # labels along the top edge are off
-                labelleft=False,      # labels along the left edge are off
-                labelright=False)     # labels along the right edge are off
+    # for i in range(1, 5):
+    #     # Create a 3x3 grid and place the
+    #     # image in ith position of grid
+    #     plt.subplot(1, 4, i)
+    #     # Insert ith image with the color map 'grap'
+    #     plt.imshow(trainX[indexes[i-1]], cmap=plt.get_cmap('gray'))
+    #     plt.title(titles[i-1], fontdict={'fontname':'Times New Roman', 'fontsize':12})
+    #     plt.tick_params(axis='both',          # Changes apply to both x and y axis
+    #             which='both',         # both major and minor ticks are affected
+    #             bottom=False,         # ticks along the bottom edge are off
+    #             top=False,            # ticks along the top edge are off
+    #             left=False,           # ticks along the left edge are off
+    #             right=False,          # ticks along the right edge are off
+    #             labelbottom=False,    # labels along the bottom edge are off
+    #             labeltop=False,       # labels along the top edge are off
+    #             labelleft=False,      # labels along the left edge are off
+    #             labelright=False)     # labels along the right edge are off
      
-    # # Display the entire plot
-    plt.savefig('example_images.png',  dpi=1200, bbox_inches='tight')
-    plt.show()
+    # # # Display the entire plot
+    # plt.savefig('example_images.png',  dpi=1200, bbox_inches='tight')
+    # plt.show()
     
     # trainX = np.expand_dims(trainX, -1)
     # testX = np.expand_dims(testX, -1)
@@ -337,7 +337,7 @@ if __name__ == "__main__":
     model = model_arch()
      
     # 1e-4 for normal, 3e-4 for 2?
-    model.compile(optimizer=keras.optimizers.Adam(learning_rate=2e-5),
+    model.compile(optimizer=keras.optimizers.Adam(learning_rate=1.5e-5),
                    # loss='sparse_categorical_crossentropy',
                    loss=keras.losses.SparseCategoricalCrossentropy(reduction="sum_over_batch_size"),
                   # loss='categorical_crossentropy',
@@ -356,7 +356,7 @@ if __name__ == "__main__":
     history = model.fit(
             trainX.astype(np.float32), trainy.astype(np.float32),
             epochs=epochs,
-            steps_per_epoch=20,
+            steps_per_epoch=25,
             validation_split=0.1,
             class_weight = class_weights
         )
