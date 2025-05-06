@@ -1,0 +1,32 @@
+% Define the data with appropriate class order
+data = [359, 23, 21,  8;
+        14, 308,  3, 20;
+        12,   5, 155, 55;
+        20,  12, 41, 182];
+
+data2 = [   283    51    31    46
+    99   165    26    55
+    93    20    57    57
+    50    32    47   126];
+
+% Define the names of the classes in the order of the rows/columns of data
+classNames = {'No Swallow', 'Blank Swallow', 'Water Swallow', 'Food Swallow'};
+
+fig = figure;
+set(gcf, 'Position', 1.1*[fig.Position(1), fig.Position(2), fig.Position(3)/1.5, fig.Position(4)/1.5]);
+
+% Create the confusion matrix chart using these class names
+cm = confusionchart(data, classNames);
+sortClasses(cm,["No Swallow", "Blank Swallow", "Water Swallow", "Food Swallow"])
+
+% Set the title and cmis labels
+cm.Title = 'Confusion Matrix for Random Forest on Male Dataset';
+cm.XLabel = 'Predicted Class';
+cm.YLabel = 'True Class';
+cm.FontName = 'Times New Roman';  % Set up the font face
+
+
+
+
+csvread("NN2_1_loss.csv")
+plot(0:200,ro)

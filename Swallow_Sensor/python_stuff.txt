@@ -1,0 +1,10 @@
+Install nvidia drivers and CUDA 12.9 (maybe?)
+nvidia-smi
+
+Create environment with anaconda (3.10), install conda
+pip install numpy==1.26.1
+pip install protobuf==3.20.1
+
+conda install -c conda-forge cudatoolkit=11.2 cudnn=8.1.0
+python -m pip install "tensorflow<2.11"
+import tensorflow as tf; print(tf.config.list_physical_devices('GPU'))

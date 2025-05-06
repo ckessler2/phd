@@ -3,7 +3,7 @@ clear all;clc
 
 % load('F:\matlab_stuff\Straight_Flight_4722ALLPLOTS\CORA2\Scripts\training_data4.mat')
 % load('F:\matlab_stuff\Straight_Flight_4722ALLPLOTS\CORA2\Scripts\Quad Testing\data_quad2.mat')
-set(0,'DefaultFigureWindowStyle','docked')
+set(0,'DefaultFigureWindowStyle','undocked')
 set(0, 'defaultFigureRenderer', 'painters')
 set(0,'DefaultFigureWindowStyle','docked')
 font=12;
