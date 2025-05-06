@@ -233,12 +233,12 @@ def model_arch():
     
     
     models.add(MaxPooling2D(pool_size=(2, 2)))
-    # Dropout(0.1),  # Dropout layer after max pooling
+    Dropout(0.1),  # Dropout layer after max pooling
     models.add(Conv2D(64, (5, 5), padding="same",
                       activation="relu"))
     
     models.add(MaxPooling2D(pool_size=(2, 2)))
-    # Dropout(0.1),  # Dropout layer after max pooling
+    Dropout(0.1),  # Dropout layer after max pooling
     models.add(Conv2D(64, (5, 5), padding="same",
                       activation="relu"))
     
@@ -267,7 +267,7 @@ def model_arch():
     # function
     # models.add(Dense(4, activation="sigmoid"))
     
-    models.add(Dense(2, activation="sigmoid"))
+    models.add(Dense(3, activation="sigmoid"))
     return models
 
 
@@ -276,7 +276,7 @@ if __name__ == "__main__":
     # (trainX, trainy), (testX, testy) = fashion_mnist.load_data()
     data_directory = 'A:/data'
     # data_directory = 'F:\matlab_stuff\phd\Swallow_Sensor\Dataset_2'
-    (trainX, trainy), (testX, testy) = load_data_2(data_directory)
+    (trainX, trainy), (testX, testy) = load_data_3(data_directory)
         
     epsilon = 0.0005
     epochs = 50
@@ -349,8 +349,8 @@ if __name__ == "__main__":
     # Dataset is imbalanced, so NN will tend to ignore class 2 (has the least datapoints)
     # To solve this, I weight each classes inversely to the number of instances in trainy
     # class_weights = {0: 1.0, 1: 1.19, 2: 1.81, 3: 1.61}
-    class_weights = {0: 2.0, 1: 1.0}
-    # class_weights = {0: 1.0, 1: 1.52, 2: 1.36}
+    # class_weights = {0: 2.0, 1: 1.0}
+    class_weights = {0: 1.0, 1: 1.52, 2: 1.36}
 
 
     history = model.fit(
@@ -405,7 +405,7 @@ if __name__ == "__main__":
     # onnx_model, _ = tf2onnx.convert.from_keras(model)
     
     
-    onnx.save(onnx_model, 'NN_Classifier_dataset2_1.onnx')
+    onnx.save(onnx_model, 'NN_Classifier_dataset2_2.onnx')
     
     # model.save("Swallow_NN_Classifier.keras")
     
