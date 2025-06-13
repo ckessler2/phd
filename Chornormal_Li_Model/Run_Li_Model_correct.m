@@ -11,6 +11,9 @@ set(0, 'defaultAxesFontName', 'Times New Roman');
 set(0, 'defaultLegendFontName', 'Times New Roman');
 set(0, 'DefaultLineLineWidth', 0.5);
 
+[t0, courant0, x0, y0, z0, ux0, uy0, uz0] = get_data('GR_0.dat');
+
+
 e_x = 0.0;
 e_y = 0;
 
@@ -19,44 +22,26 @@ figure; f = tiledlayout("flow"); ax(1) = nexttile;
 % f = figure; 
 hold on; box on;
 [tSol1,ySol1] = test_gust(0);
-[tSol2,ySol2] = test_gust(1);
-[tSol3,ySol3] = test_gust(2);
-[tSol4,ySol4] = test_gust(3);
-[tSol5,ySol5] = test_gust(4);
-[tSol6,ySol6] = test_gust(5);
 
 plot_x(tSol1, ySol1,"chordwise only model ($e_x = "+string(e_x)+", e_y = 0$)",[0.267004, 0.004874, 0.329415])
-plot_x(tSol2, ySol2,"chordwise only model ($e_x = "+string(e_x)+", e_y = 0$)", [0.229739, 0.322361, 0.545706])
-plot_x(tSol3, ySol3,"chordwise only model ($e_x = "+string(e_x)+", e_y = 0$)",[0.127568, 0.566949, 0.550556])
-plot_x(tSol4, ySol4,"chordwise only model ($e_x = "+string(e_x)+", e_y = 0$)", [0.369214, 0.788888, 0.382914])
-plot_x(tSol5, ySol5,"chordwise only model ($e_x = "+string(e_x)+", e_y = 0$)",[0.678489, 0.863742, 0.189503])
-plot_x(tSol6, ySol6,"chordwise only model ($e_x = "+string(e_x)+", e_y = 0$)", [0.993248, 0.906157, 0.143936])
 pbaspect([1 1 1])
+plot_for_all_gusts(t0, x0); 
 nexttile; hold on;box on;
-plot_z(tSol1, ySol1,"chordwise only model ($e_x = "+string(e_x)+", e_y = 0$)",[0.267004, 0.004874, 0.329415])
-plot_z(tSol2, ySol2,"chordwise only model ($e_x = "+string(e_x)+", e_y = 0$)", [0.229739, 0.322361, 0.545706])
-plot_z(tSol3, ySol3,"chordwise only model ($e_x = "+string(e_x)+", e_y = 0$)",[0.127568, 0.566949, 0.550556])
-plot_z(tSol4, ySol4,"chordwise only model ($e_x = "+string(e_x)+", e_y = 0$)", [0.369214, 0.788888, 0.382914])
-plot_z(tSol5, ySol5,"chordwise only model ($e_x = "+string(e_x)+", e_y = 0$)",[0.678489, 0.863742, 0.189503])
-plot_z(tSol6, ySol6,"chordwise only model ($e_x = "+string(e_x)+", e_y = 0$)", [0.993248, 0.906157, 0.143936])
-pbaspect([1 1 1])
-nexttile; hold on;box on;
-plot_ux(tSol1, ySol1,"chordwise only model ($e_x = "+string(e_x)+", e_y = 0$)",[0.267004, 0.004874, 0.329415])
-plot_ux(tSol2, ySol2,"chordwise only model ($e_x = "+string(e_x)+", e_y = 0$)", [0.229739, 0.322361, 0.545706])
-plot_ux(tSol3, ySol3,"chordwise only model ($e_x = "+string(e_x)+", e_y = 0$)",[0.127568, 0.566949, 0.550556])
-plot_ux(tSol4, ySol4,"chordwise only model ($e_x = "+string(e_x)+", e_y = 0$)", [0.369214, 0.788888, 0.382914])
-plot_ux(tSol5, ySol5,"chordwise only model ($e_x = "+string(e_x)+", e_y = 0$)",[0.678489, 0.863742, 0.189503])
-plot_ux(tSol6, ySol6,"chordwise only model ($e_x = "+string(e_x)+", e_y = 0$)", [0.993248, 0.906157, 0.143936])
-pbaspect([1 1 1])
-nexttile; hold on;box on;
-plot_uz(tSol1, ySol1,"chordwise only model ($e_x = "+string(e_x)+", e_y = 0$)",[0.267004, 0.004874, 0.329415])
-plot_uz(tSol2, ySol2,"chordwise only model ($e_x = "+string(e_x)+", e_y = 0$)", [0.229739, 0.322361, 0.545706])
-plot_uz(tSol3, ySol3,"chordwise only model ($e_x = "+string(e_x)+", e_y = 0$)",[0.127568, 0.566949, 0.550556])
-plot_uz(tSol4, ySol4,"chordwise only model ($e_x = "+string(e_x)+", e_y = 0$)", [0.369214, 0.788888, 0.382914])
-plot_uz(tSol5, ySol5,"chordwise only model ($e_x = "+string(e_x)+", e_y = 0$)",[0.678489, 0.863742, 0.189503])
-plot_uz(tSol6, ySol6,"chordwise only model ($e_x = "+string(e_x)+", e_y = 0$)", [0.993248, 0.906157, 0.143936])
-pbaspect([1 1 1])
 
+plot_z(tSol1, ySol1,"chordwise only model ($e_x = "+string(e_x)+", e_y = 0$)",[0.267004, 0.004874, 0.329415])
+pbaspect([1 1 1])
+plot_for_all_gusts(t0, z0); 
+nexttile; hold on;box on;
+
+plot_ux(tSol1, ySol1,"chordwise only model ($e_x = "+string(e_x)+", e_y = 0$)",[0.267004, 0.004874, 0.329415])
+pbaspect([1 1 1])
+plot_for_all_gusts(t0, ux0); 
+nexttile; hold on;box on;
+
+plot_uz(tSol1, ySol1,"chordwise only model ($e_x = "+string(e_x)+", e_y = 0$)",[0.267004, 0.004874, 0.329415])
+pbaspect([1 1 1])
+plot_for_all_gusts(t0, uz0); 
+legend("Li Model", "CFD")
 exportgraphics(f,'Li_grid.png','Resolution',300)
 
 
@@ -74,7 +59,7 @@ function [tSol2,ySol2] = test_gust(ratio)
     toc
     
     t_start = 0;
-    t_end = 30;
+    t_end = 100;
     dt = 0.1; % assuming this is the desired timestep
     
     t_current = t_start;
@@ -119,7 +104,7 @@ end
 % toc
 % plot_results(tSol, ySol,"chordwise \& chordnormal model ($e_x = "+string(e_x)+", e_y = "+string(e_y)+"$)")
 
-% compare_results(tSol, ySol,tSol1, ySol1)
+% compare_results(tSol, ySolxlim([0 20]),tSol1, ySol1)
 
 function plot_x(tSol, ySol, plot_title, color)
     t = tSol();
@@ -130,33 +115,33 @@ function plot_x(tSol, ySol, plot_title, color)
     x_ = ySol(:,5);
     y_ = ySol(:,6);
     
-    [ d1, t1 ] = min( abs( t-(10) ) );
-    [ d2, t2 ] = min( abs( t-(30) ) );
+    [ d1, t1 ] = min( abs( t-(0) ) );
+    [ d2, t2 ] = min( abs( t-(100) ) );
     t = t(t1:t2);
     
     plot(t,(x_(t1:t2)), 'Color', color,'LineWidth', 2)
     xlabel("t [-]"); ylabel("${\textnormal{x}}$ [-]"); 
-    xlim([10 30])
-    ylim([-6 1])
+    xlim([0 11])
+    ylim([-2e-4 1.5e-4])
 end
 
 function plot_z(tSol, ySol, plot_title, color)
     t = tSol();
     v_xp = ySol(:,1);
-    v_yp = ySol(:,2);
+    v_yp = ySol(:,2);xlim([0 11])
     omega = ySol(:,3);
     theta = ySol(:,4);
     x_ = ySol(:,5);
     y_ = ySol(:,6);
     
-    [ d1, t1 ] = min( abs( t-(10) ) );
-    [ d2, t2 ] = min( abs( t-(30) ) );
+    [ d1, t1 ] = min( abs( t-(0) ) );
+    [ d2, t2 ] = min( abs( t-(100) ) );
     t = t(t1:t2);
     
-    plot(t,(y_(t1:t2) + (1.023 * t)), 'Color', color,'LineWidth', 2)
+    plot(t,(y_(t1:t2) + t), 'Color', color,'LineWidth', 2)
     xlabel("t [-]"); ylabel("${\textnormal{z}}$ [-]"); 
-    xlim([10 30])
-    ylim([0 6])
+    xlim([0 11])
+    ylim([-1.5 2])
 end
 
 function plot_ux(tSol, ySol, plot_title, color)
@@ -168,14 +153,14 @@ function plot_ux(tSol, ySol, plot_title, color)
     x_ = ySol(:,5);
     y_ = ySol(:,6);
     
-    [ d1, t1 ] = min( abs( t-(10) ) );
-    [ d2, t2 ] = min( abs( t-(30) ) );
+    [ d1, t1 ] = min( abs( t-(0) ) );
+    [ d2, t2 ] = min( abs( t-(100) ) );
     t = t(t1:t2);
     
     plot(t,[0;diff(x_(t1:t2))], 'Color', color,'LineWidth', 2)
     xlabel("t [-]"); ylabel("$u_{\textnormal{x}}$ [-]"); 
-    xlim([10 30])
-    ylim([-2.5 1])
+    xlim([0 11])
+    ylim([-1.5e-4 1.5e-4])
 end
 
 function plot_uz(tSol, ySol, plot_title, color)
@@ -187,14 +172,14 @@ function plot_uz(tSol, ySol, plot_title, color)
     x_ = ySol(:,5);
     y_ = ySol(:,6);
     
-    [ d1, t1 ] = min( abs( t-(10) ) );
-    [ d2, t2 ] = min( abs( t-(30) ) );
+    [ d1, t1 ] = min( abs( t-(0) ) );
+    [ d2, t2 ] = min( abs( t-(100) ) );
     t = t(t1:t2);
     
-    plot(t,[0;diff(y_(t1:t2))]-1, 'Color', color,'LineWidth', 2)
+    plot(t,1+[0;diff(y_(t1:t2))], 'Color', color,'LineWidth', 2)
     xlabel("t [-]"); ylabel("$u_{\textnormal{z}}$ [-]"); 
-    xlim([10 30])
-    ylim([-1 2])
+    xlim([0 11])
+    ylim([-0.2 1.2])
 end
 
 function compare_results(tSol, ySol,tSol2, ySol2)
@@ -343,7 +328,7 @@ end
 function dydt = nondimfreelyfallingplate_chordnormal(y,u)
     
     % global p %p_aero 
-    p_aero = [5.18218452125279	0.807506506794260	0.105977518471870	4.93681162104530	1.49958010664229	0.238565281050545	2.85289007725274	0.368933365279324	1.73001889433847];
+    p_aero = [5.18218452125279	0.807506506794260	0.105977518471870	4.93681162104530	1.49958010664229	0.238565281050545	2.85289007725274	0.368933365279324	10];
 
 
     % Extract v_xp, v_yp, omega, theta x_ and y_ from input vector y

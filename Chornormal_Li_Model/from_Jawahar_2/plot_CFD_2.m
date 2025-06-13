@@ -1,0 +1,243 @@
+clc; clear all; close all
+plot_settings
+
+% Define constants
+mass = 0.5;
+length = 1;
+rho_f = 1;
+inertia = 0.042083;
+
+% Import time, courant, positions, and velocities
+data=readtable('t_Courant_location_velocity.dat');
+time = data.Var1(43684:90253);
+courant = data.Var2(43684:90253);
+x_pos = data.Var3(43684:90253);
+y_pos = data.Var4(43684:90253);
+x_vel = data.Var6(43684:90253);
+y_vel = data.Var7(43684:90253);
+z_vel = data.Var8(43684:90253) -1;
+
+z_pos = data.Var5(43684:90253) - 1 .* time;
+
+% Import and convert theta
+data2 = readtable('Theta_uG0.txt');
+theta = data2.Var2(43684:90253);
+theta_rad = deg2rad(theta);
+theta_vel = [0; diff(theta_rad)];
+
+mdl = fittype('a*sin(b*x+c)','indep','x');
+fittedmdl = fit(time,theta_vel,mdl,'start',[1e-4,1,0]);
+theta_acc = [0; diff(fittedmdl(time))];
+theta_acc = [0; diff(theta_vel)];
+
+
+torque = theta_acc * inertia;
+
+% Calc. accelerations from velocities
+x_acc = [0; diff(x_vel)];
+y_acc = [0; diff(y_vel)];
+z_acc = [0; diff(z_vel)];
+
+% Calc. flow direction (gamma) and angle of attack (alpha)
+gamma = atan2(-z_vel, -x_vel);
+alpha = gamma - theta_rad;
+
+% F = ma, plus gravity in z direction
+x_force = x_acc * mass;
+z_force = z_acc * mass + 2 * mass;
+
+% Calc. velocity magnitude
+vel_mag = sqrt(x_vel.^2 + z_vel.^2);
+
+n = 46570;
+drag = zeros(n, 1); % Initialize drag forces
+lift = zeros(n, 1); % Initialize lift forces
+
+for i = 1:n
+    % The current rotation matrix, -gamma to align with the airflow
+    rotMat = [cos(gamma(i)) sin(gamma(i)); -sin(gamma(i)) cos(gamma(i))];
+    
+    % Rotate your force vector
+    forces_rotated = rotMat * [x_force(i); z_force(i)];
+    
+    % Extract drag and lift
+    drag(i) = forces_rotated(1);  % Parallel to the flow
+    lift(i) = forces_rotated(2);  % Perpendicular to the flow
+end
+
+% Calc. lift, drag and coefficients
+Cl = lift ./ (0.5 * rho_f * vel_mag.^2 * length);
+Cd = drag ./ (0.5 * rho_f * vel_mag.^2 * length);
+
+l_cp = torque ./ lift;
+
+
+p_aero_opt = [5.18218452125279	0.807506506794260	0.105977518471870	4.93681162104530	1.49958010664229	0.238565281050545	2.85289007725274	0.368933365279324	1.73001889433847];
+li_coefficients = [5.2,0.95,0.1,5,1.9,0.3,3.5,0.2,pi];
+
+
+alpha2 = -pi:0.01:pi; 
+
+[C_Lalpha_opt, C_Dalpha_opt, epsilon_alpha_opt] = get_coeffs_vs_alpha(alpha2, p_aero_opt);
+
+[C_Lalpha_li, C_Dalpha_li, epsilon_alpha_li] = get_coeffs_vs_alpha(alpha2, li_coefficients);
+
+
+
+% Plot Cl and Cd vs alpha
+f = figure
+tiledlayout(3,1); nexttile
+hold on; box on; yline(0);
+% scatterPlot = scatter(alpha, Cl/5000, 36, 'blue', 'filled'); 
+scatterPlot = plot(alpha, Cl,'Color', [0, 0, 1, 0.7]); 
+% scatterPlot.SizeData = 5;   
+% scatterPlot.MarkerFaceAlpha = 0.005; 
+xlim([-pi pi]); xticks([-pi -pi/2 0 pi/2 pi]); 
+xticklabels({'$-\pi$','$-\pi/2$','0','$\pi/2$','$\pi$',});
+xlabel('$\alpha$'); 
+ylabel("$C_\mathrm{L}$","Interpreter","latex"); 
+
+hold on; box on; yline(0);
+plot(alpha2, C_Lalpha_li, "Color", "black")
+xlim([0 pi]); xticks([-pi -pi/2 0 pi/2 pi]); 
+xticklabels({'$-\pi$','$-\pi/2$','0','$\pi/2$','$\pi$',});
+set(gca, 'TickLabelInterpreter', 'latex'); pbaspect([2 1 1])
+ylabel("$C_\mathrm{L}$","Interpreter","latex")
+
+
+nexttile; hold on; box on; yline(0);
+% scatterPlot = scatter(alpha, Cd/5000, 36, 'blue', 'filled'); 
+scatterPlot = plot(alpha, Cd,'Color', [0, 0, 1, 0.7]); 
+% scatterPlot.SizeData = 5;   
+% scatterPlot.MarkerFaceAlpha = 0.005; 
+xlim([-pi pi]); xticks([-pi -pi/2 0 pi/2 pi]); 
+xticklabels({'$-\pi$','$-\pi/2$','0','$\pi/2$','$\pi$',});
+xlabel('$\alpha$');
+ylabel("$C_\mathrm{D}$","Interpreter","latex")
+
+hold on; box on; yline(0);
+h2 = plot(alpha2, C_Dalpha_li, "Color", "black")
+xlim([0 pi]); xticks([-pi -pi/2 0 pi/2 pi]); 
+xticklabels({'$-\pi$','$-\pi/2$','0','$\pi/2$','$\pi$',});
+set(gca, 'TickLabelInterpreter', 'latex'); pbaspect([2 1 1])
+ylabel("$C_\mathrm{D}$","Interpreter","latex")
+ylim([0 2])
+
+hLegend = legend([scatterPlot, h2], "CFD Simulation", "Li model");
+drawnow();
+
+
+% nexttile; hold on; box on; yline(0);
+% % scatterPlot = scatter(alpha, Cd/5000, 36, 'blue', 'filled'); 
+% scatterPlot = plot(alpha, l_cp*500000,'Color', [0, 0, 1, 0.4]); 
+% % scatterPlot.SizeData = 5;   
+% % scatterPlot.MarkerFaceAlpha = 0.005; 
+% xlim([-pi pi]); xticks([-pi -pi/2 0 pi/2 pi]); 
+% xticklabels({'$-\pi$','$-\pi/2$','0','$\pi/2$','$\pi$',});
+% xlabel('$\alpha$'); pbaspect([4 1 1]); 
+% ylabel("$\ell_\mathrm{CP}/\ell$","Interpreter","latex")
+% 
+% plot(alpha2, epsilon_alpha_opt, "Color", "black"); yline(0);
+% xlim([-pi pi]); xticks([-pi -pi/2 0 pi/2 pi]); 
+% xticklabels({'$-\pi$','$-\pi/2$','0','$\pi/2$','$\pi$',});
+% set(gca, 'TickLabelInterpreter', 'latex'); pbaspect([4 1 1])
+% ylabel("$\ell_{\mathrm{CP}}'/\ell'$","Interpreter","latex")
+% xlabel("$\alpha$")
+% ylim([-0.3 0.3])
+% 
+
+% xfig = figure
+% plot_pos_vel_acc(x_pos, x_vel, x_acc, time, "$x$")
+% figure
+% plot_pos_vel_acc(y_pos, y_vel, y_acc, time, "$y$")
+% figure
+% plot_pos_vel_acc(z_pos, z_vel, z_acc, time, "$z$")
+% 
+% exportgraphics(xfig,"from_Jawahar_2/x_pos_vel_acc.png",Resolution=600)
+
+% Plot Cl and Cd vs alpha from Li et al
+% p_aero_opt = [5.18218452125279	0.807506506794260	0.105977518471870	4.93681162104530	1.49958010664229	0.238565281050545	2.85289007725274	0.368933365279324	1.73001889433847];
+% 
+% alpha = -pi:0.01:pi; 
+% 
+% [C_Lalpha_opt, C_Dalpha_opt, epsilon_alpha_opt] = get_coeffs_vs_alpha(alpha, p_aero_opt);
+
+% nexttile; hold on; box on; yline(0);
+% plot(alpha, C_Lalpha_opt, "Color", "blue")
+% xlim([-pi pi]); xticks([-pi -pi/2 0 pi/2 pi]); 
+% xticklabels({'$-\pi$','$-\pi/2$','0','$\pi/2$','$\pi$',});
+% set(gca, 'TickLabelInterpreter', 'latex'); pbaspect([4 1 1])
+% ylabel("$C_\mathrm{L}$","Interpreter","latex")
+% 
+% nexttile; hold on; box on; yline(0);
+% plot(alpha, C_Dalpha_opt, "Color", "red")
+% xlim([-pi pi]); xticks([-pi -pi/2 0 pi/2 pi]); 
+% xticklabels({'$-\pi$','$-\pi/2$','0','$\pi/2$','$\pi$',});
+% set(gca, 'TickLabelInterpreter', 'latex'); pbaspect([4 1 1])
+% ylabel("$C_\mathrm{D}$","Interpreter","latex")
+% ylim([0 1.5])
+
+function [C_Lalpha, C_Dalpha, epsilon_alpha] = get_coeffs_vs_alpha(alpha, p_aero)
+    alpha0 = deg2rad(14); delta = deg2rad(6);
+
+    C_L1 = p_aero(1);
+    C_L2 = p_aero(2);
+    C_D0 = p_aero(3);
+    C_D1 = p_aero(4);
+    C_D_pi_2 = p_aero(5);
+    C_0_CP = p_aero(6);
+    C_1_CP = p_aero(7);
+    C_2_CP = p_aero(8);
+    C_R = p_aero(9);
+    
+    Falpha1 = ((1 - tanh((pi - abs(alpha) - alpha0)/delta))/2);
+    Falpha2 = ((1 - tanh((abs(alpha) - alpha0)/delta))/2);
+    Falpha3 = ((1 - tanh((alpha - alpha0)/delta))/2);
+    Falpha4 = ((1 - tanh((pi - alpha - alpha0)/delta))/2);
+    
+    C_Lalpha1 = Falpha1*C_L1.*sin(pi - abs(alpha)) + (1-Falpha1)*C_L2.*sin(2*(pi - abs(alpha)));
+    C_Lalpha2 = Falpha2*C_L1.*sin(abs(alpha)) + (1-Falpha2)*C_L2.*sin(2*abs(alpha));
+    C_Lalpha3 = Falpha3*C_L1.*sin(alpha) + (1-Falpha3)*C_L2.*sin(2*alpha);
+    C_Lalpha4 = Falpha4*C_L1.*sin(pi - alpha) + (1-Falpha4)*C_L2.*sin(2*(pi - alpha));
+    C_Lalpha = C_Lalpha1.*(alpha>=-pi & alpha<=-pi/2) - C_Lalpha2.*(alpha>-pi/2 & alpha<=0) + C_Lalpha3.*(alpha>0 & alpha<=pi/2) - C_Lalpha4.*(alpha>pi/2 & alpha<=pi);
+
+    % C_Dalpha = Falpha.*(C_D0 + C_D1.*sin((alpha).^2)) + (1 - Falpha).*C_D_pi_2.*(sin(alpha).^2);
+    C_Dalpha1 = Falpha1.*(C_D0 + C_D1.*sin((pi - abs(alpha)).^2)) + (1 - Falpha1).*C_D_pi_2.*(sin(pi - abs(alpha)).^2);
+    C_Dalpha2 = Falpha2.*(C_D0 + C_D1.*sin((abs(alpha)).^2)) + (1 - Falpha2).*C_D_pi_2.*(sin(abs(alpha)).^2);
+    C_Dalpha3 = Falpha3.*(C_D0 + C_D1.*sin((alpha).^2)) + (1 - Falpha3).*C_D_pi_2.*(sin(alpha).^2);
+    C_Dalpha4 = Falpha4.*(C_D0 + C_D1.*sin((pi - alpha).^2)) + (1 - Falpha4).*C_D_pi_2.*(sin(pi - alpha).^2);
+    C_Dalpha = C_Dalpha1.*(alpha>=-pi & alpha<-pi/2) + C_Dalpha2.*(alpha>=-pi/2 & alpha<0) + C_Dalpha3.*(alpha>=0 & alpha<pi/2) + C_Dalpha4.*(alpha>=pi/2 & alpha<=pi);
+
+    % l_CP_alpha_l = Falpha.*(C_0_CP - C_1_CP.*alpha.^2) + (1-Falpha).*C_2_CP.*(1-alpha/(pi/2));
+    l_CP_alpha_l1 = Falpha1.*(C_0_CP - C_1_CP.*(pi - abs(alpha)).^2) + (1-Falpha1).*C_2_CP.*(1-(pi - abs(alpha))/(pi/2));
+    l_CP_alpha_l2 = Falpha2.*(C_0_CP - C_1_CP.*abs(alpha).^2) + (1-Falpha2).*C_2_CP.*(1-abs(alpha)/(pi/2));
+    l_CP_alpha_l3 = Falpha3.*(C_0_CP - C_1_CP.*alpha.^2) + (1-Falpha3).*C_2_CP.*(1-alpha/(pi/2));
+    l_CP_alpha_l4 = Falpha4.*(C_0_CP - C_1_CP.*(pi - alpha).^2) + (1-Falpha4).*C_2_CP.*(1-(pi - alpha)/(pi/2));
+   
+    epsilon_alpha = -l_CP_alpha_l1.*(alpha>=-pi & alpha<=-pi/2) + l_CP_alpha_l2.*(alpha>=-pi/2 & alpha<=0) + l_CP_alpha_l3.*(alpha>=0 & alpha<=pi/2) - l_CP_alpha_l4.*(alpha>=pi/2 & alpha<=pi);
+
+end
+
+function plot_pos_vel_acc(pos, vel, acc, time, name)
+    tiledlayout(3,1); nexttile
+    plot(time,pos)
+    pbaspect([2 1 1]); 
+    ylabel(name + " position")
+    % ylim([0.1 0.4]); 
+    xlim([50, 105])
+    nexttile
+    
+    plot(time,vel)
+    pbaspect([2 1 1]); 
+    ylabel(name + " velocity")
+    % ylim([-0.2 0.2]); 
+    xlim([50, 105])
+    nexttile
+    
+    plot(time(1:end-1),acc)
+    pbaspect([2 1 1]); 
+    ylabel(name + " acceleration")
+    xlabel("time");
+    % ylim([-2e-4 2e-4]); 
+    xlim([50, 105])
+end
