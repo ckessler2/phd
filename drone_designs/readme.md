@@ -1,1 +1,1 @@
-Blender files for some concepts, ahead of working with UW
+Blender files for some concepts
