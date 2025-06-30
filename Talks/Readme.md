@@ -6,4 +6,4 @@ Here are pdfs for talks I have given during my PhD (2023 - 2027) so far:
 
 And posters:
 
-P1. CDT RAS Annual Conference (UoE, 28/5/25)
+1. CDT RAS Annual Conference (UoE, 28/5/25)
