@@ -1,4 +1,4 @@
-Here are Pdfs of talks I have given during my PhD (2023 - 2027) so far:
+Here are pdfs for talks I have given during my PhD (2023 - 2027) so far:
 
 1. VOILab Meeting (UoE, 11/6/24, Y1 progression) - Not Recorded
 
