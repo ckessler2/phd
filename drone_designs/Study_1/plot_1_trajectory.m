@@ -8,9 +8,9 @@ p3 = [-0.3311	0.37305935	18.62325016];
 p4 = [-0.4493	0.685756098	7.797849674];
 
 new_coefficients = [5.182184521	0.807506507	0.105977518	4.936811621	1.499580107	0.238565281	2.852890077	0.368933365	1.730018894];
-e_x = 0.1754;
+e_x = 0.161;
 
-[f,slope,per,amp,x_,y_, Cl, Cd, alpha, theta, speed, v0, u0, vx, mins, maxs, max_x] = ObjectiveFunction([new_coefficients, e_x],p1,p2,p3,p4);
+[f,slope,per,amp,x_,y_, Cl, Cd, alpha, theta, speed, v0, u0, vx, mins, maxs, max_x] = ObjectiveFunction([new_coefficients, e_x,0.07,3.6e-4],p1,p2,p3,p4);
 
 % e_xs = 0.11:0.001:0.14;
 % max_xs = [];

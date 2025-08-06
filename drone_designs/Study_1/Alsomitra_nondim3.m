@@ -1,4 +1,4 @@
-function [f,slope,per2,amp2,x_,y_, Cl, Cd, alpha, theta_end, speed, v0, u0, vx_end, mins, maxs, max_x] = Alsomitra_nondim3(opt,p1,p2,p3,p4)
+function [f,slope,per2,amp2,x_,y_, Cl, Cd, alpha, theta_end, speed, v0, u0, vx_end, mins, maxs, max_x, t_v] = Alsomitra_nondim3(opt,p1,p2,p3,p4)
     
     % display(opt)
     % opt= [4.9794    0.7787    0.1671    5.8387    1.8170    0.2574    6.5168    0.3347    2.9944];
@@ -47,7 +47,7 @@ function [f,slope,per2,amp2,x_,y_, Cl, Cd, alpha, theta_end, speed, v0, u0, vx_e
     % global p 
     % p = [l h rho_s rho_f l_CE e_x g]';
     
-    [tSol, ySol] = ode45(@(t, y) nondimfreelyfallingplate2(t, y, opt(1:10)), t, Y0);
+    [tSol, ySol] = ode45(@(t, y) nondimfreelyfallingplate2(t, y, opt(1:12)), t, Y0);
     
     % extract the single variables from the vector with the solutions
     % x component of velocity in the reference system of the body
@@ -66,7 +66,8 @@ function [f,slope,per2,amp2,x_,y_, Cl, Cd, alpha, theta_end, speed, v0, u0, vx_e
     x_ = ySol(:,5);
     % y, horizontal coordinate in reference system linked to the lab
     y_ = ySol(:,6);
-
+    % terminal velocity approximation
+    t_v = y_(end) / tSol(end);
     % d_v_xp = v_xp(end);
     % d_v_yp = v_yp(end);
     % d_omega = omega(end);
@@ -346,8 +347,8 @@ function [f,slope,per2,amp2,x_,y_, Cl, Cd, alpha, theta_end, speed, v0, u0, vx_e
     points = sortrows(points, 1);
     
     % Initialize cluster storage
-    clusters = {};
-    current_cluster = points(1, :);
+    % clusters = {};
+    % current_cluster = points(1, :);
     
     % for i = 2:length(points)
     %     % Calculate the distance from the current point to the current cluster's last point
@@ -365,13 +366,13 @@ function [f,slope,per2,amp2,x_,y_, Cl, Cd, alpha, theta_end, speed, v0, u0, vx_e
     % end
     
     % Save the last remaining cluster
-    clusters{end+1} = current_cluster;
+    % clusters{end+1} = current_cluster;
     
     % Compute average of each cluster
-    averaged_points = zeros(length(clusters), 2);
-    for i = 1:length(clusters)
-        averaged_points(i, :) = mean(clusters{i}, 1);
-    end
+    % averaged_points = zeros(length(clusters), 2);
+    % for i = 1:length(clusters)
+    %     averaged_points(i, :) = mean(clusters{i}, 1);
+    % end
 
     % scatter(peaks_x,peaks_y,"filled","red"); hold on
     % scatter(valleys_x,valleys_y,"filled","red")#
@@ -391,10 +392,10 @@ function [f,slope,per2,amp2,x_,y_, Cl, Cd, alpha, theta_end, speed, v0, u0, vx_e
     %     periods = [periods,abs(peaks_x(i) - peaks_x(i+1))];
     % end
 
-    for i = 1:length(averaged_points(:,2))-1
-        amps = [amps,abs(averaged_points(i,2) - averaged_points(i+1,2))];
-        periods =  [periods, abs(averaged_points(i,1) - averaged_points(i+1,1))];
-    end
+    % for i = 1:length(averaged_points(:,2))-1
+    %     amps = [amps,abs(averaged_points(i,2) - averaged_points(i+1,2))];
+    %     periods =  [periods, abs(averaged_points(i,1) - averaged_points(i+1,1))];
+    % end
 
     amp = abs(mean(amps))/2;
     per = abs(mean(periods));

@@ -10,8 +10,10 @@ function dydt = nondimfreelyfallingplate2(t, y, p_aero)
     % x_ = y(5);
     % y_ = y(6);
 
-    l = 0.0700;
-    m = 3.6e-04; % Fixed 18/6/25
+    % l = 0.0700;
+    % m = 3.6e-04; % Fixed 18/6/25
+    l = p_aero(11);
+    m = p_aero(12);
     rho_f = 1.225;
     a = 0.0338;
     b = 5.0000e-04;
