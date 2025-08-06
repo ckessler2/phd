@@ -47,7 +47,7 @@ function [f,slope,per2,amp2,x_,y_, Cl, Cd, alpha, theta_end, speed, v0, u0, vx_e
     % global p 
     % p = [l h rho_s rho_f l_CE e_x g]';
     
-    [tSol, ySol] = ode45(@(t, y) nondimfreelyfallingplate2(t, y, opt(1:12)), t, Y0);
+    [tSol, ySol] = ode45(@(t, y) nondimfreelyfallingplate2(t, y, opt), t, Y0);
     
     % extract the single variables from the vector with the solutions
     % x component of velocity in the reference system of the body

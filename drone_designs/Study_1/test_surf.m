@@ -1,9 +1,10 @@
-l_list = 0.07:0.07:0.7;
-m_list = 3.6000e-04:0.4000e-04:7.2e-4;
+figure
+dims = size(Z);
+Z(Z == 0) = NaN;
+contourf(X(1:dims(2),1:dims(1))./(1e-3),Y(1:dims(2),1:dims(1))./(1e-6),(Z(1:dims(1),1:dims(2))).',[0.1, 0.5:0.1:1.6],"ShowText",true,"LabelFormat","%0.1f", ...
+    "FaceAlpha",0.8)
 
-[X,Y] = meshgrid(l_list,m_list);
-Z = (X) + (Y)./(1e-3);
-surf(X,Y,Z)
-% xlim([min(l_list) max(l_list)])
-% ylim([min(m_list) max(m_list)])
-view(0,90); colorbar
+
+% contour3(X(1:dims(2),1:dims(1))./(1e-3),Y(1:dims(2),1:dims(1))./(1e-6),(Z(1:dims(1),1:dims(2))).',50)
+colormap(viridis); pbaspect([1 1 1]); colorbar
+ylim([200 700])
