@@ -1,0 +1,58 @@
+clc; clear all; close all
+
+t = 0:pi/50:20*pi;
+st = 4*sin(t);
+ct = 5*cos(t);
+% plot3(st,ct,max(t)-t, "w"); 
+scale = min(min(1,1-exp(-0.4.*t)),1-exp(0.4.*(t-20*pi)));
+spacing = 20;
+plot_settings()
+
+f = figure;
+% tiledlayout("flow"); nexttile; grid on
+plot3(scale.*(4.*sin(t) - 0.4*cumtrapz(rand(1,1001)- 0.5)+spacing),scale.*(ct  - 0.4*cumtrapz(rand(1,1001)- 0.5)+spacing),max(t)-t, "-r");hold on
+plot3(scale.*(4.*sin(t) - 0.4*cumtrapz(rand(1,1001)- 0.5)+spacing),scale.*(ct  - 0.4*cumtrapz(rand(1,1001)- 0.5)-spacing),max(t)-t, "-r");
+plot3(scale.*(4.*sin(t) - 0.4*cumtrapz(rand(1,1001)- 0.5)-spacing),scale.*(ct  - 0.4*cumtrapz(rand(1,1001)- 0.5)-spacing),max(t)-t, "-r");
+plot3(scale.*(4.*sin(t) - 0.4*cumtrapz(rand(1,1001)- 0.5)-spacing),scale.*(ct  - 0.4*cumtrapz(rand(1,1001)- 0.5)+spacing),max(t)-t, "-r");
+xlabel("$x$ [m]");ylabel("$x$ [m]");zlabel("$x$ [m]"); daspect([1 1 1]) 
+ax = gca; ax.Projection = 'perspective'; grid on; view(-25,25);
+
+% nexttile; 
+% x1 = scale.*(4.*sin(t) - 0.4*cumtrapz(rand(1,1001)- 0.5)+spacing);
+% x2 = scale.*(4.*sin(t) - 0.4*cumtrapz(rand(1,1001)- 0.5)+spacing);
+% x3 = scale.*(4.*sin(t) - 0.4*cumtrapz(rand(1,1001)- 0.5)-spacing);
+% x4 = scale.*(4.*sin(t) - 0.4*cumtrapz(rand(1,1001)- 0.5)-spacing);
+% 
+% 
+% % Colormap to reflect color changes
+% colormap viridis
+% scatter3(x1,scale.*(ct  - 0.4*cumtrapz(rand(1,1001)- 0.5)+spacing), max(t)-t, 20, x1 +cumtrapz(rand(1,1001)- 0.5), 'filled'); hold on;
+% scatter3(x2,scale.*(ct  - 0.4*cumtrapz(rand(1,1001)- 0.5)-spacing),max(t)-t, 20, x2 + cumtrapz(rand(1,1001)- 0.5),'filled');
+% scatter3(x3,scale.*(ct  - 0.4*cumtrapz(rand(1,1001)- 0.5)-spacing),max(t)-t, 20, x3 + cumtrapz(rand(1,1001)- 0.5),'filled');
+% scatter3(x4,scale.*(ct  - 0.4*cumtrapz(rand(1,1001)- 0.5)+spacing),max(t)-t, 20, x4 + cumtrapz(rand(1,1001)- 0.5),'filled');
+% xlabel("$x$ [m]");ylabel("$x$ [m]");zlabel("$x$ [m]"); daspect([1 1 1]) 
+% ax = gca; ax.Projection = 'perspective'; view(-25,25);
+
+f = figure;
+scatter([65, 0.414, 0.36], [0.045239, 0.0016, 0.010244]); hold on
+x = 10.^(-5:1:3)
+h = plot(x,x./35.0877, ":k","LineWidth",2);
+yscale("log"), xscale("log")
+ylim([0.001 0.1]); xlim([0.1 100]); grid on
+xlabel("weight [g]"); ylabel("wing surface [m$^{-2}$]")
+text(0.5,0.02,"Alsomtira wing loading", 'Rotation', 55)
+
+function plot_settings()
+    % Plot preamble.
+    set(0, 'defaultFigureRenderer', 'painters')
+    set(0,'DefaultFigureWindowStyle','docked')
+    font=12;
+    set(groot, 'defaultAxesTickLabelInterpreter', 'latex'); 
+    set(groot, 'defaultLegendInterpreter', 'latex');
+    set(0,'defaultTextInterpreter','latex');
+    set(0, 'defaultAxesFontSize', font)
+    set(0, 'defaultLegendFontSize', font)
+    set(0, 'defaultAxesFontName', 'Times New Roman');
+    set(0, 'defaultLegendFontName', 'Times New Roman');
+    set(0, 'DefaultLineLineWidth', 0.5);
+end

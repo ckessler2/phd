@@ -173,7 +173,7 @@ function Alsomitra_Control_Simulation(network1,plot_title,nnc)
 
             
             
-            
+            % ex = 0.161
     
     
             [v_xp, v_yp, omega, theta, x, y, error2] = ObjectiveFunction([parameters,ex],v_xp0, v_yp0, omega0, theta0, x0, y0,num_sims,error2, alpha0);
@@ -230,7 +230,7 @@ function Alsomitra_Control_Simulation(network1,plot_title,nnc)
         plot(x_all,y_all,'Color',[0.267 0.004 0.329])
         % plot(1:24, abs(omega_all .* (ex_all) * 0.07 ./ vy_all))
     
-        hold on
+        hold on; box on
     
         x_c1 = -2:1:30;
         y_c1 = -1 * x_c1;
@@ -252,9 +252,9 @@ function Alsomitra_Control_Simulation(network1,plot_title,nnc)
     
         xlabel('x [m]')
         ylabel('y [m]')
-        % legend("Simulated trajectories","Desired trajectory")
+        legend("Controlled Trajectories","Desired trajectory")
         daspect([1 1 1])
-    
+        
         % nexttile
         % plot(1:61, errors)
         % 

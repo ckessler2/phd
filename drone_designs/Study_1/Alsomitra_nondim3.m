@@ -1,9 +1,14 @@
-function [f,slope,per2,amp2,x_,y_, Cl, Cd, alpha, theta_end, speed, v0, u0, vx_end, mins, maxs, max_x, t_v] = Alsomitra_nondim3(opt,p1,p2,p3,p4)
+function [f,slope,per2,amp2,x_,y_, Cl, Cd, alpha, theta_end, speed, v0, u0, vx_end, mins, maxs, max_x, t_v] = Alsomitra_nondim3(opt)
     
     % display(opt)
     % opt= [4.9794    0.7787    0.1671    5.8387    1.8170    0.2574    6.5168    0.3347    2.9944];
     
     %% define the initial conditions 
+    % Nondimensionalised with l=7cm
+    p1 = [-0.3363	0.32178673	13.25541439];
+    p2 = [-0.4547	1.117865818	9.362957704];
+    p3 = [-0.3311	0.37305935	18.62325016];
+    p4 = [-0.4493	0.685756098	7.797849674];
     
     % non dimensional period of oscillation T
     T = 2;

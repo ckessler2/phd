@@ -16,7 +16,7 @@ h3 = fill([rot90(e_x_list); rot90(fliplr(e_x_list))], [rot90(vx_min_list); rot90
 h2 = plot(e_x_list,vx_list,"b");
 h1 = plot(e_x_list,vy_list,"r");
 
-xline(local_min_value, ":k")
+xline(0.1895, ":k")
 legend([h1 h2 h3], "$v_y$","$v_{x'}$ (mean)","$v_{x'}$ (range)","interpreter","latex")
 
 xlabel("$e_x$ [-]"); ylabel("Velocity [ms$^{-1}$]")

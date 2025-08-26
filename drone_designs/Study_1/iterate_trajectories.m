@@ -3,22 +3,19 @@ ObjectiveFunction = @Alsomitra_nondim3;
 set(0,'DefaultFigureWindowStyle','docked')
 set(0,'defaultTextInterpreter','latex');
 
-% Nondimensionalised with l=7cm
-p1 = [-0.3363	0.32178673	13.25541439];
-p2 = [-0.4547	1.117865818	9.362957704];
-p3 = [-0.3311	0.37305935	18.62325016];
-p4 = [-0.4493	0.685756098	7.797849674];
-
 new_coefficients = [5.182184521	0.807506507	0.105977518	4.936811621	1.499580107	0.238565281	2.852890077	0.368933365	1.730018894];
 e_x = 0.1896;
 l = 0.0700;
 m = 3.6e-04;
 
-% e_x_list = 0.17:0.001:0.24;
-e_x_list = 0.17:0.0001:0.21;
-l_list = 0.07:0.01:0.09;
-% m_list = 3e-4:1e-4:24e-4;
-m_list = 3.6e-4:1e-4:24e-4;
+e_x_list = 0.185:0.001:0.20;
+% l_list = 0.07:0.01:0.09;
+% m_list = 3.6e-4:1e-4:24e-4;
+% l_list = 0.07:0.01:0.09;
+% m_list = 3.6e-4:1e-4:6e-4;
+
+l_list = 0.07*10.^(0:1:2);
+m_list = 3.6e-4*10.^(0:1:2);
 
 [X,Y] = meshgrid(l_list,m_list);
 
@@ -37,7 +34,7 @@ for l_index = (1:length(l_list))
         vx_max_list = [];
         vx_min_list = [];
         for e_x = e_x_list(1:end)
-            [f,slope,per,amp,x_,y_, Cl, Cd, alpha, theta, speed, v0, u0, vx, mins, maxs, max_x, t_v] = ObjectiveFunction([new_coefficients, e_x,l,m],p1,p2,p3,p4);
+            [f,slope,per,amp,x_,y_, Cl, Cd, alpha, theta, speed, v0, u0, vx, mins, maxs, max_x, t_v] = ObjectiveFunction([new_coefficients, e_x,l,m]);
             GR = abs((x_(end) - x_(end-100000))/(y_(end)-y_(end-100000)));
             vy = -t_v;
             vy_list = [vy_list, vy];
@@ -46,7 +43,7 @@ for l_index = (1:length(l_list))
             vx_min_list = [vx_min_list, mins(2)];
         end
         nexttile
-        plot(e_x_list,vy_list,"r"); hold on
+        plot(e_x_list,vy_list,"r"); hold on; title(string(m_list(m_index)*1000)+ "g, " + string(l_list(l_index)))
         fill([rot90(e_x_list); rot90(fliplr(e_x_list))], [rot90(vx_min_list); rot90(fliplr(vx_max_list))],'b','FaceAlpha',0.3);
         plot(e_x_list,vx_list,"b")
         % Find gliding/bounding boundary e_x value
@@ -61,7 +58,7 @@ for l_index = (1:length(l_list))
         end
 
         % run final sim with optimal e_x
-        [f,slope,per,amp,x_,y_, Cl, Cd, alpha, theta, speed, v0, u0, vx, mins, maxs, max_x, t_v] = ObjectiveFunction([new_coefficients, local_min_value,l,m],p1,p2,p3,p4);
+        [f,slope,per,amp,x_,y_, Cl, Cd, alpha, theta, speed, v0, u0, vx, mins, maxs, max_x, t_v] = ObjectiveFunction([new_coefficients, local_min_value,l,m]);
         GR = abs((x_(end) - x_(end-100000))/(y_(end)-y_(end-100000)));
         vy = -t_v;
         % end loop if vy decreases (no longer gliding)
@@ -83,10 +80,10 @@ toc
 
 Z(Z == 0) = NaN;Z2(Z2 == 0) = NaN;
 f2 = figure;
-tiledlayout(1,2); nexttile
-
-plot(m_list(1:length(Z2)), Z2);  xlabel("m [mg]"); ylabel("(1),1:dims(2)$e_x$ [-]")
-nexttile
+% tiledlayout(1,2); nexttile
+% 
+% plot(m_list(1:length(Z2)), Z2);  xlabel("m [mg]"); ylabel("$e_x$ [-]"); legend(string(flip(l_list)))
+% nexttile
 plot(m_list(1:length(Z2)), Z);  xlabel("m [mg]"); ylabel("Terminal Velocity [ms$^{-1}$]")
 
 f3 = figure;
@@ -96,10 +93,10 @@ dims = size(Z);
 contourf(X(1:dims(2),1:dims(1))./(1e-3),Y(1:dims(2),1:dims(1))./(1e-6),(Z2(1:dims(1),1:dims(2))).',[0.1:0.01:0.3],"ShowText",true,"LabelFormat",'%.3f', ...
     "FaceAlpha",0.85)
 a=colorbar; a.Label.String = 'CoM Displacement, $e_x$ [-]';
-colormap(inferno)
+colormap(viridis)
 xlabel("$\ell$ [mm]"); ylabel("m [mg]")
-% ylim([min(m_list) max(m_list)]./(1e-6))
-ylim([300 900])
+ylim([min(m_list) max(m_list)]./(1e-6))
+% ylim([300 900])
 xlim([min(l_list) max(l_list)]./(1e-3))
 pbaspect([1 1 1])
 
@@ -107,9 +104,9 @@ nexttile
 contourf(X(1:dims(2),1:dims(1))./(1e-3),Y(1:dims(2),1:dims(1))./(1e-6),(Z(1:dims(1),1:dims(2))).',[0.1:0.1:3],"ShowText",true,"LabelFormat","%0.1f", ...
     "FaceAlpha",0.85)
 a=colorbar; a.Label.String = 'Terminal Velocity [ms$^{-1}$]';
-colormap(inferno)
+colormap(viridis); clim([0 1])
 xlabel("$\ell$ [mm]"); ylabel("m [mg]")
-% ylim([min(m_list) max(m_list)]./(1e-6))
-ylim([300 900])
+ylim([min(m_list) max(m_list)]./(1e-6))
+% ylim([300 900])
 xlim([min(l_list) max(l_list)]./(1e-3))
 pbaspect([1 1 1])
