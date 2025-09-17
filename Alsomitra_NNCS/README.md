@@ -1,5 +1,5 @@
 # Neural Network Control System (NNCS) for _Alsomitra Macrocarpa_
-(17/9/25) - for a better overview of how to run my code, see my new repo: https://github.com/ckessler2/SAIV_2025_Alsomitra/tree/main
+(17/9/25) - This readme gives a good high level overview of my code, but it is messy and probably difficult to use. For a better overview of how to run my code, see my new repo: https://github.com/ckessler2/SAIV_2025_Alsomitra/tree/main
  
 This folder contains scripts for training a NNCS for a small bio-inspired gliding drone, actuated by changing the position of the center of mass (COM), with behaviour cloning. The diaspore in question is _Alsomitra Macrocarpa_, modelled with a quasi-steady 2d aerodynamic model for falling plates with displaced COM [1]. The model has been optimised to fit experimental trajectories of real diaspores (as part of other ongoing work), and the long term goal is to design gliders to monitor the atmosphere as part of the Dandidrone project [2].
 
