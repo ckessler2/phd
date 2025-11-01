@@ -84,9 +84,9 @@ LipschitzRobustness input output = forall pertubation .
 
 -- Property 1 
 @property
-property1 : Vector Bool n
-property1 = foreach i . standardRobustness (trainingInputs ! i) (trainingOutputs ! i)
+property4 : Vector Bool n
+property4 = foreach i . standardRobustness (trainingInputs ! i) (trainingOutputs ! i)
 
 @property
-property2 : Vector Bool n
-property2 = foreach i . LipschitzRobustness (trainingInputs ! i) (trainingOutputs ! i)
+property5 : Vector Bool n
+property5 = foreach i . LipschitzRobustness (trainingInputs ! i) (trainingOutputs ! i)
