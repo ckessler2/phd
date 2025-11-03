@@ -500,10 +500,10 @@
       "gencad": "",
       "idf": "",
       "netlist": "",
-      "plot": "",
+      "plot": "/home/ck2049/Desktop/phd/UW_Flier/Board_1_LED/",
       "pos_files": "",
       "specctra_dsn": "",
-      "step": "",
+      "step": "Board_1_LED.step",
       "svg": "",
       "vrml": ""
     },

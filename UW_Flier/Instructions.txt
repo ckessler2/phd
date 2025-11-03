@@ -11,6 +11,13 @@ west build -b nrf52840dk/nrf52840 --pristine
 
 west flash
 
+west build -b nrf52840dk/nrf52840 --pristine
+west flash --dev-id 683604832
+
+nrfjprog --snr 683604832 --readregs
+
+west flash --dev-id 683604832
+
 
 FLIER BASE STRUCTURE (Mylar, rod, glue, pins, 3D printer) - Need to make washers bigger
 
@@ -34,5 +41,14 @@ Laser cut board, remove copper strips, polish
 Add solder balls (in fridge, put back when done) to correct contacts
 Place components on solder
 Turn on heat plate until solder melts
+
+
+
+PCB 1 
+make cap joints and solder pads smaller
+remove internal ground line
 Check continuity
 Add wires to pads
+
+
+I am having issues running code (or even connecting to) a MCU - specifically an eyshsnzwz plugged into an j-link edu mini. I have verified with a multimeter that the PCB upon which the MCU is recieving power (VDD to GND is 3V). I have also connected 10 kOhm between Reset/IO and VDD, so now Reset/IO/CLK read 3V, 3V, and 0.4V, which is correct (I think). How should I go about talking to the board ?
