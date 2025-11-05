@@ -1,4 +1,4 @@
-26774735356730568
+26776497729149276
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -2820,6 +2820,13 @@ TRANS_CSD13385F5
 0
 3
 3
+CSD13385F5
+TestPoint_Pad_1.5x1.5mm_2
+SMD rectangular pad as test Point, square 1.5mm side length
+test point SMD pad rectangle square
+0
+1
+1
 Calibration_Scale
 Gauge_10mm_Type1_CopperTop
 Gauge, Massstab, 10mm, CopperTop, Type 1,
