@@ -1,1 +1,56 @@
-Alsomitra flier code etc
+Alsomitra flier manufacturing & testing info
+
+Open NRF Connect
+Launch quick start app, then under develop, launch VS Code (can't just launch from desktop)
+Or (maybe) open VScode, click NRF on left bar, then dots next to project, start new terminal. 
+Check if west command is recognised
+
+Build and flash program:
+
+cd ~/ncs/v3.1.0/zephyr/samples/basic/blinky
+rm -rf build
+west build -b nrf52840dk/nrf52840 --pristine
+
+west flash
+
+west build -b nrf52840dk/nrf52840 --pristine
+west flash --dev-id 683604832
+
+nrfjprog --snr 683604832 --readregs
+
+west flash --dev-id 683604832
+
+
+FLIER BASE STRUCTURE (Mylar, rod, glue, pins, 3D printer) - Need to make washers bigger
+
+Laser cut outline with 3.6mm Mylar
+Put outline, pins, and washers into printed jig
+Place rod onto jig, glue and let set
+
+Mylar - https://www.chemplex.com/150-spectrocertifiedr-thin-film-sample-support-windows-in-continuous-rolls-pre-perforated-rolls-and-precut-circles.html
+Rod - https://micronwings.com/product/carbon-fibre-rod-0-25mm/
+Glue - https://bsi-inc.com/hardware/hardware.html
+
+FLIER ACTUATOR (Kapton, magnets, wire, glue, allen key, winder, microscope)
+
+Make tube from kapton and glue (using allen key)
+Using winder and glue, coil wire onto tube (30 turns 3 times for 90 coils)
+Solder wires onto connectors
+
+ELECTRONICS BOARD
+
+Laser cut board, remove copper strips, polish
+Add solder balls (in fridge, put back when done) to correct contacts
+Place components on solder
+Turn on heat plate until solder melts
+
+
+
+PCB 1 
+make cap joints and solder pads smaller
+remove internal ground line
+Check continuity
+Add wires to pads
+
+
+I am having issues running code (or even connecting to) a MCU - specifically an eyshsnzwz plugged into an j-link edu mini. I have verified with a multimeter that the PCB upon which the MCU is recieving power (VDD to GND is 3V). I have also connected 10 kOhm between Reset/IO and VDD, so now Reset/IO/CLK read 3V, 3V, and 0.4V, which is correct (I think). How should I go about talking to the board ?
