@@ -45,8 +45,3 @@ Place components on solder
 Turn on heat plate until solder melts
 
 
-
-I just had a very interesting conversation with a PhD student here at UW, which I think is worth sharing - given our recent conversation about hardware requirements and how they affect verification. Chun-Cheng (chuncc@cs.washington.edu) works on on-device ML applications, and is familiar with the SoC I am using (Nordic NR52). He suggests that for this application, it makes sense to upgrade to a newer model (NR54) since it has much more memory - 1 MB compared to 64 KB with my current hardware. In his opinion, the size of network that can be run on the smaller hardware's memory will not be capable of complex pattern recognition, and therefore not be powerful or useful.
-
-
-
