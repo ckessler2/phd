@@ -257,6 +257,179 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "Device:Crystal"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 1.016)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "Y"
+				(at 0 3.81 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "Crystal"
+				(at 0 -3.81 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Two pin crystal"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "quartz ceramic resonator oscillator"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "Crystal*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "Crystal_0_1"
+				(polyline
+					(pts
+						(xy -2.54 0) (xy -1.905 0)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -1.905 -1.27) (xy -1.905 1.27)
+					)
+					(stroke
+						(width 0.508)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(rectangle
+					(start -1.143 2.54)
+					(end 1.143 -2.54)
+					(stroke
+						(width 0.3048)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.905 -1.27) (xy 1.905 1.27)
+					)
+					(stroke
+						(width 0.508)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 2.54 0) (xy 1.905 0)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "Crystal_1_1"
+				(pin passive line
+					(at -3.81 0 0)
+					(length 1.27)
+					(name "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 3.81 0 180)
+					(length 1.27)
+					(name "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "EYSHSNZWZ:EYSHSNZWZ"
 			(pin_names
 				(offset 1.016)
@@ -1312,6 +1485,18 @@
 		(uuid "3dddcc77-a507-4c7f-b12c-6da47754933c")
 	)
 	(junction
+		(at 43.18 88.9)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "3ee06d65-421f-411f-a3f9-7c1f7d68e9fc")
+	)
+	(junction
+		(at 81.28 97.79)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "76eaec05-e877-41e6-bd7f-5ad8eee64fef")
+	)
+	(junction
 		(at 107.95 92.71)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -1341,6 +1526,18 @@
 		(color 0 0 0 0)
 		(uuid "e8f27b6a-d7c5-45f4-b58c-b18f8d883321")
 	)
+	(junction
+		(at 43.18 99.06)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "f4b9c3ac-45fc-4d9b-ab36-dea29f808835")
+	)
+	(junction
+		(at 35.56 88.9)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "f9c3cf00-dc66-4379-8170-2664b5397354")
+	)
 	(no_connect
 		(at 96.52 72.39)
 		(uuid "1699c9c3-21c4-4457-b61e-5e701199770f")
@@ -1348,10 +1545,6 @@
 	(no_connect
 		(at 96.52 54.61)
 		(uuid "1b249898-29e0-4bec-8639-382d92e83e0e")
-	)
-	(no_connect
-		(at 45.72 74.93)
-		(uuid "1bee01b8-536a-4ae6-a247-fc0e3e4f7eab")
 	)
 	(no_connect
 		(at 45.72 85.09)
@@ -1390,16 +1583,32 @@
 		(uuid "b86a71a3-e48c-405d-a2fe-760331cff7e6")
 	)
 	(no_connect
-		(at 45.72 72.39)
-		(uuid "bfd146f3-755c-4da9-9d2d-a3edb9239b24")
-	)
-	(no_connect
 		(at 45.72 77.47)
 		(uuid "c74fb8f9-e372-4ba5-9f0b-6c88139ca0c2")
 	)
 	(no_connect
 		(at 96.52 82.55)
 		(uuid "df72bd8d-d41a-42a2-a8a3-989df8723c03")
+	)
+	(wire
+		(pts
+			(xy 45.72 74.93) (xy 43.18 74.93)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "00a8d559-a002-43dd-88b1-57eacbdea8fc")
+	)
+	(wire
+		(pts
+			(xy 43.18 74.93) (xy 43.18 88.9)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "05b87ff0-8921-43ff-80c5-7c5aa54238ad")
 	)
 	(wire
 		(pts
@@ -1463,6 +1672,16 @@
 	)
 	(wire
 		(pts
+			(xy 43.18 99.06) (xy 81.28 99.06)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3ceb5022-5917-441c-98d5-a829f10f847d")
+	)
+	(wire
+		(pts
 			(xy 125.73 41.91) (xy 125.73 43.18)
 		)
 		(stroke
@@ -1470,6 +1689,16 @@
 			(type default)
 		)
 		(uuid "40b08603-66cd-477e-99ca-5626db03f2bb")
+	)
+	(wire
+		(pts
+			(xy 35.56 99.06) (xy 43.18 99.06)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "439eb76d-ebea-41c5-b6a8-7688c7447e9d")
 	)
 	(wire
 		(pts
@@ -1503,6 +1732,16 @@
 	)
 	(wire
 		(pts
+			(xy 35.56 91.44) (xy 35.56 88.9)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6ad7a42c-20fd-4238-b157-23a03cce6cf0")
+	)
+	(wire
+		(pts
 			(xy 45.72 58.42) (xy 45.72 62.23)
 		)
 		(stroke
@@ -1510,6 +1749,16 @@
 			(type default)
 		)
 		(uuid "6fe842ca-3752-4993-b403-621a105a7805")
+	)
+	(wire
+		(pts
+			(xy 35.56 88.9) (xy 35.56 72.39)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7e438ec0-2306-4eae-9954-9469d6597bce")
 	)
 	(wire
 		(pts
@@ -1540,6 +1789,16 @@
 			(type default)
 		)
 		(uuid "85c95f6c-dd16-4e5e-9b26-a109bdcfbce4")
+	)
+	(wire
+		(pts
+			(xy 35.56 72.39) (xy 45.72 72.39)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "920b3946-a2b0-4f03-b595-000447f007a7")
 	)
 	(wire
 		(pts
@@ -1623,6 +1882,16 @@
 	)
 	(wire
 		(pts
+			(xy 81.28 99.06) (xy 81.28 97.79)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c024e227-d12b-40dc-bd22-ee4533126fba")
+	)
+	(wire
+		(pts
 			(xy 81.28 105.41) (xy 97.79 105.41)
 		)
 		(stroke
@@ -1660,6 +1929,16 @@
 			(type default)
 		)
 		(uuid "df243081-d0c8-4e67-9a58-eb1362620332")
+	)
+	(wire
+		(pts
+			(xy 43.18 88.9) (xy 43.18 91.44)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e58015c1-a885-43c6-8699-eb9b5289b016")
 	)
 	(wire
 		(pts
@@ -1734,6 +2013,74 @@
 			(project "EYSHSNZWZ_LED_Minimal_v2"
 				(path "/3845d15c-5f8e-47c3-ba57-143dd1318a5f"
 					(reference "C3")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:Crystal")
+		(at 39.37 88.9 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "0bf20b53-c082-46aa-9954-f830ef350b24")
+		(property "Reference" "Y1"
+			(at 39.37 81.28 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "Crystal"
+			(at 39.37 83.82 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+			(at 39.37 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 39.37 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Two pin crystal"
+			(at 39.37 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "8c69c0d1-5e53-4da7-828b-0c6352239c43")
+		)
+		(pin "2"
+			(uuid "71182031-4a9a-43c0-90ae-d1a972f41d6e")
+		)
+		(instances
+			(project ""
+				(path "/3845d15c-5f8e-47c3-ba57-143dd1318a5f"
+					(reference "Y1")
 					(unit 1)
 				)
 			)
@@ -2402,6 +2749,76 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:C")
+		(at 43.18 95.25 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "d103580f-d0d3-4e04-acc2-9a1b6563c39d")
+		(property "Reference" "C4"
+			(at 46.99 93.9799 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "C"
+			(at 46.99 96.5199 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0201_0603Metric_Pad0.64x0.40mm_HandSolder"
+			(at 44.1452 99.06 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 43.18 95.25 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Unpolarized capacitor"
+			(at 43.18 95.25 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "8cf18ac4-8cc1-4d44-8175-00088a379742")
+		)
+		(pin "2"
+			(uuid "237e8717-9832-4aab-9098-8a1fd5dac8fb")
+		)
+		(instances
+			(project ""
+				(path "/3845d15c-5f8e-47c3-ba57-143dd1318a5f"
+					(reference "C4")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "EYSHSNZWZ:EYSHSNZWZ")
 		(at 71.12 72.39 0)
 		(unit 1)
@@ -2718,6 +3135,76 @@
 			(project "EYSHSNZWZ_LED_Minimal_v2"
 				(path "/3845d15c-5f8e-47c3-ba57-143dd1318a5f"
 					(reference "Q1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 35.56 95.25 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "edaa5234-c9d5-44cf-8d12-73c49100412f")
+		(property "Reference" "C5"
+			(at 39.37 93.9799 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "C"
+			(at 39.37 96.5199 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0201_0603Metric_Pad0.64x0.40mm_HandSolder"
+			(at 36.5252 99.06 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 35.56 95.25 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Unpolarized capacitor"
+			(at 35.56 95.25 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "11a26b8b-6b0d-43cb-89da-380e96a7b514")
+		)
+		(pin "2"
+			(uuid "38d4cc96-eb09-429c-8d45-f0e5f09f9d06")
+		)
+		(instances
+			(project "Board_1_LED"
+				(path "/3845d15c-5f8e-47c3-ba57-143dd1318a5f"
+					(reference "C5")
 					(unit 1)
 				)
 			)
