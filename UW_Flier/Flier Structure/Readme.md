@@ -9,8 +9,8 @@
 * 14 Alignment pins (1.6mm)
 
 **Manufacturing steps:**
-1. Prepare materials
-2. Prepare tools
+1. Prepare materials - laser cut flier base from mylar (Flier_Base.dxf), cut rod to 30.4 cm length
+2. Prepare tools - ensure pins fit snugly into jig, and that washers fit snugly onto pins. If not, bore out jig and washers to fit
 3. Assemble materials in jig
 4. Align rod to edge
 5. Glue rod to base, wait until it sets
