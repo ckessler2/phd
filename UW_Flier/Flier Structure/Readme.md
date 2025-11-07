@@ -10,7 +10,7 @@
 
 **Manufacturing steps:**
 1. Prepare materials - laser cut flier base from mylar (Flier_Base.dxf), cut rod to a length of 30.4 cm
-2. Prepare tools - ensure pins fit snugly into jig, and that washers fit snugly onto pins. If not, bore out jig and washers to fit
+2. Prepare tools - ensure pins fit snugly into jig (Jig.stl), and that washers (Jig_Washers.stl) fit snugly onto pins. If not, bore out jig and washers to fit
 3. Assemble materials in jig
 4. Align rod to edge
 5. Glue rod to base, wait until it sets
