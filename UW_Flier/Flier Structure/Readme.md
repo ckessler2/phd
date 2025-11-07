@@ -7,8 +7,6 @@
   
 * Structural jig & 14 alignment washers (3D printed plastic)
 * 14 Alignment pins (1.6mm)
-* 
----
 
 **Manufacturing steps:**
 
