@@ -38,13 +38,12 @@ f = figure; hold on
 x = 10.^(-5:1:3);
 h = plot(x,x./35.0877, ":k","LineWidth",2);
 
-scatter([65, 0.414, 0.36, 78, 240, 470], [0.045239, 0.0016, 0.010244, 0.1125, 0.054, 0.33],"filled","r")
 
-legend(h, "\textit{Alsomitra} wing loading")
+scatter([65, 0.414, 0.36], [0.045239, 0.0016, 0.010244],"filled","r")
 
 yscale("log"), xscale("log")
-ylim([0.001 1]); xlim([0.1 1000]); grid on
-xlabel("\textit{m} [g]"); ylabel("\textit{S} [m$^{2}$]")
+ylim([0.001 0.1]); xlim([0.1 100]); grid on
+xlabel("weight [g]"); ylabel("wing surface [m$^{-2}$]")
 % text(0.12,0.0025,"Alsomtira wing loading", 'Rotation', 37)
 pbaspect([2 1 1])
 
