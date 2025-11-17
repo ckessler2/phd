@@ -13,4 +13,4 @@ loading_girardi = (mass_girardi * 1e-3) / (area_girardi * 1e-6); %kg m-2
 area_wiesemuller = 15000;
 mass_wiesemuller = 1.25;
 
-loading_wiesemuller = (mass_wiesemuller * 1e-3) / (area_wiesemuller * 1e-6); %kg m-2
+loading_wiesemuller = (mass_wiesemuller * 1e-3) / (area_wiesemuller * 1e-6) %kg m-2
