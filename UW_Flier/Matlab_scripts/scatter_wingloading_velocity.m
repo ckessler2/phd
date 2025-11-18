@@ -5,14 +5,14 @@ X = [12.64, 3.62, 12.61, 27.24, 3.41, 2.93, 27.27] .* 0.01;
 Y = [0.83, 0.3, 1.54, 1, 0.81, 1, 3];
 
 marker_files = {...
-    'markers/marker_girardi.png','markers/marker_kessler.png', ...
+    'markers/marker_girardi.png','markers/marker_certini.png', ...
    'markers/marker_sun.png','markers/marker_johnson.png', ...
    'markers/marker_iyer.png','markers/marker_kim.png', ...
    'markers/marker_wiesemuller.png'
 };
 
 labels = { ...
-    'Girardi (2024)','Proposed Design', ...
+    'Girardi (2024)','\textit{Alsomitra macrocarpa }(Certini, 2023)', ...
     'Sun (2025)','Johnson (2023)', ...
     'Iyer (2022)','Kim (2021)', ...
      'Wiesemuller (2022)'
@@ -54,8 +54,8 @@ for i = 1:length(X)
         mk_color(:,:,2) = 0;
         mk_color(:,:,3) = 0;
     elseif strcmp(c,'b')
-        mk_color(:,:,1) = 255;
-        mk_color(:,:,2) = 255;
+        mk_color(:,:,1) = 0;
+        mk_color(:,:,2) = 0;
         mk_color(:,:,3) = 255;
     end
 
@@ -112,9 +112,9 @@ for i = 1:length(X)
 
 end
 
-s = scatter(X(2),Y(2),140, "x");
-s.LineWidth = 1.6;
-s.MarkerEdgeColor = 'b';
+% s = scatter(X(2),Y(2),140, "x");
+% s.LineWidth = 1.6;
+% s.MarkerEdgeColor = 'b';
 
 set(gca,'YDir','normal')
 xlim([0 0.3]); ylim([0 2])
