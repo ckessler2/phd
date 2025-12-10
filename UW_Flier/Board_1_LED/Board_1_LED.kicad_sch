@@ -1749,7 +1749,7 @@
 	)
 	(wire
 		(pts
-			(xy 118.11 30.48) (xy 107.95 30.48)
+			(xy 113.03 30.48) (xy 107.95 30.48)
 		)
 		(stroke
 			(width 0)
@@ -1766,6 +1766,16 @@
 			(type default)
 		)
 		(uuid "057fb2d7-2f39-4341-80d8-c053ec4e61a4")
+	)
+	(wire
+		(pts
+			(xy 120.65 30.48) (xy 125.73 30.48)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "10372978-7066-4992-86b7-1a985ebd5034")
 	)
 	(wire
 		(pts
@@ -1849,7 +1859,7 @@
 	)
 	(wire
 		(pts
-			(xy 54.61 17.78) (xy 107.95 17.78)
+			(xy 54.61 17.78) (xy 92.71 17.78)
 		)
 		(stroke
 			(width 0)
@@ -2156,6 +2166,16 @@
 			(type default)
 		)
 		(uuid "b4a8fc32-0974-4893-b313-2bf25a62ec5e")
+	)
+	(wire
+		(pts
+			(xy 100.33 17.78) (xy 107.95 17.78)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b5ec91dd-6873-4030-aa22-5ea33c761657")
 	)
 	(wire
 		(pts
@@ -2767,7 +2787,7 @@
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 121.92 30.48 90)
+		(at 116.84 30.48 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -2775,7 +2795,7 @@
 		(dnp no)
 		(uuid "5543d074-e972-45cb-a114-6588fd6967e1")
 		(property "Reference" "C6"
-			(at 118.92 30.48 0)
+			(at 113.84 30.48 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2784,7 +2804,7 @@
 			)
 		)
 		(property "Value" "100nF"
-			(at 123.698 35.052 90)
+			(at 118.618 35.052 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2792,7 +2812,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
-			(at 125.73 29.5148 0)
+			(at 120.65 29.5148 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2801,7 +2821,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 121.92 30.48 0)
+			(at 116.84 30.48 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2810,7 +2830,7 @@
 			)
 		)
 		(property "Description" "Unpolarized capacitor"
-			(at 121.92 30.48 0)
+			(at 116.84 30.48 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2828,6 +2848,74 @@
 			(project "Board_1_LED"
 				(path "/3845d15c-5f8e-47c3-ba57-143dd1318a5f"
 					(reference "C6")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 96.52 17.78 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "5b57055f-10da-4a6b-9e9b-54ec392b2322")
+		(property "Reference" "C4"
+			(at 93.52 17.78 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "100nF"
+			(at 98.298 22.352 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+			(at 100.33 16.8148 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 96.52 17.78 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Unpolarized capacitor"
+			(at 96.52 17.78 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "03d003a0-a44c-41f6-8a3b-8571e9c9738e")
+		)
+		(pin "1"
+			(uuid "1393ea1f-9e7a-4018-8273-d8b8087a594f")
+		)
+		(instances
+			(project "Board_1_LED"
+				(path "/3845d15c-5f8e-47c3-ba57-143dd1318a5f"
+					(reference "C4")
 					(unit 1)
 				)
 			)
